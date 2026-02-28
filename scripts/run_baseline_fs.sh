@@ -18,7 +18,7 @@ KERNEL=${KERNEL:-}
 DTB=${DTB:-}
 FS_CONFIG=${FS_CONFIG:-$GEM5_DIR/configs/example/fs.py}
 MODE=${MODE:-checkpoint}
-OUTDIR=${OUTDIR:-$ROOT_DIR/results/raw/baseline_fs_${MODE}}
+OUTDIR=${OUTDIR:-}
 CPUS=${CPUS:-4}
 MEM_SIZE=${MEM_SIZE:-2048MB}
 RUNTIME_LIB_ROOT=${RUNTIME_LIB_ROOT:-$ROOT_DIR/third_party/runtime_libs/rootfs}
@@ -46,6 +46,10 @@ while [[ $# -gt 0 ]]; do
       ;;
   esac
 done
+
+if [[ -z "$OUTDIR" ]]; then
+  OUTDIR="$ROOT_DIR/results/raw/baseline_fs_${MODE}"
+fi
 
 if [[ ! -x "$GEM5_BIN" ]]; then
   fail_gate "GATE 3" "gem5 binary not found at $GEM5_BIN" "$LOG_FILE"
