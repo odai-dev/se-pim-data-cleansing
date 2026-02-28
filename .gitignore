@@ -5,6 +5,7 @@
 
 # Downloaded artifacts and local mounts
 /third_party/gem5_fs/
+/third_party/runtime_libs/
 /.mnt/
 /impica.tgz
 
@@ -28,6 +29,7 @@
 
 # Generated helper runtime files
 /scripts/guest_boot_checkpoint.rcS
+/scripts/guest_run_hashtable.rcS
 
 # Python/cache/temp
 __pycache__/

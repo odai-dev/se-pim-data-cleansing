@@ -119,7 +119,11 @@ fi
 
 if ! (
   cd "$DRIVER_DIR"
-  make ARCH="$KERNEL_ARCH" CROSS_COMPILE="$CROSS_COMPILE"
+  make ARCH="$KERNEL_ARCH" CROSS_COMPILE="$CROSS_COMPILE" clean
+  make ARCH="$KERNEL_ARCH" CROSS_COMPILE="$CROSS_COMPILE" \
+    EXTRA_CFLAGS="-fno-pie -fno-pic" \
+    KBUILD_CFLAGS_MODULE="-fno-pie -fno-pic" \
+    KBUILD_LDFLAGS_MODULE="-no-pie"
 ); then
   fail_gate "GATE 2" "pim_driver build failed (likely missing kernel build prerequisites/artifacts)" "$LOG_FILE"
   exit 1
