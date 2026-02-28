@@ -121,6 +121,7 @@ cd /home/pim_driver
 mknod /dev/pimbt c 70 0 || true
 if ! insmod ./test-driver.ko; then
   echo "[GUEST][ERROR] Failed to insert /home/pim_driver/test-driver.ko"
+  dmesg | tail -n 50 || true
   m5 exit
   exit 1
 fi
