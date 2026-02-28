@@ -37,6 +37,9 @@ Reproduce SE-PIM TCC 2023 core figures (Fig. 8–11) in cycle-accurate gem5 FS s
       - for legacy kernel headers that only ship `compiler-gcc3.h`/`compiler-gcc4.h`, scripts auto-create missing `compiler-gcc<major>.h` shim(s) for host/cross GCC before `prepare`.
 - Baseline source control checkpoints:
   - `IMPICA` local commit after GATE 2 compatibility patches: `70bd1348` (build-system `-Werror` compatibility switch).
+  - `IMPICA` local repo hygiene commit: `5cf073fe` (`.gitignore` for generated build artifacts).
+  - workspace automation/docs checkpoint commit: `4027f40` (scripts/docs for GATE 0–2).
+  - workspace repo hygiene commit: `cd01dcb` (ignore generated logs, keep placeholders).
   - Added git ownership mitigation for container mount:
     - `scripts/bootstrap_repo.sh` adds `safe.directory` for `/workspace/IMPICA`.
 
