@@ -167,4 +167,12 @@ M5_PATH="$FS_BUNDLE_DIR" "$GEM5_BIN" \
   --kernel="$KERNEL" \
   --script="$BOOT_SCRIPT"
 
+if [[ "$MODE" == "hash_table" ]]; then
+  if [[ -f "$OUTDIR/system.terminal" ]] && \
+     tr -d '\000' < "$OUTDIR/system.terminal" | grep -Fq "[GUEST][ERROR]"; then
+    fail_gate "GATE 3" "Guest hash_table run reported error; inspect $OUTDIR/system.terminal" "$LOG_FILE"
+    exit 1
+  fi
+fi
+
 echo "[PASS] run_baseline_fs.sh completed"
