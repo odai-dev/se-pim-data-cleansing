@@ -1,0 +1,38 @@
+# External/baseline repositories tracked separately
+/IMPICA/
+/IMPICA-master/
+/gem5/
+
+# Downloaded artifacts and local mounts
+/third_party/gem5_fs/
+/.mnt/
+/impica.tgz
+
+# Generated logs
+/logs/*
+!/logs/.gitkeep
+!/logs/build/
+!/logs/run/
+!/logs/build/.gitkeep
+!/logs/run/.gitkeep
+
+# Generated results
+/results/raw/*
+!/results/raw/.gitkeep
+/results/csv/*
+!/results/csv/.gitkeep
+/results/plots/*
+!/results/plots/.gitkeep
+
+# Generated helper runtime files
+/scripts/guest_boot_checkpoint.rcS
+
+# Python/cache/temp
+__pycache__/
+*.pyc
+*.pyo
+*.swp
+*~
+
+# OS/editor noise
+.DS_Store
