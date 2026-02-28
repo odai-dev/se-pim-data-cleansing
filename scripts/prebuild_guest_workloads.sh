@@ -32,7 +32,7 @@ mode_cflags=""
 build_mode="full"
 if [[ "$FAST_INPUT_SIZE" =~ ^[0-9]+$ ]] && (( FAST_INPUT_SIZE > 0 )); then
   use_fast_input=1
-  build_mode="fast:$FAST_INPUT_SIZE"
+  build_mode="fast:$FAST_INPUT_SIZE:safev2"
   echo "[INFO] FAST_INPUT_SIZE=$FAST_INPUT_SIZE; generating compact input table"
   {
     echo '#include "hashtable.h"'
@@ -55,15 +55,30 @@ if [[ "$FAST_INPUT_SIZE" =~ ^[0-9]+$ ]] && (( FAST_INPUT_SIZE > 0 )); then
   } > "$FAST_INPUT_FILE"
   make_cpps="./hashtable.c ./input_fast.c"
   input_size_flag="-DINPUT_SIZE=$FAST_INPUT_SIZE"
-  # Fast mode is for GATE 3 bring-up; skip page-table pre-grab to avoid stale/invalid walk assertions.
-  mode_cflags="-DDISABLE_GRAB_PAGE_TABLE=1"
+  # Fast mode is for GATE 3 bring-up; avoid in-workload checkpoints and pre-grab page-table path.
+  mode_cflags="-DDISABLE_GRAB_PAGE_TABLE=1 -DDISABLE_GEM5_CHECKPOINT=1"
 
-  if ! rg -q "DISABLE_GRAB_PAGE_TABLE" "$HASHTABLE_DIR/hashtable.c"; then
+  if ! grep -q "DISABLE_GRAB_PAGE_TABLE" "$HASHTABLE_DIR/hashtable.c"; then
     echo "[INFO] Patching hashtable.c to support DISABLE_GRAB_PAGE_TABLE in fast mode"
     tmp_src=$(mktemp)
     while IFS= read -r line; do
       if [[ "$line" == *"grab_pim_table();"* ]]; then
         echo "#if !defined(DISABLE_GRAB_PAGE_TABLE)" >> "$tmp_src"
+        echo "$line" >> "$tmp_src"
+        echo "#endif" >> "$tmp_src"
+      else
+        echo "$line" >> "$tmp_src"
+      fi
+    done < "$HASHTABLE_DIR/hashtable.c"
+    mv "$tmp_src" "$HASHTABLE_DIR/hashtable.c"
+  fi
+
+  if ! grep -q "DISABLE_GEM5_CHECKPOINT" "$HASHTABLE_DIR/hashtable.c"; then
+    echo "[INFO] Patching hashtable.c to support DISABLE_GEM5_CHECKPOINT in fast mode"
+    tmp_src=$(mktemp)
+    while IFS= read -r line; do
+      if [[ "$line" == *"m5_checkpoint(0, 0);"* ]]; then
+        echo "#if !defined(DISABLE_GEM5_CHECKPOINT)" >> "$tmp_src"
         echo "$line" >> "$tmp_src"
         echo "#endif" >> "$tmp_src"
       else
