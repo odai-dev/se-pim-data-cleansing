@@ -11,6 +11,9 @@ start_logging "$LOG_FILE"
 IMPICA_DIR=${IMPICA_DIR:-$ROOT_DIR/IMPICA}
 HASHTABLE_DIR="$IMPICA_DIR/workloads/hashtable"
 CROSS_CXX=${CROSS_CXX:-aarch64-linux-gnu-g++}
+FAST_INPUT_SIZE=${FAST_INPUT_SIZE:-0}
+FAST_INPUT_FILE="$HASHTABLE_DIR/input_fast.c"
+META_FILE="$HASHTABLE_DIR/.prebuilt_mode"
 
 if [[ ! -d "$HASHTABLE_DIR" ]]; then
   fail_gate "GATE 3" "Missing workload directory: $HASHTABLE_DIR" "$LOG_FILE"
@@ -22,18 +25,54 @@ if ! command -v "$CROSS_CXX" >/dev/null 2>&1; then
   exit 1
 fi
 
+use_fast_input=0
+make_cpps="./hashtable.c ./input.c"
+input_size_flag=""
+build_mode="full"
+if [[ "$FAST_INPUT_SIZE" =~ ^[0-9]+$ ]] && (( FAST_INPUT_SIZE > 0 )); then
+  use_fast_input=1
+  build_mode="fast:$FAST_INPUT_SIZE"
+  echo "[INFO] FAST_INPUT_SIZE=$FAST_INPUT_SIZE; generating compact input table"
+  {
+    echo '#include "hashtable.h"'
+    echo
+    echo 'input_item input_table[] = {'
+    awk -v n="$FAST_INPUT_SIZE" '
+      /^input_item input_table\[\] = \{/ { in_table=1; next }
+      in_table && /^\};/ { exit }
+      in_table && copied < n {
+        print
+        copied++
+      }
+      END {
+        if (copied == 0) {
+          exit 2
+        }
+      }
+    ' "$HASHTABLE_DIR/input.c"
+    echo '};'
+  } > "$FAST_INPUT_FILE"
+  make_cpps="./hashtable.c ./input_fast.c"
+  input_size_flag="-DINPUT_SIZE=$FAST_INPUT_SIZE"
+fi
+
 needs_rebuild=1
 if [[ -x "$HASHTABLE_DIR/hashtable" ]]; then
   if [[ "$HASHTABLE_DIR/hashtable" -nt "$HASHTABLE_DIR/hashtable.c" && \
         "$HASHTABLE_DIR/hashtable" -nt "$HASHTABLE_DIR/input.c" && \
         "$HASHTABLE_DIR/hashtable" -nt "$HASHTABLE_DIR/m5op_arm_A64.S" ]] && \
      file "$HASHTABLE_DIR/hashtable" | grep -q "ARM aarch64"; then
-    needs_rebuild=0
+    if [[ -f "$META_FILE" ]] && [[ "$(cat "$META_FILE")" == "$build_mode" ]]; then
+      needs_rebuild=0
+    fi
   fi
 fi
 
 if [[ "$needs_rebuild" == "0" ]]; then
-  echo "[INFO] Reusing existing prebuilt AArch64 hashtable binary"
+  echo "[INFO] Reusing existing prebuilt AArch64 hashtable binary ($build_mode)"
+  if [[ "$use_fast_input" == "1" ]]; then
+    rm -f "$FAST_INPUT_FILE"
+  fi
   echo "[PASS] prebuild_guest_workloads.sh completed"
   exit 0
 fi
@@ -46,7 +85,8 @@ echo "[INFO] Prebuilding hashtable workload for AArch64 outside gem5"
 
   set +e
   make CC="$CROSS_CXX" \
-    CFLAGS="-O2 -std=c++0x -I." \
+    CPPS="$make_cpps" \
+    CFLAGS="-O2 -std=c++0x -I. $input_size_flag" \
     LDFLAGS="-O2 -pthread -lrt -std=c++0x -static -static-libstdc++ -static-libgcc" \
     hashtable
   static_rc=$?
@@ -57,7 +97,8 @@ echo "[INFO] Prebuilding hashtable workload for AArch64 outside gem5"
     rm -rf obj hashtable
     mkdir -p obj
     make CC="$CROSS_CXX" \
-      CFLAGS="-O2 -std=c++0x -I." \
+      CPPS="$make_cpps" \
+      CFLAGS="-O2 -std=c++0x -I. $input_size_flag" \
       LDFLAGS="-O2 -pthread -lrt -std=c++0x" \
       hashtable
   fi
@@ -66,9 +107,15 @@ echo "[INFO] Prebuilding hashtable workload for AArch64 outside gem5"
   rm -f obj/*.o obj/deps
 )
 
+if [[ "$use_fast_input" == "1" ]]; then
+  rm -f "$FAST_INPUT_FILE"
+fi
+
 if ! file "$HASHTABLE_DIR/hashtable" | grep -q "ARM aarch64"; then
   fail_gate "GATE 3" "Prebuilt hashtable is not an AArch64 binary" "$LOG_FILE"
   exit 1
 fi
+
+echo "$build_mode" > "$META_FILE"
 
 echo "[PASS] prebuild_guest_workloads.sh completed"

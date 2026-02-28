@@ -131,12 +131,9 @@ cd /home/workloads/hashtable
 if [ -x ./hashtable ]; then
   echo "[GUEST][INFO] Using prebuilt /home/workloads/hashtable/hashtable"
 else
-  mkdir -p obj
-  if ! make; then
-    echo "[GUEST][ERROR] Hashtable build failed"
-    m5 exit
-    exit 1
-  fi
+  echo "[GUEST][ERROR] Missing prebuilt /home/workloads/hashtable/hashtable"
+  m5 exit
+  exit 1
 fi
 if ! ./hashtable; then
   echo "[GUEST][ERROR] Hashtable run failed"
@@ -156,7 +153,7 @@ esac
 chmod +x "$BOOT_SCRIPT"
 
 if [[ "$MODE" == "hash_table" ]]; then
-  echo "[INFO] Hash-table mode selected: guest will install driver, build hashtable, then run it"
+  echo "[INFO] Hash-table mode selected: guest will install driver and run prebuilt hashtable workload"
 fi
 
 echo "[INFO] Running baseline full-system boot (mode=$MODE)"
