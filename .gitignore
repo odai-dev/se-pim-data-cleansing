@@ -13,6 +13,8 @@
 !/logs/.gitkeep
 !/logs/build/
 !/logs/run/
+/logs/build/*
+/logs/run/*
 !/logs/build/.gitkeep
 !/logs/run/.gitkeep
 
