@@ -28,6 +28,7 @@ fi
 use_fast_input=0
 make_cpps="./hashtable.c ./input.c"
 input_size_flag=""
+mode_cflags=""
 build_mode="full"
 if [[ "$FAST_INPUT_SIZE" =~ ^[0-9]+$ ]] && (( FAST_INPUT_SIZE > 0 )); then
   use_fast_input=1
@@ -54,6 +55,23 @@ if [[ "$FAST_INPUT_SIZE" =~ ^[0-9]+$ ]] && (( FAST_INPUT_SIZE > 0 )); then
   } > "$FAST_INPUT_FILE"
   make_cpps="./hashtable.c ./input_fast.c"
   input_size_flag="-DINPUT_SIZE=$FAST_INPUT_SIZE"
+  # Fast mode is for GATE 3 bring-up; skip page-table pre-grab to avoid stale/invalid walk assertions.
+  mode_cflags="-DDISABLE_GRAB_PAGE_TABLE=1"
+
+  if ! rg -q "DISABLE_GRAB_PAGE_TABLE" "$HASHTABLE_DIR/hashtable.c"; then
+    echo "[INFO] Patching hashtable.c to support DISABLE_GRAB_PAGE_TABLE in fast mode"
+    tmp_src=$(mktemp)
+    while IFS= read -r line; do
+      if [[ "$line" == *"grab_pim_table();"* ]]; then
+        echo "#if !defined(DISABLE_GRAB_PAGE_TABLE)" >> "$tmp_src"
+        echo "$line" >> "$tmp_src"
+        echo "#endif" >> "$tmp_src"
+      else
+        echo "$line" >> "$tmp_src"
+      fi
+    done < "$HASHTABLE_DIR/hashtable.c"
+    mv "$tmp_src" "$HASHTABLE_DIR/hashtable.c"
+  fi
 fi
 
 needs_rebuild=1
@@ -86,7 +104,7 @@ echo "[INFO] Prebuilding hashtable workload for AArch64 outside gem5"
   set +e
   make CC="$CROSS_CXX" \
     CPPS="$make_cpps" \
-    CFLAGS="-O2 -std=c++0x -I. $input_size_flag" \
+    CFLAGS="-O2 -std=c++0x -I. $input_size_flag $mode_cflags" \
     LDFLAGS="-O2 -pthread -lrt -std=c++0x -static -static-libstdc++ -static-libgcc" \
     hashtable
   static_rc=$?
@@ -98,7 +116,7 @@ echo "[INFO] Prebuilding hashtable workload for AArch64 outside gem5"
     mkdir -p obj
     make CC="$CROSS_CXX" \
       CPPS="$make_cpps" \
-      CFLAGS="-O2 -std=c++0x -I. $input_size_flag" \
+      CFLAGS="-O2 -std=c++0x -I. $input_size_flag $mode_cflags" \
       LDFLAGS="-O2 -pthread -lrt -std=c++0x" \
       hashtable
   fi

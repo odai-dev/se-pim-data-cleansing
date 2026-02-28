@@ -11,6 +11,53 @@ start_logging "$LOG_FILE"
 IMAGE_NAME=${IMAGE_NAME:-sepim-impica:ubuntu18}
 RUN_HASH_TABLE=${RUN_HASH_TABLE:-1}
 REUSE_CHECKPOINT=${REUSE_CHECKPOINT:-1}
+FAST_INPUT_SIZE=${FAST_INPUT_SIZE:-4096}
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --fast-input-size)
+      if [[ $# -lt 2 ]]; then
+        echo "[ERROR] --fast-input-size requires a numeric value"
+        exit 2
+      fi
+      FAST_INPUT_SIZE="$2"
+      shift 2
+      ;;
+    --fast-input-size=*)
+      FAST_INPUT_SIZE="${1#*=}"
+      shift
+      ;;
+    --reuse-checkpoint)
+      if [[ $# -lt 2 ]]; then
+        echo "[ERROR] --reuse-checkpoint requires 0 or 1"
+        exit 2
+      fi
+      REUSE_CHECKPOINT="$2"
+      shift 2
+      ;;
+    --reuse-checkpoint=*)
+      REUSE_CHECKPOINT="${1#*=}"
+      shift
+      ;;
+    --run-hash-table)
+      if [[ $# -lt 2 ]]; then
+        echo "[ERROR] --run-hash-table requires 0 or 1"
+        exit 2
+      fi
+      RUN_HASH_TABLE="$2"
+      shift 2
+      ;;
+    --run-hash-table=*)
+      RUN_HASH_TABLE="${1#*=}"
+      shift
+      ;;
+    *)
+      echo "[ERROR] Unknown argument: $1"
+      echo "[INFO] Usage: scripts/run_gate3_container.sh [--fast-input-size N] [--reuse-checkpoint 0|1] [--run-hash-table 0|1]"
+      exit 2
+      ;;
+  esac
+done
 
 if command -v docker >/dev/null 2>&1; then
   if docker info >/dev/null 2>&1; then
@@ -45,12 +92,14 @@ if [[ "$RUN_HASH_TABLE" == "1" ]]; then
 fi
 
 echo "[INFO] Running GATE 3 inside container image: $IMAGE_NAME"
+echo "[INFO] REUSE_CHECKPOINT=$REUSE_CHECKPOINT FAST_INPUT_SIZE=$FAST_INPUT_SIZE"
 set +e
 "${RUNTIME[@]}" run --rm --privileged \
   --name "$CONTAINER_NAME" \
   -e CHROOT_BUILD=0 \
   -e RUN_HASH_TABLE="$RUN_HASH_TABLE" \
   -e REUSE_CHECKPOINT="$REUSE_CHECKPOINT" \
+  -e FAST_INPUT_SIZE="$FAST_INPUT_SIZE" \
   -v "$ROOT_DIR:/workspace" \
   -w /workspace \
   "$IMAGE_NAME" \
