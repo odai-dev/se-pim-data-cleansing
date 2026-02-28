@@ -128,11 +128,15 @@ fi
 chmod 666 /dev/pimbt
 
 cd /home/workloads/hashtable
-mkdir -p obj
-if ! make; then
-  echo "[GUEST][ERROR] Hashtable build failed"
-  m5 exit
-  exit 1
+if [ -x ./hashtable ]; then
+  echo "[GUEST][INFO] Using prebuilt /home/workloads/hashtable/hashtable"
+else
+  mkdir -p obj
+  if ! make; then
+    echo "[GUEST][ERROR] Hashtable build failed"
+    m5 exit
+    exit 1
+  fi
 fi
 if ! ./hashtable; then
   echo "[GUEST][ERROR] Hashtable run failed"
