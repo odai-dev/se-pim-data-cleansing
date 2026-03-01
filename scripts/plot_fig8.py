@@ -1,16 +1,27 @@
 #!/usr/bin/env python3
 
 import argparse
-import pandas as pd
-import matplotlib.pyplot as plt
+
+from simple_plot import BLUE, ORANGE, Canvas, as_int, draw_axes, linmap, read_csv_rows
 
 
-def _to_num_addr(s):
-    if isinstance(s, str):
-        s = s.strip()
-        if s.startswith("0x"):
-            return int(s, 16)
-    return int(s)
+def draw_trace(canvas, panel, rows):
+    if not rows:
+        return
+    x_vals = [as_int(r, "time") for r in rows]
+    y_vals = [as_int(r, "addr") for r in rows]
+    x_min, x_max = min(x_vals), max(x_vals)
+    y_min, y_max = min(y_vals), max(y_vals)
+    if y_min == y_max:
+        y_min -= 1
+        y_max += 1
+
+    for r in rows:
+        x = linmap(as_int(r, "time"), x_min, x_max, panel[0] + 10, panel[2] - 10)
+        y = linmap(as_int(r, "addr"), y_min, y_max, panel[3] - 10, panel[1] + 10)
+        rw = r.get("rw", "R").strip().upper()
+        color = BLUE if rw in ("R", "READ") else ORANGE
+        canvas.point(x, y, color, radius=1)
 
 
 def main():
@@ -20,30 +31,17 @@ def main():
     ap.add_argument("--out", required=True)
     args = ap.parse_args()
 
-    cpu = pd.read_csv(args.cpu)
-    sepim = pd.read_csv(args.sepim)
+    cpu = read_csv_rows(args.cpu)
+    sepim = read_csv_rows(args.sepim)
 
-    for df in (cpu, sepim):
-        df["addr_num"] = df["addr"].apply(_to_num_addr)
-
-    fig, axes = plt.subplots(2, 1, figsize=(10, 6), sharex=True)
-
-    for ax, df, title in [
-        (axes[0], cpu, "CPU-only trace"),
-        (axes[1], sepim, "SE-PIM trace"),
-    ]:
-        rd = df[df["rw"].str.upper().isin(["R", "READ"])]
-        wr = df[df["rw"].str.upper().isin(["W", "WRITE"])]
-        ax.scatter(rd["time"], rd["addr_num"], s=4, label="read", alpha=0.7)
-        ax.scatter(wr["time"], wr["addr_num"], s=4, label="write", alpha=0.7)
-        ax.set_title(title)
-        ax.set_ylabel("Physical address")
-        ax.grid(True, alpha=0.3)
-
-    axes[1].set_xlabel("Time")
-    axes[0].legend(loc="upper right")
-    plt.tight_layout()
-    plt.savefig(args.out, dpi=200)
+    canvas = Canvas(1000, 620)
+    top = (60, 30, 940, 290)
+    bot = (60, 330, 940, 590)
+    draw_axes(canvas, *top)
+    draw_axes(canvas, *bot)
+    draw_trace(canvas, top, cpu)
+    draw_trace(canvas, bot, sepim)
+    canvas.save_png(args.out)
 
 
 if __name__ == "__main__":

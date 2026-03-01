@@ -1,8 +1,31 @@
 #!/usr/bin/env python3
 
 import argparse
-import pandas as pd
-import matplotlib.pyplot as plt
+from collections import defaultdict
+
+from simple_plot import (
+    BLUE,
+    ORANGE,
+    PURPLE,
+    RED,
+    Canvas,
+    as_float,
+    as_int,
+    draw_axes,
+    linmap,
+    read_csv_rows,
+)
+
+
+def draw_polyline(canvas, points, color):
+    if not points:
+        return
+    for i in range(1, len(points)):
+        x0, y0 = points[i - 1]
+        x1, y1 = points[i]
+        canvas.line(x0, y0, x1, y1, color)
+    for x, y in points:
+        canvas.point(x, y, color, radius=2)
 
 
 def main():
@@ -11,31 +34,76 @@ def main():
     ap.add_argument("--out", required=True)
     args = ap.parse_args()
 
-    df = pd.read_csv(args.input)
+    rows = read_csv_rows(args.input)
+    if not rows:
+        raise SystemExit("empty CSV")
 
-    fig, axes = plt.subplots(1, 2, figsize=(12, 4))
+    width, height = 1200, 500
+    canvas = Canvas(width, height)
 
-    for mode, g in df.groupby("mode"):
-        axes[0].plot(g["block_size"], g["baseline_latency_ns"], marker="o", label=f"baseline-{mode}")
-        axes[0].plot(g["block_size"], g["sepim_latency_ns"], marker="x", label=f"sepim-{mode}")
+    # Left panel: latency curves by mode.
+    left = (50, 30, 560, 460)
+    draw_axes(canvas, *left)
 
-    axes[0].set_title("DMA latency")
-    axes[0].set_xlabel("Block size (bytes)")
-    axes[0].set_ylabel("Latency (ns)")
-    axes[0].grid(True, alpha=0.3)
-    axes[0].legend(fontsize=8)
+    by_mode = defaultdict(list)
+    for r in rows:
+        by_mode[r["mode"]].append((as_int(r, "block_size"), as_float(r, "baseline_latency_ns"), as_float(r, "sepim_latency_ns")))
+    for k in by_mode:
+        by_mode[k].sort(key=lambda t: t[0])
 
-    max_row = df.groupby("block_size")[["baseline_gbps", "sepim_gbps"]].max().reset_index()
-    axes[1].plot(max_row["block_size"], max_row["baseline_gbps"], marker="o", label="Baseline")
-    axes[1].plot(max_row["block_size"], max_row["sepim_gbps"], marker="x", label="SE-PIM")
-    axes[1].set_title("DMA throughput")
-    axes[1].set_xlabel("Block size (bytes)")
-    axes[1].set_ylabel("Throughput (GB/s)")
-    axes[1].grid(True, alpha=0.3)
-    axes[1].legend()
+    x_min = min(v[0] for vals in by_mode.values() for v in vals)
+    x_max = max(v[0] for vals in by_mode.values() for v in vals)
+    y_min = 0.0
+    y_max = max(max(v[1], v[2]) for vals in by_mode.values() for v in vals) * 1.1
 
-    plt.tight_layout()
-    plt.savefig(args.out, dpi=200)
+    colors = [BLUE, ORANGE, PURPLE, RED]
+    for idx, mode in enumerate(sorted(by_mode.keys())):
+        c = colors[idx % len(colors)]
+        vals = by_mode[mode]
+        base_pts = []
+        se_pts = []
+        for x_raw, yb, ys in vals:
+            x = linmap(x_raw, x_min, x_max, left[0] + 10, left[2] - 10)
+            y1 = linmap(yb, y_min, y_max, left[3] - 10, left[1] + 10)
+            y2 = linmap(ys, y_min, y_max, left[3] - 10, left[1] + 10)
+            base_pts.append((x, y1))
+            se_pts.append((x, y2))
+        draw_polyline(canvas, base_pts, c)
+        draw_polyline(canvas, se_pts, (min(c[0] + 40, 255), min(c[1] + 40, 255), min(c[2] + 40, 255)))
+
+    # Right panel: peak throughput by block size.
+    right = (640, 30, 1150, 460)
+    draw_axes(canvas, *right)
+
+    peak = {}
+    for r in rows:
+        size = as_int(r, "block_size")
+        b = as_float(r, "baseline_gbps")
+        s = as_float(r, "sepim_gbps")
+        if size not in peak:
+            peak[size] = [b, s]
+        else:
+            peak[size][0] = max(peak[size][0], b)
+            peak[size][1] = max(peak[size][1], s)
+
+    sizes = sorted(peak.keys())
+    x_min = min(sizes)
+    x_max = max(sizes)
+    y_min = 0.0
+    y_max = max(max(v[0], v[1]) for v in peak.values()) * 1.1
+
+    base_pts = []
+    se_pts = []
+    for s in sizes:
+        x = linmap(s, x_min, x_max, right[0] + 10, right[2] - 10)
+        yb = linmap(peak[s][0], y_min, y_max, right[3] - 10, right[1] + 10)
+        ys = linmap(peak[s][1], y_min, y_max, right[3] - 10, right[1] + 10)
+        base_pts.append((x, yb))
+        se_pts.append((x, ys))
+    draw_polyline(canvas, base_pts, BLUE)
+    draw_polyline(canvas, se_pts, RED)
+
+    canvas.save_png(args.out)
 
 
 if __name__ == "__main__":

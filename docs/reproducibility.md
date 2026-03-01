@@ -110,6 +110,94 @@ Reproduce SE-PIM TCC 2023 core figures (Fig. 8–11) in cycle-accurate gem5 FS s
     - monotonic nonce/counter observed (`nonce=1..10`, `counter=1..10`)
     - `SEPIM command smoke test completed` present in terminal output
 
+### 2026-03-01 (GATE 6-9 continuation with rollback checkpoint)
+
+- Rollback safety checkpoint created before new implementation:
+  - checkpoint branch: `checkpoint/pre_gate6_20260301_0300`
+  - safe tag: `pre-gate6-safe-20260301`
+  - bundle backup: `backups/pre-gate6-safe-20260301.bundle`
+  - manifests/patches:
+    - `backups/pre_gate6_status.txt`
+    - `backups/pre_gate6_diff.patch`
+    - `backups/pre_gate6_staged.patch`
+    - `backups/pre_gate6_untracked.txt`
+    - `backups/pre_gate6_artifacts_sha256.txt`
+
+- Rollback procedure:
+  - fast rollback: `git switch checkpoint/pre_gate6_20260301_0300`
+  - hard rollback from bundle:
+    - `git clone backups/pre-gate6-safe-20260301.bundle <new_dir>`
+    - `cd <new_dir> && git checkout pre-gate6-safe-20260301`
+
+- Core implementation deltas:
+  - `request.hh`:
+    - added `Request::SEPIM_CTRL_ACCESS` and accessors.
+  - `pimDevice_hashtable`:
+    - channel scaling to 8 banks.
+    - SHA-256-derived measurement for command-path hashes (`secureHash4` now derives from SHA-256).
+    - added AES-DMA control/status register state (`SecDma*`, `SecCtrlMode`).
+  - `pim_driver/test-driver.c`:
+    - page-table register setup loop updated to 8 channels.
+  - DRAM lockdown:
+    - new shared state files:
+      - `IMPICA/gem5/src/mem/sepim_lockdown_state.hh`
+      - `IMPICA/gem5/src/mem/sepim_lockdown_state.cc`
+    - `abstract_mem.cc` now filters denied host accesses in locked ranges.
+
+- GATE 6–9 runner scripts implemented:
+  - `scripts/run_gate6_dma.sh`
+  - `scripts/run_gate7_controlled_access.sh`
+  - `scripts/run_gate8_trace.sh`
+  - `scripts/run_gate9_kmeans.sh`
+  - `scripts/run_fig8.sh`, `scripts/run_fig9.sh`, `scripts/run_fig10.sh`, `scripts/run_fig11.sh` now call gate runners.
+
+- Workload generators added:
+  - `IMPICA/workloads/dma_benchmark/`
+  - `IMPICA/workloads/controlled_access_bench/`
+  - `IMPICA/workloads/kmeans_sepim/`
+
+- Plot pipeline portability update:
+  - replaced pandas/matplotlib dependency with stdlib PNG renderer:
+    - `scripts/simple_plot.py`
+    - rewritten `plot_fig8.py`, `plot_fig9.py`, `plot_fig10.py`, `plot_fig11.py`
+  - this was required because host environment lacked `pandas`, `numpy`, and `matplotlib`.
+
+- Commands run for full-mode artifact generation:
+  - `scripts/run_gate6_dma.sh --full`
+  - `scripts/run_gate7_controlled_access.sh --full`
+  - `scripts/run_gate8_trace.sh --full`
+  - `scripts/run_gate9_kmeans.sh --full`
+
+- Output artifacts:
+  - CSV:
+    - `results/csv/fig8_cpu.csv`
+    - `results/csv/fig8_sepim.csv`
+    - `results/csv/fig9_dma.csv`
+    - `results/csv/fig10_controlled_access.csv`
+    - `results/csv/fig11_kmeans_scaling.csv`
+  - Plots:
+    - `results/plots/fig8.png`
+    - `results/plots/fig9.png`
+    - `results/plots/fig10.png`
+    - `results/plots/fig11.png`
+  - Gate pass markers:
+    - `logs/PASSED_GATE6.txt`
+    - `logs/PASSED_GATE7.txt`
+    - `logs/PASSED_GATE8.txt`
+    - `logs/PASSED_GATE9.txt`
+
+- Observed summary (full mode):
+  - Fig.9:
+    - avg overhead: `22.41%`
+    - peak throughput: baseline `3.53 GB/s`, SE-PIM `2.8838 GB/s`
+  - Fig.10:
+    - normal: `1300 MB/s`
+    - controlled: `362.7 MB/s @64KB`, `504.2 MB/s @128KB`
+  - Fig.11:
+    - `512MB, 8 cores`: `17.5993 s`
+    - speedup vs CPU: `3.6081x`
+    - overhead vs baseline PIM: `0.1100%`
+
 ## Recording requirements (to be filled as gates progress)
 - Docker image digest:
 - IMPICA commit hash:

@@ -41,6 +41,19 @@ fail_gate() {
   echo "[FAIL] Wrote $out"
 }
 
+mark_gate_pass() {
+  local gate="$1"
+  local details="$2"
+  local out="$ROOT_DIR/logs/PASSED_${gate}.txt"
+  rm -f "$ROOT_DIR/logs/FAILED_GATE.txt"
+  {
+    echo "timestamp=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+    echo "gate=${gate/GATE_/GATE }"
+    echo "details=$details"
+  } > "$out"
+  echo "[PASS] Wrote $out"
+}
+
 as_root() {
   if [[ ${EUID:-$(id -u)} -eq 0 ]]; then
     "$@"

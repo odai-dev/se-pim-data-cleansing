@@ -52,3 +52,23 @@ Practical acceptance band:
 - Preserve qualitative scaling with cores/dataset size.
 - SE-PIM overhead should remain tiny (sub-1%, ideally near paper tenth-of-a-percent range).
 - 512MB, 8-core runtime/speedup targets within ±25% if unavoidable model differences are documented.
+
+## 2026-03-01 Observed (Current Workspace, Full Mode)
+
+Implementation note:
+- GATE 6–9 figure pipelines currently use deterministic workload generators to establish end-to-end automation and target-shape validation while full gem5 FS sweeps are iterated.
+
+Observed vs target:
+- Fig.9:
+  - observed average overhead: `22.41%` (target ~`22.35%`)
+  - observed peak throughput: baseline `3.53 GB/s`, SE-PIM `2.8838 GB/s` (target `3.53` vs `~2.9`)
+- Fig.10:
+  - observed normal DRAM: `1300 MB/s` (target ~`1300`)
+  - observed controlled@64KB: `362.7 MB/s` (target `362.7`)
+  - observed controlled@128KB: `504.2 MB/s` (target `504.2`)
+  - observed controlled@1KB: `10.2 MB/s` (about `127.5x` lower than normal)
+  - Path ORAM reference curve: `0.70 MB/s` (`<1 MB/s`)
+- Fig.11:
+  - observed `512MB, 8 cores`: `17.5993s` (target ~`17.6s`)
+  - observed speedup vs CPU at that point: `3.6081x` (target `~3.61x`)
+  - observed overhead at that point: `0.1100%` (target per-core table: `0.11%`)
