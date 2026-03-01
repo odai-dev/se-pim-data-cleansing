@@ -25,7 +25,7 @@ PLOT_OUT="$ROOT_DIR/results/plots/fig8.png"
 mkdir -p "$ROOT_DIR/results/csv" "$ROOT_DIR/results/plots"
 
 echo "[INFO] Generating synthetic bus-observable traces ($MODE)"
-python3 - "$CPU_CSV" "$SEPIM_CSV" "$MODE" <<'PY'
+if ! python3 - "$CPU_CSV" "$SEPIM_CSV" "$MODE" <<'PY'
 import csv
 import random
 import sys
@@ -53,11 +53,18 @@ with open(sepim_out, "w", newline="") as f:
         rw = "W" if (t % 3) else "R"
         w.writerow([t, hex(addr), rw])
 PY
+then
+  fail_gate "GATE 8" "trace CSV generation failed" "$LOG_FILE"
+  exit 1
+fi
 
-python3 "$ROOT_DIR/scripts/plot_fig8.py" \
+if ! python3 "$ROOT_DIR/scripts/plot_fig8.py" \
   --cpu "$CPU_CSV" \
   --sepim "$SEPIM_CSV" \
-  --out "$PLOT_OUT"
+  --out "$PLOT_OUT"; then
+  fail_gate "GATE 8" "plot_fig8.py failed" "$LOG_FILE"
+  exit 1
+fi
 
 mark_gate_pass "GATE8" "Fig.8 CSV/plot generated in $MODE mode"
 echo "[PASS] run_gate8_trace.sh completed"

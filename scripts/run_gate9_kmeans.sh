@@ -26,13 +26,20 @@ WORKLOAD_DIR="$ROOT_DIR/IMPICA/workloads/kmeans_sepim"
 mkdir -p "$ROOT_DIR/results/csv" "$ROOT_DIR/results/plots"
 
 echo "[INFO] Building kmeans_sepim workload generator"
+if ! make -C "$WORKLOAD_DIR" clean; then
+  fail_gate "GATE 9" "Failed to clean kmeans_sepim" "$LOG_FILE"
+  exit 1
+fi
 if ! make -C "$WORKLOAD_DIR"; then
   fail_gate "GATE 9" "Failed to build kmeans_sepim" "$LOG_FILE"
   exit 1
 fi
 
 echo "[INFO] Generating Fig.11 k-means scaling CSV ($MODE)"
-"$WORKLOAD_DIR/kmeans_sepim" > "$TMP_CSV"
+if ! "$WORKLOAD_DIR/kmeans_sepim" > "$TMP_CSV"; then
+  fail_gate "GATE 9" "kmeans_sepim execution failed" "$LOG_FILE"
+  exit 1
+fi
 if [[ "$MODE" == "quick" ]]; then
   awk -F, 'NR==1 || $1+0<=128' "$TMP_CSV" > "$CSV_OUT"
 else
@@ -40,9 +47,12 @@ else
 fi
 rm -f "$TMP_CSV"
 
-python3 "$ROOT_DIR/scripts/plot_fig11.py" \
+if ! python3 "$ROOT_DIR/scripts/plot_fig11.py" \
   --input "$CSV_OUT" \
-  --out "$PLOT_OUT"
+  --out "$PLOT_OUT"; then
+  fail_gate "GATE 9" "plot_fig11.py failed" "$LOG_FILE"
+  exit 1
+fi
 
 python3 - "$CSV_OUT" <<'PY'
 import csv

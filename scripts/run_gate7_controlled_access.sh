@@ -26,13 +26,20 @@ WORKLOAD_DIR="$ROOT_DIR/IMPICA/workloads/controlled_access_bench"
 mkdir -p "$ROOT_DIR/results/csv" "$ROOT_DIR/results/plots"
 
 echo "[INFO] Building controlled_access_bench workload generator"
+if ! make -C "$WORKLOAD_DIR" clean; then
+  fail_gate "GATE 7" "Failed to clean controlled_access_bench" "$LOG_FILE"
+  exit 1
+fi
 if ! make -C "$WORKLOAD_DIR"; then
   fail_gate "GATE 7" "Failed to build controlled_access_bench" "$LOG_FILE"
   exit 1
 fi
 
 echo "[INFO] Generating Fig.10 controlled access CSV ($MODE)"
-"$WORKLOAD_DIR/controlled_access_bench" > "$TMP_CSV"
+if ! "$WORKLOAD_DIR/controlled_access_bench" > "$TMP_CSV"; then
+  fail_gate "GATE 7" "controlled_access_bench execution failed" "$LOG_FILE"
+  exit 1
+fi
 if [[ "$MODE" == "quick" ]]; then
   awk -F, 'NR==1 || $1+0<=32' "$TMP_CSV" > "$CSV_OUT"
 else
@@ -40,9 +47,12 @@ else
 fi
 rm -f "$TMP_CSV"
 
-python3 "$ROOT_DIR/scripts/plot_fig10.py" \
+if ! python3 "$ROOT_DIR/scripts/plot_fig10.py" \
   --input "$CSV_OUT" \
-  --out "$PLOT_OUT"
+  --out "$PLOT_OUT"; then
+  fail_gate "GATE 7" "plot_fig10.py failed" "$LOG_FILE"
+  exit 1
+fi
 
 python3 - "$CSV_OUT" <<'PY'
 import csv

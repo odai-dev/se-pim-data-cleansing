@@ -26,13 +26,20 @@ WORKLOAD_DIR="$ROOT_DIR/IMPICA/workloads/dma_benchmark"
 mkdir -p "$ROOT_DIR/results/csv" "$ROOT_DIR/results/plots"
 
 echo "[INFO] Building dma_benchmark workload generator"
+if ! make -C "$WORKLOAD_DIR" clean; then
+  fail_gate "GATE 6" "Failed to clean dma_benchmark" "$LOG_FILE"
+  exit 1
+fi
 if ! make -C "$WORKLOAD_DIR"; then
   fail_gate "GATE 6" "Failed to build dma_benchmark" "$LOG_FILE"
   exit 1
 fi
 
 echo "[INFO] Generating Fig.9 DMA CSV ($MODE)"
-"$WORKLOAD_DIR/dma_benchmark" > "$TMP_CSV"
+if ! "$WORKLOAD_DIR/dma_benchmark" > "$TMP_CSV"; then
+  fail_gate "GATE 6" "dma_benchmark execution failed" "$LOG_FILE"
+  exit 1
+fi
 
 if [[ "$MODE" == "quick" ]]; then
   awk -F, 'NR==1 || ($2+0<=2048 && ($1=="seq_read" || $1=="seq_write"))' "$TMP_CSV" > "$CSV_OUT"
@@ -41,9 +48,12 @@ else
 fi
 rm -f "$TMP_CSV"
 
-python3 "$ROOT_DIR/scripts/plot_fig9.py" \
+if ! python3 "$ROOT_DIR/scripts/plot_fig9.py" \
   --input "$CSV_OUT" \
-  --out "$PLOT_OUT"
+  --out "$PLOT_OUT"; then
+  fail_gate "GATE 6" "plot_fig9.py failed" "$LOG_FILE"
+  exit 1
+fi
 
 python3 - "$CSV_OUT" <<'PY'
 import csv
