@@ -200,7 +200,7 @@ Reproduce SE-PIM TCC 2023 core figures (Fig. 8–11) in cycle-accurate gem5 FS s
 
 ## Recording requirements (to be filled as gates progress)
 - Docker image digest:
-- Workspace commit hash: `1ffaeb1`
+- Workspace commit hash: `8b44392`
 - IMPICA commit hash: `8e68a865`
 - gem5 binary hash:
 - FS image URL + checksum:
