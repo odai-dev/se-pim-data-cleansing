@@ -76,6 +76,29 @@ Reproduce SE-PIM TCC 2023 core figures (Fig. 8–11) in cycle-accurate gem5 FS s
       - checkpoint phase wrote checkpoint and exited via `m5_exit` at tick `3148477325000`.
       - restored hash-table phase completed and exited via `m5_exit` at tick `3538725317500`.
       - no `[GUEST][ERROR]` in `system.terminal`.
+- GATE 4 Table-3-aligned config validation:
+  - Config used: `IMPICA/gem5/configs/se_pim/se_pim_fs.py`.
+  - Validation run:
+    - containerized `run_baseline_fs.sh --mode checkpoint` with
+      - `FS_CONFIG=/workspace/IMPICA/gem5/configs/se_pim/se_pim_fs.py`
+      - `CPUS=8`
+      - `MEM_SIZE=512MB`
+      - outdir: `results/raw/gate4_se_pim_checkpoint_20260301_0207`
+    - log: `logs/run/run_baseline_fs_20260301_020638.log`
+  - Result:
+    - checkpoint directory created: `results/raw/gate4_se_pim_checkpoint_20260301_0207/cpt.2962796050750`
+    - simulation exited via `m5_exit` at tick `2967652578000`
+    - `stats.txt` recorded `sim_seconds=2.967653`, `host_seconds=1104.59`
+  - Verified effective config values from `config.ini`:
+    - Host cores: 8 (`TimingSimpleCPU`)
+    - CPU clock domain: `clock=250` (4GHz equivalent)
+    - L1I: 32KB, L1D: 64KB
+    - Shared L2: 256KB
+    - Memory split: 8 channels, each mapped 64MB (total 512MB)
+  - Known deltas from paper Table 3:
+    - memory backend is `DDR3_1600_x64` (no true `HMCVault` model in this fork)
+    - host core model is `TimingSimpleCPU` (in-order-like) without modeled `2 threads/core`
+    - OS/kernel from gem5 ARM FS bundle (`vmlinux.aarch64.20140821`), not Linux `3.16.0-rc6`
 
 ## Recording requirements (to be filled as gates progress)
 - Docker image digest:
