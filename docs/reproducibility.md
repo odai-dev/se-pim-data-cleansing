@@ -42,6 +42,40 @@ Reproduce SE-PIM TCC 2023 core figures (Fig. 8–11) in cycle-accurate gem5 FS s
   - workspace repo hygiene commit: `cd01dcb` (ignore generated logs, keep placeholders).
   - Added git ownership mitigation for container mount:
     - `scripts/bootstrap_repo.sh` adds `safe.directory` for `/workspace/IMPICA`.
+  - Added robust FS artifact fetch behavior for GATE 3:
+    - `scripts/fetch_gem5_fs.sh` now validates `.tar.xz` integrity before reuse.
+    - partial downloads are resumed with `curl -C -` / `wget -c`.
+    - download stalls fail fast with curl speed/connect timeout settings.
+  - Added baseline FS runtime modes in `scripts/run_baseline_fs.sh`:
+    - `--mode checkpoint` creates an initial post-boot checkpoint.
+    - `--mode hash_table` auto-runs guest driver install + `workloads/hashtable/hashtable`.
+  - `scripts/prepare_disk_image.sh` now defaults to `CHROOT_BUILD=0` to avoid unnecessary long chroot compile steps (can still be enabled explicitly).
+  - Added `scripts/run_gate3_container.sh`:
+    - runs fetch + disk-image prep + baseline boot/checkpoint (+ optional hash_table run) fully inside privileged Docker, avoiding host runtime-library installs.
+
+### 2026-03-01
+- GATE 3 recovery and revalidation:
+  - Root cause of hash-table crash isolated to fast-input build mismatch:
+    - `FAST_INPUT_SIZE=4096` generated a truncated `input_fast.c`.
+    - `hashtable.h` still forced `INPUT_SIZE=1572864`.
+    - Guest `./hashtable` read past table bounds and segfaulted (`pte=0` page fault seen in `system.terminal`).
+  - Fixes applied:
+    - `scripts/run_gate3_container.sh`: default `FAST_INPUT_SIZE` set to `0` (canonical behavior by default).
+    - `scripts/prebuild_guest_workloads.sh`: if `INPUT_SIZE` is hard-coded in `hashtable.h`, fast mode now warns and falls back to canonical full input build.
+    - `scripts/prepare_disk_image.sh`: removed custom `rcS` readfile hook injection and enforced stock gem5 tty1 `readfile` flow.
+    - `scripts/run_gate3_container.sh`: on success, stale `logs/FAILED_GATE.txt` is cleared and `logs/PASSED_GATE3.txt` is written.
+  - Successful canonical GATE 3 run:
+    - Command:
+      - `RUN_ID=gate3_recheck_canonical_20260301_0142 REUSE_CHECKPOINT=0 RUN_HASH_TABLE=1 scripts/run_gate3_container.sh`
+    - Log:
+      - `logs/run/gate3_container_20260301_044004.log`
+    - Outputs:
+      - checkpoint outdir: `results/raw/gate3_gate3_recheck_canonical_20260301_0142_checkpoint`
+      - hash-table outdir: `results/raw/gate3_gate3_recheck_canonical_20260301_0142_hash_table`
+    - Evidence:
+      - checkpoint phase wrote checkpoint and exited via `m5_exit` at tick `3148477325000`.
+      - restored hash-table phase completed and exited via `m5_exit` at tick `3538725317500`.
+      - no `[GUEST][ERROR]` in `system.terminal`.
 
 ## Recording requirements (to be filled as gates progress)
 - Docker image digest:
