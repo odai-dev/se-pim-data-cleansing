@@ -233,6 +233,43 @@ Reproduce SE-PIM TCC 2023 core figures (Fig. 8–11) in cycle-accurate gem5 FS s
   - `logs/PASSED_GATE3.txt`
   - `logs/PASSED_GATE5.txt`
 
+### 2026-03-01 (container full-mode gate execution after image injection)
+
+- Disk image refresh completed in container:
+  - command: `scripts/prepare_disk_image.sh`
+  - result: PASS (`CHROOT_BUILD=0`, workloads + driver injected into guest image).
+
+- Initial container gate attempt issue:
+  - `scripts/run_gate6_dma.sh --full`
+  - `scripts/run_gate7_controlled_access.sh --full`
+  - `scripts/run_gate9_kmeans.sh --full`
+  - failed with host/container GLIBC mismatch because host-built workload binaries were reused.
+
+- Fix applied:
+  - gate runners now force in-container rebuild (`make clean && make`) before execution:
+    - `scripts/run_gate6_dma.sh`
+    - `scripts/run_gate7_controlled_access.sh`
+    - `scripts/run_gate9_kmeans.sh`
+  - added explicit `fail_gate` handling for benchmark/plot execution errors in all gate runners.
+
+- Re-run result (container, full mode):
+  - GATE6 PASS:
+    - `avg_overhead=22.41%`
+    - `peak_baseline=3.530 GB/s`
+    - `peak_sepim=2.884 GB/s`
+  - GATE7 PASS:
+    - controlled@64KB `362.7 MB/s`
+    - controlled@128KB `504.2 MB/s`
+  - GATE8 PASS:
+    - full trace CSV/plot generated.
+  - GATE9 PASS:
+    - `512MB/8core sepim=17.599s`
+    - `speedup=3.608x`
+    - `overhead=0.110%`
+
+- Result artifact ownership note:
+  - CSV files generated in privileged container are owned by `root` on host unless container user mapping is set.
+
 ## Recording requirements (to be filled as gates progress)
 - Docker image digest:
 - Workspace commit hash: run `git rev-parse --short HEAD` in workspace root
