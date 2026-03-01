@@ -30,6 +30,9 @@
 # Generated helper runtime files
 /scripts/guest_boot_checkpoint.rcS
 /scripts/guest_run_hashtable.rcS
+/scripts/guest_run_sepim_cmd.rcS
+/scripts/guest_boot_probe.rcS
+/IMPICA/workloads/hashtable/input_fast.c
 
 # Python/cache/temp
 __pycache__/

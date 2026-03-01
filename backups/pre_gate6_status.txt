@@ -1,0 +1,11 @@
+timestamp_utc=2026-03-01T03:00:39Z
+branch=main
+head=5bb35b4157edfb724afda5aac603bdef5f5dadbf
+
+ M .gitignore
+ M scripts/fetch_gem5_fs.sh
+?? backups/
+?? m5out/
+?? results/test2/
+?? results/test3/
+?? scripts/setup_runtime_libs.sh
