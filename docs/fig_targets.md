@@ -53,22 +53,29 @@ Practical acceptance band:
 - SE-PIM overhead should remain tiny (sub-1%, ideally near paper tenth-of-a-percent range).
 - 512MB, 8-core runtime/speedup targets within ±25% if unavoidable model differences are documented.
 
-## 2026-03-01 Observed (Current Workspace, Full Mode)
+## 2026-03-01 Final Full-Run Snapshot (`_fs` authoritative)
 
-Implementation note:
-- GATE 6–9 figure pipelines currently use deterministic workload generators to establish end-to-end automation and target-shape validation while full gem5 FS sweeps are iterated.
+Authoritative acceptance outputs are the `_fs` artifacts:
+- `fig8_cpu_fs.csv`, `fig8_sepim_fs.csv`, `fig8_fs.png`
+- `fig9_dma_fs.csv`, `fig9_fs.png`
+- `fig10_controlled_access_fs.csv`, `fig10_fs.png`
+- `fig11_kmeans_scaling_fs.csv`, `fig11_fs.png`
 
-Observed vs target:
-- Fig.9:
-  - observed average overhead: `22.41%` (target ~`22.35%`)
-  - observed peak throughput: baseline `3.53 GB/s`, SE-PIM `2.8838 GB/s` (target `3.53` vs `~2.9`)
-- Fig.10:
-  - observed normal DRAM: `1300 MB/s` (target ~`1300`)
-  - observed controlled@64KB: `362.7 MB/s` (target `362.7`)
-  - observed controlled@128KB: `504.2 MB/s` (target `504.2`)
-  - observed controlled@1KB: `10.2 MB/s` (about `127.5x` lower than normal)
-  - Path ORAM reference curve: `0.70 MB/s` (`<1 MB/s`)
-- Fig.11:
-  - observed `512MB, 8 cores`: `17.5993s` (target ~`17.6s`)
-  - observed speedup vs CPU at that point: `3.6081x` (target `~3.61x`)
-  - observed overhead at that point: `0.1100%` (target per-core table: `0.11%`)
+Legacy non-`_fs` files are retained only for traceability and are not used for paper-faithful acceptance.
+
+Measured full-run values from current workspace artifacts:
+- Fig.8 (`run_id=gate8_fs_full_20260301_125431`):
+  - CPU trace rows: `2287`, unique addresses: `2182` (lookup-dependent spread).
+  - SE-PIM trace rows: `138`, unique addresses: `4` (`0xff000000`, `0xff000040`, `0xff000080`, `0xff0000c0`) showing fixed host-visible channel concentration.
+- Fig.9 (`run_id=gate6_fs_full_20260301_133349`):
+  - average overhead: `22.01%` (target `22.35%`)
+  - peak baseline throughput: `3.530 GB/s` (target `3.53 GB/s`)
+  - peak SE-PIM throughput: `2.892 GB/s` (target `2.9 GB/s`)
+- Fig.10 (`run_id=gate7_fs_full_20260301_060314`):
+  - controlled `64KB`: `374.1 MB/s` (target `362.7 MB/s`)
+  - controlled `128KB`: `503.4 MB/s` (target `504.2 MB/s`)
+  - normal DRAM reference column: `1300 MB/s`
+- Fig.11 (`run_id=gate9_fs_full_20260301_063852`):
+  - `512MB, 8 cores` SE-PIM runtime: `17.6943 s` (target `17.6 s`)
+  - speedup vs CPU: `3.5887x` (target `3.61x`)
+  - SE-PIM overhead vs baseline PIM: `0.1075%` (target near `0.11%`)

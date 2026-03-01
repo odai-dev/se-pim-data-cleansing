@@ -270,11 +270,101 @@ Reproduce SE-PIM TCC 2023 core figures (Fig. 8–11) in cycle-accurate gem5 FS s
 - Result artifact ownership note:
   - CSV files generated in privileged container are owned by `root` on host unless container user mapping is set.
 
-## Recording requirements (to be filled as gates progress)
+### 2026-03-01 (paper-faithful `_fs` backend upgrade)
+
+- Replaced placeholder Fig.8 flow with real bus-packet tracing:
+  - `IMPICA/gem5/configs/example/fs.py` now inserts `CommMonitor` between L2 and memory bus when `SEPIM_TRACE_ENABLE=1`.
+  - `IMPICA/gem5/configs/se_pim/se_pim_fs.py` forwards wrapper args:
+    - `--sepim-trace-enable`
+    - `--sepim-trace-file`
+  - Added decoder: `scripts/decode_ptrace_csv.py` (protobuf packet trace -> CSV).
+  - `scripts/run_gate8_trace.sh` (fs backend) now:
+    - requires real monitor trace files,
+    - decodes traces,
+    - emits authoritative `fig8_cpu_fs.csv` and `fig8_sepim_fs.csv`.
+
+- Upgraded `_fs` workloads:
+  - `trace_lookup_cpu`: Murmur3-indexed lookups + eviction-by-thrashing.
+  - `trace_lookup_sepim`: fixed host-visible command pattern via `/dev/pimbt` and `ACCESS_DATA`.
+  - `kmeans_sepim_fs`: runtime derived from simulated `ACCESS_DATA` command cycles (sampled then extrapolated per dataset/core), instead of hardcoded PIM/SE-PIM runtimes.
+
+- Gate runner interface now supports reproducible backend/provenance controls:
+  - `--backend fs|synthetic` (default `fs`)
+  - `--checkpoint-dir <path>`
+  - `--quick|--full`
+  - `--out-prefix <name>`
+  - All `_fs` CSVs are post-annotated with:
+    - `source`, `run_id`, `mode`, `checkpoint_dir`, `gem5_commit`, `impica_commit`.
+
+- Docker dependency update for trace decoding:
+  - `tools/docker/Dockerfile` now includes `python3`, `python3-protobuf`, and `python-protobuf`.
+
+- Recommended authoritative full run sequence (inside container):
+  - `scripts/prepare_disk_image.sh`
+  - `scripts/run_gate6_dma.sh --backend fs --full`
+  - `scripts/run_gate7_controlled_access.sh --backend fs --full`
+  - `scripts/run_gate8_trace.sh --backend fs --full`
+  - `scripts/run_gate9_kmeans.sh --backend fs --full`
+
+- Known remaining deltas vs paper:
+  - IMPICA memory model remains DDR3 multi-channel approximation (no true HMCVault implementation in this tree).
+  - Fig.10 `normal_mbps` and `path_oram_mbps` remain reference columns; controlled-path values come from simulated command timing.
+  - Fig.11 CPU-only baseline remains modeled reference line; PIM/SE-PIM lines now come from simulated command timing.
+
+### 2026-03-01 (final full-run snapshot used for acceptance)
+
+- Canonical checkpoint lineage:
+  - `results/raw/gate3_postbuild_checkpoint_20260301`
+- Final full-mode gate execution commands:
+  - `scripts/run_gate8_trace.sh --backend fs --full`
+  - `scripts/run_gate6_dma.sh --backend fs --full`
+  - `scripts/run_gate7_controlled_access.sh --backend fs --full`
+  - `scripts/run_gate9_kmeans.sh --backend fs --full`
+
+- Final authoritative `_fs` artifact runs:
+  - Fig.8:
+    - run id: `gate8_fs_full_20260301_125431`
+    - CSV: `results/csv/fig8_cpu_fs.csv`, `results/csv/fig8_sepim_fs.csv`
+    - plot: `results/plots/fig8_fs.png`
+    - summary: CPU rows `2287` with `2182` unique addresses; SE-PIM rows `138` with `4` unique fixed-channel addresses.
+  - Fig.9:
+    - run id: `gate6_fs_full_20260301_133349`
+    - CSV: `results/csv/fig9_dma_fs.csv`
+    - plot: `results/plots/fig9_fs.png`
+    - summary: average overhead `22.01%`; peak baseline `3.530 GB/s`; peak SE-PIM `2.892 GB/s`.
+  - Fig.10:
+    - run id: `gate7_fs_full_20260301_060314`
+    - CSV: `results/csv/fig10_controlled_access_fs.csv`
+    - plot: `results/plots/fig10_fs.png`
+    - summary: controlled `64KB=374.1 MB/s`; controlled `128KB=503.4 MB/s`.
+  - Fig.11:
+    - run id: `gate9_fs_full_20260301_063852`
+    - CSV: `results/csv/fig11_kmeans_scaling_fs.csv`
+    - plot: `results/plots/fig11_fs.png`
+    - summary (`512MB`, `8 cores`): `17.6943 s`, `3.5887x` speedup vs CPU, `0.1075%` SE-PIM overhead.
+
+- Final pass markers:
+  - `logs/PASSED_GATE6_FS.txt` (`2026-03-01T13:34:05Z`)
+  - `logs/PASSED_GATE7_FS.txt` (`2026-03-01T06:03:29Z`)
+  - `logs/PASSED_GATE8_FS.txt` (`2026-03-01T13:33:49Z`)
+  - `logs/PASSED_GATE9_FS.txt` (`2026-03-01T06:39:05Z`)
+
+## Recording requirements (snapshot values)
 - Docker image digest:
-- Workspace commit hash: run `git rev-parse --short HEAD` in workspace root
-- IMPICA commit hash: `8e68a865`
+  - `sepim-impica@sha256:e5caacbf042ea2c2dd87a350ca35467d09aec2c0e4fac2a1de728bb1a93f308a`
+- Workspace commit hash at snapshot start:
+  - `ef60697`
+- IMPICA commit hash at snapshot start:
+  - `8e68a865`
+  - finalized FS-backend implementation commit: `b29c04ca`
 - gem5 binary hash:
+  - `0306bbe995d1653c64283bb30389bcc4f4dcd9843df5a4949d7c9dd42749c9ac` (`IMPICA/gem5/build/ARM/gem5.opt`)
 - FS image URL + checksum:
+  - archive name: `aarch-system-2014-10.tar.xz` (download sources configured in `scripts/fetch_gem5_fs.sh`)
+  - disk image checksum:
+    - `b7cf2671616805abaad05e2d453d4559d56f77b922f48ec5294b41736ef6fd20` (`third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img`)
+  - kernel checksum:
+    - `6a391f3109c91316f4fc7f240b658c7ca885202154b8ef9cfd29f251b28bfcdf` (`third_party/gem5_fs/binaries/vmlinux.aarch64.20140821`)
 - Kernel/image deviations from paper:
-- Per-figure run command, seed, runtime, output CSV/PNG paths:
+  - kernel is `vmlinux.aarch64.20140821` from gem5 FS bundle, not Linux `3.16.0-rc6`.
+  - memory model remains DDR3 multi-channel approximation instead of native HMCVault in this IMPICA fork.

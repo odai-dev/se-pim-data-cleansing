@@ -47,7 +47,8 @@ def main():
 
     by_mode = defaultdict(list)
     for r in rows:
-        by_mode[r["mode"]].append((as_int(r, "block_size"), as_float(r, "baseline_latency_ns"), as_float(r, "sepim_latency_ns")))
+        m = r.get("access_mode", r.get("mode", "unknown"))
+        by_mode[m].append((as_int(r, "block_size"), as_float(r, "baseline_latency_ns"), as_float(r, "sepim_latency_ns")))
     for k in by_mode:
         by_mode[k].sort(key=lambda t: t[0])
 

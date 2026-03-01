@@ -11,5 +11,5 @@ start_logging "$LOG_FILE"
 echo "[INFO] Fig.9 automation scaffold"
 MODE_ARG=${MODE_ARG:---quick}
 echo "[INFO] Running GATE 6 pipeline via run_gate6_dma.sh $MODE_ARG"
-"$ROOT_DIR/scripts/run_gate6_dma.sh" "$MODE_ARG"
+"$ROOT_DIR/scripts/run_gate6_dma.sh" --backend fs "$MODE_ARG"
 echo "[PASS] Fig.9 plot generated"

@@ -61,3 +61,28 @@ as_root() {
     sudo "$@"
   fi
 }
+
+write_run_metadata() {
+  local outdir="$1"
+  local gate="$2"
+  local backend="$3"
+  local mode="$4"
+  local checkpoint_dir="$5"
+  local fs_config="$6"
+  local gem5_commit="$7"
+  local impica_commit="$8"
+
+  mkdir -p "$outdir"
+  cat > "$outdir/metadata.json" <<EOF
+{
+  "timestamp_utc": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+  "gate": "$gate",
+  "backend": "$backend",
+  "mode": "$mode",
+  "checkpoint_dir": "$checkpoint_dir",
+  "fs_config": "$fs_config",
+  "gem5_commit": "$gem5_commit",
+  "impica_commit": "$impica_commit"
+}
+EOF
+}

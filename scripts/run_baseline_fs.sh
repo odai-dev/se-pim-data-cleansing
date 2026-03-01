@@ -23,6 +23,7 @@ CPUS=${CPUS:-4}
 MEM_SIZE=${MEM_SIZE:-2048MB}
 RUNTIME_LIB_ROOT=${RUNTIME_LIB_ROOT:-$ROOT_DIR/third_party/runtime_libs/rootfs}
 GEM5_EXTRA_ARGS=${GEM5_EXTRA_ARGS:-}
+GEM5_PREFIX_ARGS=${GEM5_PREFIX_ARGS:-}
 
 BOOT_SCRIPT=${BOOT_SCRIPT:-$ROOT_DIR/scripts/guest_boot_checkpoint.rcS}
 
@@ -30,7 +31,7 @@ while [[ $# -gt 0 ]]; do
   case "$1" in
     --mode)
       if [[ $# -lt 2 ]]; then
-        echo "[ERROR] --mode requires a value: checkpoint|hash_table|sepim_cmd_smoke|boot_probe"
+        echo "[ERROR] --mode requires a value: checkpoint|hash_table|sepim_cmd_smoke|boot_probe|custom"
         exit 2
       fi
       MODE="$2"
@@ -42,7 +43,7 @@ while [[ $# -gt 0 ]]; do
       ;;
     *)
       echo "[ERROR] Unknown argument: $1"
-      echo "[INFO] Usage: scripts/run_baseline_fs.sh [--mode checkpoint|hash_table|sepim_cmd_smoke|boot_probe]"
+      echo "[INFO] Usage: scripts/run_baseline_fs.sh [--mode checkpoint|hash_table|sepim_cmd_smoke|boot_probe|custom]"
       exit 2
       ;;
   esac
@@ -223,8 +224,14 @@ echo "[GUEST][PROBE] readfile executed"
 m5 exit
 RCSEOF
     ;;
+  custom)
+    if [[ ! -f "$BOOT_SCRIPT" ]]; then
+      fail_gate "GATE 3" "Custom BOOT_SCRIPT not found at $BOOT_SCRIPT" "$LOG_FILE"
+      exit 1
+    fi
+    ;;
   *)
-    fail_gate "GATE 3" "Unsupported MODE=$MODE (expected checkpoint, hash_table, sepim_cmd_smoke, or boot_probe)" "$LOG_FILE"
+    fail_gate "GATE 3" "Unsupported MODE=$MODE (expected checkpoint, hash_table, sepim_cmd_smoke, boot_probe, or custom)" "$LOG_FILE"
     exit 1
     ;;
 esac
@@ -243,6 +250,7 @@ echo "[INFO] Running baseline full-system boot (mode=$MODE)"
 # shellcheck disable=SC2086
 M5_PATH="$FS_BUNDLE_DIR" "$GEM5_BIN" \
   --outdir="$OUTDIR" \
+  $GEM5_PREFIX_ARGS \
   "$FS_CONFIG" \
   --machine-type=VExpress_EMM64 \
   -n "$CPUS" \
@@ -253,7 +261,7 @@ M5_PATH="$FS_BUNDLE_DIR" "$GEM5_BIN" \
   --script="$BOOT_SCRIPT" \
   $GEM5_EXTRA_ARGS
 
-if [[ "$MODE" == "hash_table" || "$MODE" == "sepim_cmd_smoke" ]]; then
+if [[ "$MODE" == "hash_table" || "$MODE" == "sepim_cmd_smoke" || "$MODE" == "custom" ]]; then
   if [[ -f "$OUTDIR/system.terminal" ]] && \
      tr -d '\000' < "$OUTDIR/system.terminal" | grep -Fq "[GUEST][ERROR]"; then
     fail_gate "GATE 3" "Guest workload run reported error; inspect $OUTDIR/system.terminal" "$LOG_FILE"

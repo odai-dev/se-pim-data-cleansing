@@ -20,6 +20,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     python-dev \
     python-pip \
     python-six \
+    python3 \
+    python3-pip \
+    python3-protobuf \
+    python-protobuf \
     libssl-dev \
     zlib1g-dev \
     libprotobuf-dev \

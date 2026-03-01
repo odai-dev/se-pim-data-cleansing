@@ -10,5 +10,5 @@ start_logging "$LOG_FILE"
 
 MODE_ARG=${MODE_ARG:---quick}
 echo "[INFO] Running GATE 9 pipeline via run_gate9_kmeans.sh $MODE_ARG"
-"$ROOT_DIR/scripts/run_gate9_kmeans.sh" "$MODE_ARG"
+"$ROOT_DIR/scripts/run_gate9_kmeans.sh" --backend fs "$MODE_ARG"
 echo "[PASS] Fig.11 plot generated"
