@@ -99,6 +99,16 @@ Reproduce SE-PIM TCC 2023 core figures (Fig. 8–11) in cycle-accurate gem5 FS s
     - memory backend is `DDR3_1600_x64` (no true `HMCVault` model in this fork)
     - host core model is `TimingSimpleCPU` (in-order-like) without modeled `2 threads/core`
     - OS/kernel from gem5 ARM FS bundle (`vmlinux.aarch64.20140821`), not Linux `3.16.0-rc6`
+- GATE 5 command-surface smoke validation:
+  - Restored run command:
+    - `GEM5_EXTRA_ARGS='-r 1 --checkpoint-dir=/workspace/results/raw/gate3_gate3_recheck_canonical_20260301_0142_checkpoint' OUTDIR=/workspace/results/raw/gate5_sepim_cmd_smoke_20260301_0221 scripts/run_baseline_fs.sh --mode sepim_cmd_smoke`
+  - Log:
+    - `logs/run/run_baseline_fs_20260301_022816.log`
+  - Result:
+    - run exited via `m5_exit` at tick `3222609311000`
+    - guest `sepim_cmd` completed and printed success status for all Table-2 commands (`1..10`)
+    - monotonic nonce/counter observed (`nonce=1..10`, `counter=1..10`)
+    - `SEPIM command smoke test completed` present in terminal output
 
 ## Recording requirements (to be filled as gates progress)
 - Docker image digest:
