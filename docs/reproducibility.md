@@ -198,6 +198,41 @@ Reproduce SE-PIM TCC 2023 core figures (Fig. 8–11) in cycle-accurate gem5 FS s
     - speedup vs CPU: `3.6081x`
     - overhead vs baseline PIM: `0.1100%`
 
+### 2026-03-01 (post-build checkpoint lineage validation)
+
+- User rebuilt gem5 with latest sources in container:
+  - command:
+    - `M5_NO_WERROR=1 scons -j2 PIM_DEVICE=hash_table build/ARM/gem5.opt`
+  - result:
+    - successful link: `build/ARM/gem5.opt`
+    - compiler warnings only (no fatal errors).
+
+- Important compatibility note:
+  - old checkpoints created before `PIM_DEVICE_CH` changed from 4 to 8 fail restore with:
+    - `fatal: Array size mismatch on system.realview.pimDevice:rootAddr`
+  - resolution:
+    - create a fresh checkpoint using the rebuilt binary.
+
+- New checkpoint and regressions executed:
+  - checkpoint create:
+    - outdir: `results/raw/gate3_postbuild_checkpoint_20260301`
+    - log: `logs/run/run_baseline_fs_20260301_042743.log`
+    - exit tick: `3148477325000`
+  - SE-PIM smoke restore:
+    - outdir: `results/raw/gate5_sepim_cmd_smoke_post_build_20260301`
+    - log: `logs/run/run_baseline_fs_20260301_042854.log`
+    - exit tick: `3222609311000`
+    - `system.terminal` confirms all commands pass and prints `SEPIM command smoke test completed`.
+  - hash-table restore:
+    - outdir: `results/raw/gate3_hash_table_post_build_20260301`
+    - log: `logs/run/run_baseline_fs_20260301_042938.log`
+    - exit tick: `3538723689000`
+    - guest run completes cleanly and exits via `m5_exit`.
+
+- Gate markers refreshed to post-build lineage:
+  - `logs/PASSED_GATE3.txt`
+  - `logs/PASSED_GATE5.txt`
+
 ## Recording requirements (to be filled as gates progress)
 - Docker image digest:
 - Workspace commit hash: run `git rev-parse --short HEAD` in workspace root
