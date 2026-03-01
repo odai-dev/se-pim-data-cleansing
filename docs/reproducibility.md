@@ -349,6 +349,65 @@ Reproduce SE-PIM TCC 2023 core figures (Fig. 8–11) in cycle-accurate gem5 FS s
   - `logs/PASSED_GATE8_FS.txt` (`2026-03-01T13:33:49Z`)
   - `logs/PASSED_GATE9_FS.txt` (`2026-03-01T06:39:05Z`)
 
+### 2026-03-02 (hybrid data-cleaning extension snapshot)
+
+- New extension docs/code:
+  - `README_CLEANING.md`
+  - `docs/cleaning_spec_notes.md`
+  - `scripts/make_dirty_dataset.sh`, `scripts/corrupt_dataset.py`
+  - `scripts/run_kmeans_cleaning_pim.sh`
+  - `scripts/run_kmeans_cleaning_hybrid.sh`
+  - `scripts/plot_cleaning.py`
+  - `IMPICA/workloads/kmeans_sepim_fs/{pim_cleaner.*,host_cleaner.*,dataset_format.h}`
+
+- Full-run commands executed:
+  - `scripts/run_kmeans_cleaning_pim.sh --full`
+    - run id: `cleaning_pim_full_20260301_203153`
+  - `scripts/run_kmeans_cleaning_hybrid.sh --full`
+    - run id: `cleaning_hybrid_full_20260301_205927`
+  - optional trace check:
+    - `scripts/run_kmeans_cleaning_hybrid.sh --full --trace`
+    - run id: `cleaning_hybrid_full_20260301_204540`
+
+- Dirty dataset generated for runs:
+  - points=`131072`, dims=`8`, seed=`7`
+  - dirty count=`13107` (`~10%`)
+  - distribution: NaN=`4369`, null=`4369`, outlier=`4369`
+  - files:
+    - `IMPICA/workloads/kmeans_sepim_fs/data/kmeans_clean.bin`
+    - `IMPICA/workloads/kmeans_sepim_fs/data/kmeans_dirty_10pct.bin`
+    - `IMPICA/workloads/kmeans_sepim_fs/data/kmeans_dirty_10pct.meta.json`
+
+- Result artifacts:
+  - CSV:
+    - `results/csv/cleaning_pim.csv`
+    - `results/csv/cleaning_hybrid.csv`
+  - Plots:
+    - `results/plots/cleaning_pim.png`
+    - `results/plots/cleaning_hybrid.png`
+  - Stats summaries:
+    - `results/raw/cleaning_pim_full_20260301_203153.stats`
+    - `results/raw/cleaning_hybrid_full_20260301_205927.stats`
+    - `results/raw/cleaning_hybrid_full_20260301_204540.stats`
+
+- Observed headline metrics:
+  - Baseline clean (`off`): `17.694336 s`
+  - Dirty no-clean (`off`): `17.694336 s`, quality score `0.900002`
+  - PIM cleaning (`pim`): `17.704647 s` (`+0.0583%` vs clean baseline), dirty remaining `0`
+  - Hybrid cleaning (`hybrid`) with block sweep:
+    - `1KB`: total `18.424311 s`, `10.693 MB/s`, read/write ops `3943/3943`
+    - `4KB`: total `17.899298 s`, `40.979 MB/s`, read/write ops `1024/1024`
+    - `16KB`: total `17.761060 s`, `140.388 MB/s`, read/write ops `256/256`
+    - `64KB`: total `17.726500 s`, `356.743 MB/s`, read/write ops `64/64`
+    - `128KB`: total `17.720740 s`, `480.044 MB/s`, read/write ops `32/32`
+    - dirty remaining `0` across all hybrid points
+
+- Security-model notes for extension:
+  - Lockdown remains active during scan/clean/compute.
+  - Hybrid host cleaning uses `ACCESS_DATA` only for data movement (no direct host mapping path in cleaner).
+  - Optional dummy semantics (`--dummy-semantics=1`) issues additional dummy reads.
+  - Optional `--trace` run produced decoded trace output for inspection, but CommMonitor timing-mode warnings must be considered when interpreting those traces.
+
 ## Recording requirements (snapshot values)
 - Docker image digest:
   - `sepim-impica@sha256:e5caacbf042ea2c2dd87a350ca35467d09aec2c0e4fac2a1de728bb1a93f308a`

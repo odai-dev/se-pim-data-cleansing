@@ -79,3 +79,37 @@ Measured full-run values from current workspace artifacts:
   - `512MB, 8 cores` SE-PIM runtime: `17.6943 s` (target `17.6 s`)
   - speedup vs CPU: `3.5887x` (target `3.61x`)
   - SE-PIM overhead vs baseline PIM: `0.1075%` (target near `0.11%`)
+
+## 2026-03-02 Hybrid Data Cleaning Extension (Novel Contribution)
+
+Authoritative outputs:
+- `results/csv/cleaning_pim.csv`
+- `results/csv/cleaning_hybrid.csv`
+- `results/plots/cleaning_pim.png`
+- `results/plots/cleaning_hybrid.png`
+
+Dataset/corruption setup (full run):
+- points: `131072`
+- dimensions: `8`
+- dirty fraction: `~10%` (`13107` dirty entries)
+- corruption mix: `4369` NaN + `4369` null + `4369` outlier
+
+Observed results (`run_id=cleaning_hybrid_full_20260301_205927`, `seed=7`):
+- Baseline clean data (`cleaning=off`): `17.694336 s`
+- Dirty data without cleaning (`cleaning=off`): `17.694336 s`, `quality_score=0.900002`
+- PIM-only cleaning (`cleaning=pim`):
+  - `17.704647 s` total
+  - overhead vs clean baseline: `+0.0583%`
+  - dirty remaining: `0`
+- Hybrid cleaning (`cleaning=hybrid`) block sweep:
+  - `1KB`: `18.424311 s`, `access_mbps=10.693`, reads/writes=`3943/3943`
+  - `4KB`: `17.899298 s`, `40.979 MB/s`, reads/writes=`1024/1024`
+  - `16KB`: `17.761060 s`, `140.388 MB/s`, reads/writes=`256/256`
+  - `64KB`: `17.726500 s`, `356.743 MB/s`, reads/writes=`64/64`
+  - `128KB`: `17.720740 s`, `480.044 MB/s`, reads/writes=`32/32`
+  - dirty remaining: `0` for all hybrid points
+
+Interpretation:
+- Dirty-data handling introduces measurable overhead once host-controlled access traffic is included.
+- Hybrid overhead is strongly block-size dependent; larger blocks reduce command count and improve effective controlled-access bandwidth.
+- PIM-only cleaning remains near-negligible in this model, while hybrid highlights the practical tradeoff between security-preserving controlled access and throughput.
