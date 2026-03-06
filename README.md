@@ -4,8 +4,8 @@
 
 This repository contains the artifact for the paper:
 
-> **"SE-PIM: In-Memory Acceleration of Data-Intensive Confidential Computing"**  
-> Ibrahim Ahmed Al-Baltah et al., IEEE TCC 2023
+> **"PIM-Cleanser: In-Memory Acceleration of Data-Intensive Confidential Data Sanitization"**  
+> Wafaa M. AL-Madhaji and Ibrahim Ahmed Al-Baltah
 
 It provides:
 1. **Reproducible replication** of Figs. 8–11 from the SE-PIM paper using cycle-accurate gem5 full-system simulation.
@@ -329,12 +329,10 @@ scripts/run_kmeans_cleaning_hybrid.sh --full
 If you use this artifact, please cite:
 
 ```bibtex
-@article{albaltah2023sepim,
-  title     = {SE-PIM: In-Memory Acceleration of Data-Intensive Confidential Computing},
-  author    = {Al-Baltah, Ibrahim Ahmed and others},
-  journal   = {IEEE Transactions on Cloud Computing},
-  year      = {2023},
-  publisher = {IEEE}
+@article{almadhaji2026pimcleanser,
+  title     = {PIM-Cleanser: In-Memory Acceleration of Data-Intensive Confidential Data Sanitization},
+  author    = {AL-Madhaji, Wafaa M. and Al-Baltah, Ibrahim Ahmed},
+  year      = {2026}
 }
 ```
 
