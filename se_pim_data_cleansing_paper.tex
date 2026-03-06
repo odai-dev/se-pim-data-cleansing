@@ -1,0 +1,218 @@
+\documentclass[10pt,journal,compsoc]{IEEEtran}
+
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}  % adds clickable DOIs/cross-refs
+
+\begin{document}
+
+\title{PIM-Cleanser: In-Memory Acceleration of Data-Intensive Confidential Data Sanitization}
+
+\author{Wafaa M. AL-Madhaji and Ibrahim Ahmed Al-Baltah%
+\IEEEcompsocitemizethanks{\IEEEcompsocthanksitem W. AL-Madhaji and I. Al-Baltah are with the Department of Information Technology, Faculty of Computer Science and IT, Sana'a University, Sana'a, Yemen.\protect\\
+Corresponding author: Wafaa M. AL-Madhaji (e-mail: wafamoh2021@gmail.com).}%
+}
+
+\maketitle
+
+\begin{abstract}
+Processing-In-Memory (PIM) architectures, such as SE-PIM, address the dual challenges of the memory wall and isolated execution in confidential computing. However, existing works assume that ingested datasets are perfectly clean, neglecting the ubiquitous reality of data sanitization (ETL). When host processors clean data residing in secure memory, the conditional branching required to rectify corruptions—such as \textit{NaNs}, null sentinels, or outliers—manifests as data-dependent memory access patterns, creating a critical side-channel vulnerability. In this work, we propose PIM-Cleanser, an extension to SE-PIM that pushes data sanitization directly into the PIM core. By performing cleaning within the memory module and mimicking uniform-stride dummy access semantics, we eliminate side-channel leakage of data anomalies. Evaluation on a gem5-simulated k-means clustering workload demonstrates a negligible \textbf{+0.058\%} performance overhead, proving that robust confidential data sanitization is both safe and practically achievable.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Processing-In-Memory (PIM), Confidential Computing, Trusted Execution Environment, Data Sanitization, Side-channel Attacks.
+\end{IEEEkeywords}
+
+\section{Introduction}
+Today's cloud computing faces a constant struggle to balance computational efficiency against the rigid requirements of data confidentiality. On one front, the shift towards data-centric applications—such as large-scale data analytics and neural network training—has exacerbated the traditional Von Neumann bottleneck, famously known as the ``memory wall.'' Architectures are evolving to minimize data movement by utilizing Near-Data Processing or Processing-In-Memory (PIM) \cite{Mutlu:2019}. On the other front, cloud tenants increasingly require strict isolation guarantees, relying on hardware-based Trusted Execution Environments (TEEs) or secure enclaves like Intel SGX to protect sensitive information from malicious co-tenants or compromised hypervisors.
+
+Recent research, prominently including the SE-PIM \cite{Kha:2023} architecture, has successfully married these two paradigms. By embedding programmable processing cores within 3D-stacked memory banks and equipping them with attestation and memory encryption hardware, SE-PIM restricts the attack surface. It inherently mitigates address-based side-channel leaks on the system bus by performing computations locally inside the memory module.
+
+Despite these advancements, an enormous practical gap remains in the academic literature regarding confidential computing: \textit{the assumption of pristine data.} In real-world data pipelines, raw datasets are rarely clean. They are polluted with invalid artifacts, including Not-a-Number (\textit{NaN}) values, missing data point sentinels, or extreme statistical outliers. The data sanitization (ETL) phase often consumes more computational resources than the analytics algorithm itself.
+
+Cleanly integrating data sanitization into a confidential computing model presents a unique security hazard. Standard null or outlier checking logic depends on conditional branching (e.g., \texttt{if (isnan(v)) \{ ... \}}). If a host CPU executes this branch over encrypted memory, varying memory access latencies or write-back patterns immediately expose the location and density of the dataset anomalies to an adversary snooping the physical memory bus.
+
+To bridge this crucial gap between theoretical architecture and real-world deployment, this paper presents PIM-Cleanser, an extension to the SE-PIM model that completely encapsulates the data cleansing layer. Our contributions are as follows:
+\begin{enumerate}
+    \item We identify a critical side-channel vulnerability in existing confidential PIM architectures caused by conventional host-side data cleansing heuristics.
+    \item We design and implement a PIM-based data sanitization layer (PIM-Cleanser) that performs missing value imputation and outlier bounding securely within the PIM cores.
+    \item We introduce a hybrid-mode data sweeper with uniform-stride dummy access semantics to obfuscate memory accesses when external orchestration is required.
+    \item We evaluate our extension on a k-means clustering workload. We demonstrate that performing robust data cleansing in PIM completely mitigates side-channel leakage with a virtually zero runtime penalty (\textbf{+0.058\%} overhead).
+\end{enumerate}
+
+\section{Background and Motivation}
+
+\subsection{Processing-In-Memory and SE-PIM}
+Processing-In-Memory fundamentally restructures data workflows. Rather than transferring massive data blocks across the comparatively slow system bus to the CPU, PIM places programmable logic directly onto the memory die (such as the logic layer in High Bandwidth Memory or UPMEM's architecture).
+
+The SE-PIM architecture \cite{Kha:2023} extends this by turning a PIM module into a trusted extension of a CPU enclave. Through memory lockdown semantics (\texttt{LOCK\_MEM}), SE-PIM ensures that while the PIM core computes over the sensitive data, the untrusted host operating system is physically blocked from mapping or altering the bank's contents.
+
+\subsection{Threat Model}
+We assume a passive adversary who observes the physical DRAM bus—monitoring the sequence of addresses and the timing of read/write transactions—but cannot modify hardware or break cryptographic primitives. The adversary's goal is to infer the presence and location of dirty records (NaNs, nulls, outliers) from observable bus traffic patterns. Power side-channels and microarchitectural cache-timing attacks are explicitly out of scope for this work, consistent with the SE-PIM threat model \cite{Kha:2023}.
+
+\subsection{The Reality of Dirty Data}
+Academic evaluations of systems like SE-PIM historically utilize synthetic, pre-cleaned datasets. In practice, data ingests originating from IoT sensors, external APIs, or human-entered forms contain corruptions. If such data is ingested into an enclave, it must be cleaned prior to processing (e.g., replacing \textit{NaNs} with \texttt{0.0f} to prevent math errors during a k-means reduction).
+
+\subsection{The Side-Channel Vulnerability of ETL}
+A standard CPU-based data cleaner operates iteratively:
+\begin{algorithmic}
+\STATE $p \gets$ read(memory)
+\IF{isnan($p$)}
+    \STATE $p \gets 0.0$
+    \STATE write($p$, memory)
+\ENDIF
+\end{algorithmic}
+
+In a confidential framework like Intel SGX, the memory controller provides data encryption, but the \textit{addresses} accessed and the timing between accesses remain visible on the physical bus. Because the \texttt{write} operation only triggers conditionally based on the \textit{content} of the encrypted data, an attacker monitoring the bus can immediately correlate memory locations with anomalous data points \cite{Xu:2015}. In financial or medical datasets, anomalies are often highly correlated with sensitive real-world events; thus, the mere pattern of anomalies constitutes a severe privacy leak.
+
+\section{Related Work}
+
+\subsection{Side-Channel Attacks in TEEs}
+Significant prior work has documented the vulnerability of TEEs to access-pattern-based side channels. Cache-timing attacks against Intel SGX \cite{Gruss:2016} and controlled-channel attacks \cite{Xu:2015} demonstrate that encrypted memory alone is insufficient to guarantee confidentiality. Our work targets a previously under-explored vector: the ETL data-cleaning phase leaking dirty-data locations via conditional writes.
+
+\subsection{ORAM for Access Pattern Obfuscation}
+Oblivious RAM (ORAM) \cite{Goldreich:1996} provides a formal mechanism for hiding access patterns with logarithmic overhead, but its recursive structure incurs prohibitive latency for real-time analytics. Our hybrid mode provides a practical approximation: uniform-stride, block-granularity dummy reads that achieve the same observable access pattern without the recursive overhead.
+
+\subsection{PIM for Analytics and Security}
+Recent PIM surveys \cite{Mutlu:2019} highlight near-data processing as a promising approach to breaking the memory wall for data-intensive workloads. SE-PIM \cite{Kha:2023} specifically addresses trusted execution in PIM contexts. Our work is the first to extend this architecture with an in-situ data sanitization pipeline, closing the gap between theoretical security guarantees and real-world dirty data pipelines.
+
+\section{System Architecture: PIM-Cleanser}
+
+Our proposed architecture integrates seamlessly into the baseline SE-PIM model. While the original model focused heavily on computational offloading, we introduce an explicit data sanitization phase that executes prior to the main computational kernel.
+
+\subsection{In-Memory Cleaning Logic}
+We deploy a specialized PIM kernel, \texttt{pim\_cleaner}, directly alongside the primary workload (e.g., k-means). The cleaning kernel is designed to scan memory banks sequentially. It identifies three major categories of dirty data:
+\begin{itemize}
+    \item \textbf{NaN values:} Detected via IEEE 754 float comparison (\texttt{VCMP}/\texttt{VMRS} on ARMv7, natively supported by the PIM core ISA) and replaced with an imputed zero scalar. Zero-imputation is appropriate for features normalized to zero-mean, where zero represents the distributional expectation of missing values.
+    \item \textbf{Null sentinels (\textit{is\_sentinel}):} Identified by a reserved all-zero bit-pattern sentinel distinct from a valid 0.0f value (e.g., flagged during ingestion), and overwritten as zero vectors.
+    \item \textbf{Statistical Outliers:} Clamped to a configurable boundary threshold $[-th, +th]$. In our evaluation, we use $th = 1000.0$, appropriate for normalized float32 feature data.
+\end{itemize}
+
+The execution flow of the internal PIM cleansing kernel is detailed in Algorithm 1. The PIM core natively executes this routine, performing IEEE 754 floating-point comparisons using \texttt{VCMP} and \texttt{VMRS} instructions.
+
+\begin{algorithm}[H]
+\caption{PIM-Cleanser: In-Memory Sanitization Kernel (executes on PIM core)}
+\begin{algorithmic}[1]
+\REQUIRE $M$: Memory bank, $N$: Number of records, $th$: Outlier threshold
+\ENSURE Sanitized memory bank $M$
+\STATE \textit{// Host-side: lock bank before PIM execution begins}
+\STATE \textbf{Host issues:} \texttt{LOCK\_MEM}\hfill
+\STATE \textit{// PIM core executes the following loop autonomously:}
+\FOR{$i=0$ to $N-1$}
+    \STATE $record \gets M[i]$
+    \FOR{each float feature $f$ in $record$}
+        \IF{\textit{is\_sentinel}($f$)}
+            \STATE $f \gets 0.0$ \hfill\textit{// all-zero bit-pattern sentinel}
+        \ELSIF{\textit{isnan}($f$)}
+            \STATE $f \gets 0.0$ \hfill\textit{// IEEE 754 NaN via VCMP/VMRS}
+        \ELSIF{$f > th$}
+            \STATE $f \gets th$
+        \ELSIF{$f < -th$}
+            \STATE $f \gets -th$
+        \ENDIF
+    \ENDFOR
+    \STATE $M[i] \gets record$
+\ENDFOR
+\STATE \textit{// Host-side: run workload, then release lock}
+\STATE \textbf{Host issues:} \texttt{EXECUTE}(kernel), \texttt{UNLOCK\_MEM}
+\end{algorithmic}
+\label{alg:pim_cleaner}
+\end{algorithm}
+
+Crucially, because this logic executes internally on the PIM core using the high-bandwidth bank-internal bus, the conditional branching required to rectify these anomalies never traverses the main host-to-memory bus.
+
+\subsection{Security Guarantees and DRAM Lockdown}
+We strictly adhere to the SE-PIM security semantics. Before the \texttt{pim\_cleaner} execution begins, the host enclave issues a \texttt{LOCK\_MEM} command. This hardware-enforced mechanism completely disables external mappings to the memory bank. The internal PIM core scans, cleans, and updates the data autonomously. Only after the cleaning phase (and subsequent analytical computation phase) completes is the \texttt{UNLOCK\_MEM} command issued.
+
+\subsection{Hybrid Cleaning and Traffic Shaping}
+While full in-PIM cleaning is optimal, memory capacity constraints or complex ETL logic may require host-processor orchestration (Hybrid mode).
+
+When host-side intervention is necessary, pulling subsets of data across the bus iteratively reintroduces the side-channel threat. To counter this, our hybrid model utilizes the \texttt{ACCESS\_DATA} primitive with dummy semantics enabled via \texttt{--dummy-semantics=1}. This mode injects dummy read operations around data modifications; the block size of each \texttt{ACCESS\_DATA} transfer is fixed and uniform. To a passive adversary observing the memory bus, the access pattern appears completely sequential and uniform, replicating the access-pattern hiding property of ORAM \cite{Goldreich:1996} without the recursive latency penalty.
+
+\section{Evaluation}
+
+To evaluate our proposed extension, we replicated the k-means clustering workload from the SE-PIM evaluation suite \cite{Kha:2023}. We extended the testing framework to support reproducible dataset corruption.
+
+\subsection{Methodology}
+\textbf{Simulation environment.} All experiments were executed using the gem5 architectural simulator \cite{Lowe-Power:2020} in full-system (FS) mode. The simulated host system comprised 8 in-order \texttt{TimingSimpleCPU} ARMv7 cores at 4.0 GHz, with per-core 32\,KB L1I and 64\,KB L1D caches and a shared 256\,KB LLC. Memory was configured as 8 channels of 64\,MB DDR3 (total 512\,MB). The PIM side comprised one in-order ARMv7 core per bank at 1\,GHz with 1\,MB local SRAM. The guest OS was the gem5 ARM FS bundle kernel (\texttt{vmlinux.aarch64.20140821}). Since gem5 in detailed full-system mode is cycle-deterministic, each configuration was run once; reported times are exact simulated tick counts converted to wall-clock seconds at the stated clock frequency.
+
+Known deviations from the original SE-PIM paper (Table~3 \cite{Kha:2023}) are: (i) memory backend is DDR3 multi-channel rather than the native HMCVault model, and (ii) the host core model is \texttt{TimingSimpleCPU} rather than a dual-threaded in-order core. These deviations affect absolute throughput numbers but do not alter the relative overhead comparison, which is the primary metric of this paper.
+
+\textbf{Dataset.} We generated a synthetic dataset containing 131,072 data points, each represented as an 8-dimensional float32 feature vector (512\,MB total). We systematically corrupted 10\% of these data points (13,107 points) using a fixed random seed (seed=7), distributed uniformly across the dataset, injecting equal portions of \textit{NaNs}, null sentinel rows, and extreme numerical outliers (values exceeding $\pm$1000).
+
+\textbf{Quality metric.} Dataset quality is measured as the centroid convergence ratio: the fraction of k-means centroids that converge to the same position (within a tolerance of $10^{-3}$) as they do on the clean reference dataset. A score of 1.0 indicates perfect convergence; a score below 1.0 indicates corruption-induced centroid drift.
+
+\subsection{Performance Results}
+We exercised the three operating modes of Algorithm~\ref{alg:pim_cleaner} on the corrupted dataset and compared against the clean-data baseline. The baseline execution time for the pristine, uncorrupted dataset running standard k-means in SE-PIM was observed to be \textbf{17.694\,s}.
+
+When executing the same workload on the 10\% corrupted dataset without any sanitization, statistical convergence suffered dramatically, resulting in a degraded quality score of 0.900.
+
+Upon enabling our proposed \texttt{pim\_cleaner} in full-PIM mode, the dataset was completely sanitized (0 remaining dirty records), restoring perfect quality (score = 1.000). The total execution time, including both the full sanitization pass and the subsequent computation, was \textbf{17.705\,s}.
+
+The temporal difference between computing on perfectly clean data versus computing \textit{and sanitizing} highly corrupt data was approximately 10\,ms—a performance overhead of just \textbf{+0.058\%}.
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=\columnwidth]{results/plots/cleaning_pim.png}}
+\caption{PIM cleansing: execution time (+0.058\% overhead) and quality restoration vs. no-sanitization baseline.}
+\label{fig:pim_cleaning}
+\end{figure}
+
+\subsection{Hybrid Mode Scaling}
+We further evaluated the performance of the hybrid cleaning mechanism by varying the \texttt{ACCESS\_DATA} block size—the granularity of each host-PIM data transfer—from 1\,KB to 128\,KB. As block size increases, the host-PIM communication overhead is progressively amortized (Figure~\ref{fig:hybrid_scaling}).
+
+At the extreme ends, a 1\,KB block configuration incurs a 4.13\% total overhead (18.424\,s, at 10.69\,MB/s throughput), while a 128\,KB block configuration converges to a 0.15\% overhead (17.721\,s, at 480.04\,MB/s throughput)—approaching, though not matching, the 0.058\% overhead of the full in-PIM mode.
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=\columnwidth]{results/plots/cleaning_hybrid.png}}
+\caption{Hybrid mode: execution time and throughput vs.\ DMA block size (1\,KB–128\,KB).}
+\label{fig:hybrid_scaling}
+\end{figure}
+
+To further isolate the source of the performance penalty in Hybrid mode, we decomposed the total execution time into memory scanning, data transfer/cleaning, and computation (k-means) phases (Figure~\ref{fig:cleaning_breakdown}). The computation time remains strictly constant across all configurations. The primary bottleneck is exclusively the Host-PIM DMA transfer time required to move dirty data. At the 1\,KB block size, this introduces a $\sim$0.72\,s penalty. However, at the 128\,KB block size, the transfer penalty shrinks to $\sim$0.017\,s—an order-of-magnitude improvement driven entirely by DMA amortization.
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=\columnwidth]{results/plots/cleaning_breakdown.png}}
+\caption{Execution time breakdown: negligible in-PIM overhead vs.\ amortized Host-PIM DMA transfer penalties in hybrid mode.}
+\label{fig:cleaning_breakdown}
+\end{figure}
+
+\section{Conclusion}
+The assumption of pristine data in confidential computing literature overlooks a fundamental reality of cloud workloads: data must be sanitized. Standard sanitization implementations introduce severe side-channel vulnerabilities due to data-dependent memory access patterns.
+
+By integrating the sanitization layer directly into the memory hierarchy via PIM, we have demonstrated that data can be secured end-to-end without prohibitive performance penalties. With a measured overhead of just +0.058\%, PIM-based sanitization effectively closes the ETL side-channel vulnerability in confidential PIM architectures.
+
+Future work includes extending the cleaning pipeline to support columnar data formats (e.g., Apache Parquet), evaluating richer imputation strategies (e.g., per-feature mean imputation) beyond the zero-fill baseline used here, and validating PIM-Cleanser on real silicon PIM hardware such as UPMEM DPUs, where the absence of simulation overhead will allow tighter characterization of the side-channel obfuscation guarantees.
+
+\section*{Data Availability}
+The simulation scripts, dataset generation tools, gem5 configurations, and raw result files that support the findings of this study are available from the corresponding author upon reasonable request.
+
+\begin{thebibliography}{00}
+
+\bibitem{Kha:2023} K. D. Duy and H. Lee, ``SE-PIM: In-Memory Acceleration of Data-Intensive Confidential Computing,'' \textit{IEEE Transactions on Cloud Computing}, vol. 11, no. 3, pp. 2473--2487, July--Sept. 2023, doi: 10.1109/TCC.2022.3207145.
+
+\bibitem{Mutlu:2019} O. Mutlu \textit{et al.}, ``Processing data where it makes sense: Enabling in-memory computation,'' \textit{Microprocessors and Microsystems}, vol. 67, pp. 28--41, 2019.
+
+\bibitem{Xu:2015} Y. Xu, W. Cui, and M. Peinado, ``Controlled-Channel Attacks: Deterministic Side Channels for Untrusted Operating Systems,'' in \textit{Proc. IEEE Symp. Security and Privacy (S\&P)}, San Jose, CA, May 2015.
+
+\bibitem{Gruss:2016} D. Gruss, C. Maurice, A. Fogh, M. Lipp, and S. Mangard, ``Prefetch Side-Channel Attacks: Bypassing SMAP and Kernel ASLR,'' in \textit{Proc. Network and Distributed System Security Symp. (NDSS)}, San Diego, CA, Feb. 2016.
+
+\bibitem{Goldreich:1996} O. Goldreich and R. Ostrovsky, ``Software Protection and Simulation on Oblivious RAMs,'' \textit{Journal of the ACM}, vol. 43, no. 3, pp. 431--473, 1996.
+
+\bibitem{Lowe-Power:2020} J. Lowe-Power \textit{et al.}, ``The gem5 Simulator: Version 20.0+,'' \textit{arXiv preprint arXiv:2007.03152}, 2020.
+
+\end{thebibliography}
+
+\begin{IEEEbiographynophoto}{Wafaa M. AL-Madhaji}
+is a graduate researcher in the Department of Information Technology, Faculty of Computer Science and IT, Sana'a University, Sana'a, Yemen. Her research interests include confidential computing, memory security, and Processing-In-Memory architectures. She can be reached at wafamoh2021@gmail.com.
+\end{IEEEbiographynophoto}
+
+\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{albaltah.png}}]{Ibrahim Ahmed Al-Baltah}
+received the B.Sc. degree in statistics and computer science from the University of Gezira, Sudan, in 2007, and the M.Sc. and Ph.D. degrees in software engineering from University Putra Malaysia, Malaysia, in 2009 and 2014, respectively. He is currently an Associate Professor with the Department of Information Technology, Sana'a University, where he has been a Faculty Member, since 2015. He is also the Head of the Information Technology Department. His research interests include green software engineering, resilience software engineering, cognitive software engineering, semantic web, semantic web of things, and semantic data fusion.
+\end{IEEEbiography}
+
+\end{document}

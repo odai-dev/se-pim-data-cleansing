@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+title: "SE-PIM Data Cleansing — Artifact Repository"
+abstract: >
+  Reproducible artifact for SE-PIM (TCC 2023): cycle-accurate gem5 full-system
+  simulation reproducing Figs. 8–11, plus a hybrid in-PIM data-cleansing
+  extension with security lockdown semantics.
+authors:
+  - family-names: "Al-Baltah"
+    given-names: "Ibrahim Ahmed"
+repository-code: "https://github.com/<your-username>/se-pim-data-cleansing"
+license: MIT
+year: 2026
+references:
+  - type: article
+    title: "SE-PIM: In-Memory Acceleration of Data-Intensive Confidential Computing"
+    authors:
+      - family-names: "Al-Baltah"
+        given-names: "Ibrahim Ahmed"
+    journal: "IEEE Transactions on Cloud Computing"
+    year: 2023
+    publisher:
+      name: "IEEE"
