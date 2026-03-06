@@ -9,7 +9,7 @@ abstract: >
 authors:
   - family-names: "Al-Baltah"
     given-names: "Ibrahim Ahmed"
-repository-code: "https://github.com/<your-username>/se-pim-data-cleansing"
+repository-code: "https://github.com/odai-dev/se-pim-data-cleansing"
 license: MIT
 year: 2026
 references:

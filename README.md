@@ -61,10 +61,54 @@ It provides:
 | Disk space | ≥ 20 GB free | gem5 FS image (~7 GB) + build artifacts |
 | RAM | ≥ 8 GB | sim runs are memory-intensive |
 | `curl` or `wget` | any | For downloading FS artifacts |
-| `python3` | ≥ 3.8 | For plot scripts (stdlib only; no pip deps) |
+| `python3` | ≥ 3.8 | For plot scripts |
 | `aarch64-linux-gnu-gcc` | optional | If available on host, skips Docker for some steps |
 
-> **Note:** All build and simulation steps run inside the Docker container `sepim-impica:ubuntu18`. You do **not** need to install gem5 dependencies on your host.
+### Host Configuration (Ubuntu / Debian)
+
+You can install all required host dependencies with the following commands:
+
+```bash
+# Update packages
+sudo apt-get update
+
+# Install basic required tools
+sudo apt-get install -y git curl python3
+
+# (Optional) Install cross-compiler to speed up workload builds
+sudo apt-get install -y gcc-aarch64-linux-gnu
+```
+
+### Docker Installation
+
+You **must** have Docker installed because the gem5 execution environment relies on a specific legacy toolchain (`ubuntu18`).
+
+```bash
+# 1. Install Docker dependencies
+sudo apt-get update
+sudo apt-get install -y ca-certificates curl
+
+# 2. Add Docker's official GPG key
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+# 3. Add the Docker repository
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+# 4. Install Docker
+sudo apt-get update
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+
+# 5. Add your user to the docker group (avoids needing 'sudo docker')
+sudo usermod -aG docker $USER
+# You may need to log out and log back in, or run 'newgrp docker' for this to take effect.
+```
+
+> **Note:** All build and simulation steps run inside the Docker container `sepim-impica:ubuntu18`. You do **not** need to install gem5's legacy dependencies on your host.
 
 ---
 
@@ -72,7 +116,7 @@ It provides:
 
 ```bash
 # 1. Clone this repository
-git clone https://github.com/<your-username>/se-pim-data-cleansing.git
+git clone https://github.com/odai-dev/se-pim-data-cleansing.git
 cd se-pim-data-cleansing
 
 # 2. Build the Docker image
@@ -98,7 +142,7 @@ Plots are written to `results/plots/`. See [Running Experiments](#running-experi
 ### Step 1 — Clone
 
 ```bash
-git clone https://github.com/<your-username>/se-pim-data-cleansing.git
+git clone https://github.com/odai-dev/se-pim-data-cleansing.git
 cd se-pim-data-cleansing
 ```
 
