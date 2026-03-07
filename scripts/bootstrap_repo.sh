@@ -15,9 +15,9 @@ ARCHIVE_URL="https://codeload.github.com/kha-dinh/IMPICA/tar.gz/refs/heads/maste
 if [[ -d "$TARGET_DIR" ]]; then
   echo "[INFO] Found existing $TARGET_DIR"
 else
-  if [[ -d "$SOURCE_DIR" ]]; then
-    echo "[INFO] Found local source tree $SOURCE_DIR; copying to $TARGET_DIR"
-    cp -a "$SOURCE_DIR" "$TARGET_DIR"
+  if ls "$ROOT_DIR"/impica-parts/impica-source.tar.gz.part-* 1> /dev/null 2>&1; then
+    echo "[INFO] Found bundled impica-parts; assembling and extracting to $TARGET_DIR"
+    cat "$ROOT_DIR"/impica-parts/impica-source.tar.gz.part-* | tar -xz -C "$ROOT_DIR"
   else
     echo "[INFO] Cloning IMPICA from $REPO_URL"
     if ! git clone --depth 1 --filter=blob:none "$REPO_URL" "$TARGET_DIR"; then
