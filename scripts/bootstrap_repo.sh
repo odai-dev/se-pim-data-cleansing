@@ -245,11 +245,13 @@ fi
 
 if [[ ! -d "$TARGET_DIR/.git" ]]; then
   echo "[INFO] Initializing local git history for reproducibility"
+  SNAPSHOT_GIT_NAME=${SNAPSHOT_GIT_NAME:-$(git config --local --get user.name || git config --global --get user.name || echo "local-user")}
+  SNAPSHOT_GIT_EMAIL=${SNAPSHOT_GIT_EMAIL:-$(git config --local --get user.email || git config --global --get user.email || echo "local@example.com")}
   (
     cd "$TARGET_DIR"
     git init
-    git config user.name "autonomous-agent"
-    git config user.email "agent@local"
+    git config user.name "$SNAPSHOT_GIT_NAME"
+    git config user.email "$SNAPSHOT_GIT_EMAIL"
     git add .
     git commit -m "baseline snapshot"
   )
