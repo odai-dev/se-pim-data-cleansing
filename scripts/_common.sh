@@ -3,6 +3,7 @@
 set -euo pipefail
 
 ROOT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
+CONTAINER_RUNTIME=()
 
 setup_log() {
   local log_dir="$1"
@@ -85,4 +86,86 @@ write_run_metadata() {
   "impica_commit": "$impica_commit"
 }
 EOF
+}
+
+detect_container_runtime() {
+  if command -v docker >/dev/null 2>&1; then
+    if docker info >/dev/null 2>&1; then
+      CONTAINER_RUNTIME=(docker)
+    elif sudo -n docker info >/dev/null 2>&1; then
+      CONTAINER_RUNTIME=(sudo -n docker)
+    else
+      return 1
+    fi
+  elif command -v podman >/dev/null 2>&1; then
+    CONTAINER_RUNTIME=(podman)
+  else
+    return 1
+  fi
+}
+
+maybe_reexec_in_container() {
+  local mode="$1"
+  local script_rel="$2"
+  shift 2
+  local -a orig_args=("$@")
+  local image="${IMAGE_NAME:-sepim-impica:ubuntu18}"
+  local needs_container=0
+  local quoted_args
+  local host_uid host_gid
+
+  if [[ "${SEPIM_IN_CONTAINER:-0}" == "1" ]]; then
+    return 0
+  fi
+
+  case "$mode" in
+    always)
+      needs_container=1
+      ;;
+    auto)
+      if ! command -v aarch64-linux-gnu-gcc >/dev/null 2>&1; then
+        needs_container=1
+      fi
+      ;;
+    never)
+      needs_container=0
+      ;;
+    *)
+      echo "[ERROR] Invalid container mode: $mode (expected always|auto|never)"
+      exit 2
+      ;;
+  esac
+
+  if [[ "${SEPIM_FORCE_DOCKER:-0}" == "1" ]]; then
+    needs_container=1
+  fi
+
+  if [[ "$needs_container" -ne 1 ]]; then
+    return 0
+  fi
+
+  if ! detect_container_runtime; then
+    echo "[ERROR] Container runtime unavailable (docker/podman), but container mode is '$mode'."
+    exit 1
+  fi
+
+  if ! "${CONTAINER_RUNTIME[@]}" image inspect "$image" >/dev/null 2>&1; then
+    echo "[ERROR] Container image not found: $image"
+    echo "[HINT] Build it first: tools/docker/build_image.sh"
+    exit 1
+  fi
+
+  host_uid=$(id -u)
+  host_gid=$(id -g)
+  quoted_args=$(printf '%q ' "${orig_args[@]}")
+  echo "[INFO] Re-running inside container image $image (mode=$mode)"
+  exec "${CONTAINER_RUNTIME[@]}" run --rm --privileged \
+    -v "$ROOT_DIR:/workspace" \
+    -w /workspace \
+    -e SEPIM_IN_CONTAINER=1 \
+    -e IMAGE_NAME="$image" \
+    -e HOST_UID="$host_uid" \
+    -e HOST_GID="$host_gid" \
+    "$image" \
+    /bin/bash -lc "set -euo pipefail; trap 'chown -R \"\$HOST_UID:\$HOST_GID\" /workspace/results /workspace/logs /workspace/scripts/guest_*.rcS 2>/dev/null || true' EXIT; $script_rel $quoted_args"
 }

@@ -109,6 +109,8 @@ sudo usermod -aG docker $USER
 ```
 
 > **Note:** All build and simulation steps run inside the Docker container `sepim-impica:ubuntu18`. You do **not** need to install gem5's legacy dependencies on your host.
+>
+> Gate runners (`run_gate6/7/8/9`) default to containerized execution for reproducibility. Override with `SEPIM_GATE_RUNNER_MODE=never` only for advanced local debugging.
 
 ---
 
@@ -131,9 +133,52 @@ scripts/run_gate6_dma.sh --backend fs --full
 scripts/run_gate7_controlled_access.sh --backend fs --full
 scripts/run_gate8_trace.sh --backend fs --full
 scripts/run_gate9_kmeans.sh --backend fs --full
+
+# 5. Run the data-cleaning extension
+scripts/run_kmeans_cleaning_pim.sh --full
+scripts/run_kmeans_cleaning_hybrid.sh --full
 ```
 
 Plots are written to `results/plots/`. See [Running Experiments](#running-experiments) for details.
+
+### Clean-Clone Canonical Sequence
+
+The following sequence is the canonical reproducibility path from a fresh clone:
+
+```bash
+scripts/build_all.sh --jobs 4
+scripts/fetch_gem5_fs.sh
+scripts/run_gate3_container.sh
+scripts/run_gate6_dma.sh --backend fs --full
+scripts/run_gate7_controlled_access.sh --backend fs --full
+scripts/run_gate8_trace.sh --backend fs --full
+scripts/run_gate9_kmeans.sh --backend fs --full
+scripts/run_kmeans_cleaning_pim.sh --full
+scripts/run_kmeans_cleaning_hybrid.sh --full
+```
+
+### Expected Download and Runtime Budget
+
+| Stage | Typical network | Typical wall time |
+|---|---:|---:|
+| Docker image build (`build_all.sh`) | 1.5–2.5 GB | 60–120 min |
+| gem5 FS bundle (`fetch_gem5_fs.sh`) | ~7 GB | 10–40 min |
+| GATE3 checkpoint | 0 | 20–40 min |
+| GATE6/7/8/9 full runs | 0 | 60–180 min total |
+| Cleaning full runs (PIM + hybrid) | 0 | 20–60 min total |
+
+### Common Failure Recovery
+
+- `Docker is installed but not accessible`:
+  - run `newgrp docker` (or re-login) after `usermod -aG docker`.
+- `checkpoint dir missing`:
+  - run `scripts/run_gate3_container.sh` first.
+- `aarch64-linux-gnu-gcc not found`:
+  - cleaning scripts auto-fallback to Docker; for host builds install `gcc-aarch64-linux-gnu`.
+- root-owned outputs in `results/` or `logs/`:
+  - rerun through provided scripts (they normalize ownership on container exit).
+- bootstrap bundle mismatch:
+  - run `scripts/check_impica_bundle.sh` for a precise integrity report.
 
 ---
 

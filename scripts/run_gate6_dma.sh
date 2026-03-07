@@ -4,6 +4,9 @@ set -euo pipefail
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 # shellcheck source=scripts/_common.sh
 source "$SCRIPT_DIR/_common.sh"
+ORIG_ARGS=("$@")
+IMAGE_NAME=${IMAGE_NAME:-sepim-impica:ubuntu18}
+maybe_reexec_in_container "${SEPIM_GATE_RUNNER_MODE:-always}" "scripts/$(basename "$0")" "${ORIG_ARGS[@]}"
 
 MODE=quick
 BACKEND=fs

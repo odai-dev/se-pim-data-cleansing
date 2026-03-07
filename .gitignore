@@ -8,6 +8,7 @@
 /third_party/runtime_libs/
 /.mnt/
 /impica.tgz
+/impica-source.tar.gz
 
 # Generated logs
 /logs/*

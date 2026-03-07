@@ -1,0 +1,21 @@
+name: Static Bundle Check
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  bundle-integrity:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Validate bundled IMPICA source and bootstrap defaults
+        run: |
+          bash scripts/check_impica_bundle.sh

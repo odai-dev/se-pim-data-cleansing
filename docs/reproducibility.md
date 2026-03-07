@@ -427,3 +427,52 @@ Reproduce SE-PIM TCC 2023 core figures (Fig. 8–11) in cycle-accurate gem5 FS s
 - Kernel/image deviations from paper:
   - kernel is `vmlinux.aarch64.20140821` from gem5 FS bundle, not Linux `3.16.0-rc6`.
   - memory model remains DDR3 multi-channel approximation instead of native HMCVault in this IMPICA fork.
+
+### 2026-03-08 (release-readiness hardening for fresh-clone reproducibility)
+
+- Bundled IMPICA packaging hardened:
+  - full split archive tracked under `impica-parts/impica-source.tar.gz.part-*`.
+  - manifest added: `impica-parts/manifest.json` with:
+    - expected part count,
+    - deterministic ordered part list,
+    - per-part SHA-256 + size,
+    - full archive SHA-256.
+  - `.gitignore` now ignores only assembled `impica-source.tar.gz` (not split parts).
+
+- `scripts/bootstrap_repo.sh` upgraded:
+  - new option: `--source-mode bundled|upstream` (default `bundled`).
+  - new option: `--verify-bundle` (integrity check only).
+  - strict bundled path:
+    - verifies manifest structure and every part hash,
+    - verifies assembled archive hash,
+    - fails fast with actionable error when incomplete/corrupt.
+  - no silent fallback from `bundled` to upstream clone.
+
+- Docker-first runner behavior (copy-paste friendly):
+  - shared wrapper logic added in `scripts/_common.sh` (`maybe_reexec_in_container`).
+  - gate runners now auto re-exec in container by default:
+    - `scripts/run_gate6_dma.sh`
+    - `scripts/run_gate7_controlled_access.sh`
+    - `scripts/run_gate8_trace.sh`
+    - `scripts/run_gate9_kmeans.sh`
+  - default mode: `SEPIM_GATE_RUNNER_MODE=always` (override: `auto|never`).
+  - container exit now normalizes ownership of `results/` and `logs/`.
+
+- Static publish-integrity gate added:
+  - `scripts/check_impica_bundle.sh`
+  - GitHub Actions workflow: `.github/workflows/static-bundle-check.yml`
+  - fails if:
+    - bundle manifest/parts mismatch,
+    - bootstrap default source mode is not `bundled`,
+    - bundle verification path is missing.
+
+- Canonical clean-clone command sequence:
+  - `scripts/build_all.sh --jobs 4`
+  - `scripts/fetch_gem5_fs.sh`
+  - `scripts/run_gate3_container.sh`
+  - `scripts/run_gate6_dma.sh --backend fs --full`
+  - `scripts/run_gate7_controlled_access.sh --backend fs --full`
+  - `scripts/run_gate8_trace.sh --backend fs --full`
+  - `scripts/run_gate9_kmeans.sh --backend fs --full`
+  - `scripts/run_kmeans_cleaning_pim.sh --full`
+  - `scripts/run_kmeans_cleaning_hybrid.sh --full`
