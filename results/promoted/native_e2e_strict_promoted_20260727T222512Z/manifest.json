@@ -1,0 +1,92 @@
+{
+  "canonical_matrix": {
+    "corruption_rates": [
+      0.0,
+      0.01,
+      0.1,
+      0.4
+    ],
+    "data_clusters": 6,
+    "dims": 8,
+    "iterations": 20,
+    "paired_rows_per_native_manifest": 24,
+    "points": 8192,
+    "raw_rows_per_native_manifest": 36,
+    "seeds": [
+      7,
+      19,
+      42
+    ],
+    "workload_clusters": 4
+  },
+  "claim_scope": "direct TimingSimpleCPU native-device-command interval for canonical fixed-20 k-means; excludes file load, protected-buffer staging, lock/unlock, guest validation, and result-copy time",
+  "created_utc": "2026-07-27T22:25:12.274633+00:00",
+  "limitations": [
+    "Dynamic legacy PimDevice DMA event coverage for event IDs 0..5 is incomplete; the canonical hash-table case does not prove that every event ID executed."
+  ],
+  "outputs": {
+    "individual_csv": {
+      "bytes": 5649,
+      "path": "individual.csv",
+      "sha256": "2742b9eee14cd7742709ab6afed038f396a44e6071ef384dfb8cbfa29bd0b7f6"
+    },
+    "summary_csv": {
+      "bytes": 497,
+      "path": "summary.csv",
+      "sha256": "ff99fb84246b76432ef67635ff3538775e2e982b8a076ff834293efd10317bcb"
+    }
+  },
+  "run_id": "native_e2e_strict_promoted_20260727T222512Z",
+  "schema_version": 1,
+  "source_evidence": {
+    "assembly_audit": {
+      "bytes": 2913,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/publication_e2e_fused_final_strict_paper/assembly_audit.json",
+      "sha256": "7121bdb56fad46afb8b42961a53cd66aa8d82aff209750734a2f6c0da13b5908"
+    },
+    "fused_manifest": {
+      "bytes": 357014,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/publication_e2e_fused_final_strict/manifest.json",
+      "sha256": "bdd3241fe48bae8df073ec049d071e6bb20568b6aba3dff227a2c68d643b7a2a"
+    },
+    "fused_native_csv": {
+      "bytes": 51874,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/csv/publication_e2e_fused_final_strict_native.csv",
+      "sha256": "0145678ef48ec943c09444b11d237dddb11ecfad3e294ce9509f9a76e132efd9"
+    },
+    "fused_paired_csv": {
+      "bytes": 28474,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/csv/publication_e2e_fused_final_strict_paired.csv",
+      "sha256": "ce79508982f0d3bfc751777bedf6fd9e1931591daad81c2a99abeb9a86691bc3"
+    },
+    "regression_manifest": {
+      "bytes": 154522,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/regression_strict_20260727T183538Z/regression_manifest.json",
+      "sha256": "10bd434c72136a164d81deb25c118f4417e8b72da0ba8ca52656739f110dafbd"
+    },
+    "separate_manifest": null,
+    "separate_native_csv": null,
+    "separate_paired_csv": null
+  },
+  "status": "promoted",
+  "validation": {
+    "assembly_branch_audit": "pass",
+    "checkpoint_and_dataset_immutable_provenance": "pass",
+    "dirty_count_result_absence": "pass",
+    "fixed_transcript_across_equal_public_shapes": "pass",
+    "fused_separate_cross_evidence": "not_supplied",
+    "guest_and_input_hash_binding": "pass",
+    "independent_completion_and_dma_arithmetic": "pass",
+    "independent_output_reference": "pass",
+    "native_schema": 6,
+    "one_status_poll": "pass",
+    "sepim_full_regression_cases": 8,
+    "sepim_source_immutable": true,
+    "source_csv_end_rehash": "pass",
+    "timing_simple_cpu_direct_restore_no_switch": "pass"
+  },
+  "variants": [
+    "fused-zero",
+    "separate-mean"
+  ]
+}

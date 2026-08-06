@@ -1,0 +1,4 @@
+rate_pct,hostconditional_cycles,hostconditional_transactions,hybridsparse_cycles,hybridsparse_transactions,pimoblivious_cycles,pimoblivious_transactions,hybridoblivious_cycles,hybridoblivious_transactions
+1.0,11929506823.0,132381.0,151817722.0,1489.3333333333333,40208.0,196609.0,204332990.0,2048.0
+10.0,12992530566.0,144178.0,205486413.0,2048.0,40208.0,196609.0,204332990.0,2048.0
+40.0,16535732769.0,183499.0,206390796.0,2048.0,40208.0,196609.0,204332990.0,2048.0

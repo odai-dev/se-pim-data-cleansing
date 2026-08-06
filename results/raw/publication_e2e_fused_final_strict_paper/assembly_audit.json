@@ -1,0 +1,132 @@
+{
+  "schema_version": 1,
+  "assembly": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/publication_e2e_fused_final_strict_paper/pim_cleaner.s",
+  "assembly_sha256": "52c2bf5d264fd4d7c61b10979ec36827fd9df7775bb870ceaa376929d1e9c95e",
+  "function": "pim_clean_oblivious",
+  "secret_source_lines": [
+    417,
+    419,
+    420,
+    421,
+    422,
+    423,
+    424,
+    429,
+    430,
+    431,
+    432,
+    433,
+    440,
+    443
+  ],
+  "forbidden_secret_dependent_branches": [],
+  "required_mask_instructions": {
+    "floating_compare_mask": true,
+    "integer_mask_select": true,
+    "conditional_select_for_empty_mean": true
+  },
+  "branch_inventory": [
+    {
+      "source_line": 390,
+      "instruction": "cbz\tx0, .L258\t// bank,"
+    },
+    {
+      "source_line": 392,
+      "instruction": "beq\t.L214\t//,"
+    },
+    {
+      "source_line": 392,
+      "instruction": "cbz\tw4, .L214\t// _1,"
+    },
+    {
+      "source_line": 392,
+      "instruction": "cbz\tw3, .L214\t// _3,"
+    },
+    {
+      "source_line": 392,
+      "instruction": "bls\t.L214\t//,"
+    },
+    {
+      "source_line": 393,
+      "instruction": "bhi\t.L214\t//,"
+    },
+    {
+      "source_line": 393,
+      "instruction": "bhi\t.L214\t//,"
+    },
+    {
+      "source_line": 400,
+      "instruction": "cbz\tx0, .L256\t// means,"
+    },
+    {
+      "source_line": 404,
+      "instruction": "beq\t.L259\t//,"
+    },
+    {
+      "source_line": 438,
+      "instruction": "cbz\tw9, .L230\t// pretmp_438,"
+    },
+    {
+      "source_line": 442,
+      "instruction": "cbz\tw19, .L225\t// _9,"
+    },
+    {
+      "source_line": 442,
+      "instruction": "b\t.L227\t//"
+    },
+    {
+      "source_line": 442,
+      "instruction": "bhi\t.L260\t//,"
+    },
+    {
+      "source_line": 438,
+      "instruction": "bne\t.L228\t//,"
+    },
+    {
+      "source_line": 407,
+      "instruction": "beq\t.L216\t//,"
+    },
+    {
+      "source_line": 415,
+      "instruction": "cbz\tw9, .L218\t// pretmp_438,"
+    },
+    {
+      "source_line": 418,
+      "instruction": "cbz\tw19, .L219\t// _9,"
+    },
+    {
+      "source_line": 418,
+      "instruction": "b\t.L220\t//"
+    },
+    {
+      "source_line": 418,
+      "instruction": "bhi\t.L261\t//,"
+    },
+    {
+      "source_line": 415,
+      "instruction": "bne\t.L221\t//,"
+    },
+    {
+      "source_line": 428,
+      "instruction": "cbz\tw19, .L222\t// _9,"
+    },
+    {
+      "source_line": 428,
+      "instruction": "bhi\t.L223\t//,"
+    },
+    {
+      "source_line": 438,
+      "instruction": "cbnz\tw9, .L262\t// pretmp_438,"
+    },
+    {
+      "source_line": 438,
+      "instruction": "b\t.L224\t//"
+    },
+    {
+      "source_line": 411,
+      "instruction": "b\t.L257\t//"
+    }
+  ],
+  "result": "pass",
+  "scope": "Checks generated control flow for the per-feature validity and repair expressions; public allocation, policy, record-count, and dimension branches are outside scope."
+}

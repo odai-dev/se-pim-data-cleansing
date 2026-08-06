@@ -56,11 +56,7 @@ mark_gate_pass() {
 }
 
 as_root() {
-  if [[ ${EUID:-$(id -u)} -eq 0 ]]; then
-    "$@"
-  else
-    sudo "$@"
-  fi
+  "$@"
 }
 
 write_run_metadata() {
@@ -109,6 +105,8 @@ maybe_reexec_in_container() {
   local script_rel="$2"
   shift 2
   local -a orig_args=("$@")
+  local -a explicit_env=()
+  local -a git_mounts=()
   local image="${IMAGE_NAME:-sepim-impica:ubuntu18}"
   local needs_container=0
   local quoted_args
@@ -157,15 +155,56 @@ maybe_reexec_in_container() {
 
   host_uid=$(id -u)
   host_gid=$(id -g)
+  # Propagate only this explicitly supported experiment input.  Pass it as one
+  # argv element (never through eval or the inner shell command) so whitespace
+  # and shell metacharacters cannot alter the container invocation.  Translate
+  # host workspace paths to the sole /workspace bind mount.
+  if [[ "${DISK_IMAGE+x}" == "x" ]]; then
+    local container_disk_image="$DISK_IMAGE"
+    if [[ "$container_disk_image" == "$ROOT_DIR" ]]; then
+      container_disk_image=/workspace
+    elif [[ "$container_disk_image" == "$ROOT_DIR/"* ]]; then
+      container_disk_image="/workspace/${container_disk_image#"$ROOT_DIR/"}"
+    fi
+    explicit_env=(-e "DISK_IMAGE=$container_disk_image")
+  fi
+  # A disposable experiment copy may be a Git worktree whose .git file points
+  # outside the sole /workspace bind mount.  Provenance collection must see
+  # the real top-level and nested-IMPICA object databases, but it never needs
+  # to write them, so mount external common directories at their recorded
+  # absolute paths read-only.
+  local repo common_git seen_git=""
+  for repo in "$ROOT_DIR" "$ROOT_DIR/IMPICA"; do
+    if [[ -f "$repo/.git" ]]; then
+      common_git=$(git -C "$repo" rev-parse --git-common-dir)
+      if [[ "$common_git" != /* ]]; then
+        common_git=$(realpath "$repo/$common_git")
+      else
+        common_git=$(realpath "$common_git")
+      fi
+      case "$common_git" in
+        "$ROOT_DIR"|"$ROOT_DIR"/*) ;;
+        *)
+          if [[ ":$seen_git:" != *":$common_git:"* ]]; then
+            git_mounts+=(-v "$common_git:$common_git:ro")
+            seen_git="${seen_git:+$seen_git:}$common_git"
+          fi
+          ;;
+      esac
+    fi
+  done
   quoted_args=$(printf '%q ' "${orig_args[@]}")
   echo "[INFO] Re-running inside container image $image (mode=$mode)"
   exec "${CONTAINER_RUNTIME[@]}" run --rm --privileged \
     -v "$ROOT_DIR:/workspace" \
+    -v "$ROOT_DIR:$ROOT_DIR" \
+    "${git_mounts[@]}" \
     -w /workspace \
     -e SEPIM_IN_CONTAINER=1 \
     -e IMAGE_NAME="$image" \
     -e HOST_UID="$host_uid" \
     -e HOST_GID="$host_gid" \
+    "${explicit_env[@]}" \
     "$image" \
     /bin/bash -lc "set -euo pipefail; trap 'chown -R \"\$HOST_UID:\$HOST_GID\" /workspace/results /workspace/logs /workspace/scripts/guest_*.rcS 2>/dev/null || true' EXIT; $script_rel $quoted_args"
 }

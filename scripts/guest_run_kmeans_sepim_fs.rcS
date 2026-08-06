@@ -1,0 +1,12 @@
+#!/bin/sh
+set -ex
+cd /home/pim_driver
+mknod /dev/pimbt c 70 0 || true
+insmod ./test-driver.ko || true
+chmod 666 /dev/pimbt || true
+cd /home/workloads/kmeans_sepim_fs
+if [ ! -x ./kmeans_sepim_fs ]; then
+  make || { echo "[GUEST][ERROR] build kmeans_sepim_fs failed"; m5 exit; exit 1; }
+fi
+./kmeans_sepim_fs --quick
+m5 exit

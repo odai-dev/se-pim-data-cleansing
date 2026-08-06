@@ -1,0 +1,27 @@
+#!/bin/sh
+set -ex
+
+# GEM5_TIMING_RECHECKPOINT_SENTINEL
+# Convert the already booted architectural state into a checkpoint emitted by
+# TimingSimpleCPU.  On later restores, dispatch the newly supplied host
+# readfile workload instead of returning to the checkpoint-creation exit path.
+# The parent and child checkpoint trees are both bound by host provenance.
+M5=/sbin/m5
+if [ ! -x "$M5" ]; then
+  M5=m5
+fi
+
+"$M5" checkpoint
+"$M5" readfile > /tmp/runscript || true
+chmod 755 /tmp/runscript || true
+
+# During checkpoint creation, readfile still contains this converter.  Exit
+# without recursively executing it.  During a measurement restore it contains
+# the case script and is executed below.
+if grep -Fq "GEM5_TIMING_RECHECKPOINT_SENTINEL" /tmp/runscript 2>/dev/null; then
+  "$M5" exit
+fi
+if [ -s /tmp/runscript ]; then
+  exec /tmp/runscript
+fi
+"$M5" exit

@@ -1,0 +1,7 @@
+{
+  "status": "pass",
+  "rows": 270,
+  "clean_input_identity": true,
+  "supported_anomalies_repaired": true,
+  "uncleaned_corrupted_controls_invalid": true
+}

@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "run_id": "publication_20260728T203351Z_performance",
+  "started_utc": "2026-07-28T20:39:52.277449+00:00",
+  "finished_utc": "2026-07-28T20:41:52.421979+00:00",
+  "command": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/scripts/run_performance_matrix.py --run-id publication_20260728T203351Z_performance",
+  "model_kind": "functional_calibrated",
+  "model_version": "functional-calibrated-v4-native-pipeline2-vector4-burst128k",
+  "warning": "Analytical model; values are not native gem5 execution ticks.",
+  "calibration": {
+    "source": "IMPICA/gem5/src/dev/arm/pimDevice_hashtable.cc",
+    "source_sha256": "45ca7f79de995b14acb8a228ff55efa19d4420a62242c48acb877dc1af0ee6e9",
+    "controlled_access_cycles": "90000 + floor(bytes*13/10) + ceil(bytes/16)",
+    "frequency_hz": 1000000000,
+    "pim_cores": 16,
+    "pim_cleaner_vector_width": 4,
+    "pim_cleaner_lanes": 64,
+    "native_dma_burst_bytes": 131072,
+    "native_pipeline_buffers": 2,
+    "native_reference_bytes": 262144,
+    "native_zero_ticks": 1165250,
+    "native_mean_ticks": 2513000,
+    "native_csv": "results/csv/native_clean_pipeline2c_full_20260714.csv",
+    "native_csv_sha256": "3e5d7cad8261800c63bdf1790f59ffef6a81cdec7fce6dffc406cafd890820c4",
+    "compute_assumption": "one fp32 validation/select per vector lane-cycle; four lanes on each of 16 modeled PIM cores",
+    "overlap_assumption": "zero repair uses the directly gated two-buffer pipeline; its first read and final unconditional write are outside the compute-dominated steady state"
+  },
+  "parameters": {
+    "sizes_mib": [
+      4,
+      16,
+      64
+    ],
+    "rates": [
+      0.01,
+      0.1,
+      0.4
+    ],
+    "seeds": [
+      7,
+      19,
+      42
+    ],
+    "dims": [
+      4,
+      8,
+      32,
+      64
+    ],
+    "clusters": [
+      4,
+      8,
+      16
+    ],
+    "blocks": [
+      1024,
+      4096,
+      16384,
+      65536,
+      131072
+    ],
+    "iterations": 20,
+    "workloads": [
+      "kmeans",
+      "aggregate"
+    ],
+    "modes": [
+      "off",
+      "host-conditional",
+      "host-branchless",
+      "pim-oblivious",
+      "hybrid-sparse",
+      "hybrid-oblivious"
+    ],
+    "imputation": [
+      "zero",
+      "mean"
+    ]
+  },
+  "top_commit": "87551ca33148ab925cce592da47be376ec4d2860",
+  "impica_commit": "f8a18cd2677256b4b0e4ecd5cf547d033b268953",
+  "source_digest": "20ee5bead11e0b67cdd5ccba75578ebb7e9db9fd9fdbbc42964324dc3b5f69b6",
+  "source_diff_digest": "c74feebb8650428814cc809eceaa5f469086f8e3e5fc534c1b4924f00184a757",
+  "checkpoint": "results/raw/gate3_postbuild_checkpoint_20260301",
+  "docker_image": "sepim-impica@sha256:e5caacbf042ea2c2dd87a350ca35467d09aec2c0e4fac2a1de728bb1a93f308a",
+  "rows": 18144,
+  "individual_csv": "results/csv/publication_20260728T203351Z_performance.csv",
+  "summary_csv": "results/csv/publication_20260728T203351Z_performance_summary.csv",
+  "security_validation": "results/raw/publication_20260728T203351Z_performance/security_validation.json"
+}

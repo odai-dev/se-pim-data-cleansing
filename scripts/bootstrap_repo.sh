@@ -168,7 +168,16 @@ extract_bundled_source() {
     exit 1
   fi
 
-  topdir=$(tar -tzf "$ASSEMBLED_ARCHIVE" | head -n 1 | cut -d/ -f1)
+  topdir=$(python3 - "$ASSEMBLED_ARCHIVE" <<'PY'
+import sys
+import tarfile
+with tarfile.open(sys.argv[1], "r:gz") as archive:
+    first = next(iter(archive), None)
+if first is None:
+    raise SystemExit(1)
+print(first.name.split("/", 1)[0])
+PY
+  )
   if [[ -z "$topdir" ]]; then
     fail_gate "GATE 2" "Unable to inspect assembled archive root directory" "$LOG_FILE"
     exit 1
@@ -238,22 +247,44 @@ if [[ ! -d "$TARGET_DIR" ]]; then
   exit 1
 fi
 
+python3 - "$BUNDLE_MANIFEST" "$TARGET_DIR" <<'PY'
+import hashlib
+import json
+import pathlib
+import sys
+
+manifest_path, source_root = map(pathlib.Path, sys.argv[1:])
+manifest = json.loads(manifest_path.read_text())
+expected = manifest.get("evidence_source_hashes", {})
+for relative, digest in expected.items():
+    path = source_root / relative
+    if not path.is_file():
+        raise SystemExit(f"[ERROR] Evidence source missing: {relative}")
+    actual = hashlib.sha256(path.read_bytes()).hexdigest()
+    if actual != digest:
+        raise SystemExit(
+            f"[ERROR] Evidence source hash mismatch: {relative} "
+            f"expected={digest} actual={actual}"
+        )
+print(f"[PASS] evidence source hashes verified: {len(expected)}")
+PY
+
 # When mounted into a root-run container, git may reject ownership checks.
 if command -v git >/dev/null 2>&1; then
   git config --global --add safe.directory "$TARGET_DIR" || true
 fi
 
-if [[ ! -d "$TARGET_DIR/.git" ]]; then
+if [[ ! -e "$TARGET_DIR/.git" ]]; then
   echo "[INFO] Initializing local git history for reproducibility"
-  SNAPSHOT_GIT_NAME=${SNAPSHOT_GIT_NAME:-$(git config --local --get user.name || git config --global --get user.name || echo "local-user")}
-  SNAPSHOT_GIT_EMAIL=${SNAPSHOT_GIT_EMAIL:-$(git config --local --get user.email || git config --global --get user.email || echo "local@example.com")}
+  SNAPSHOT_GIT_NAME=${SNAPSHOT_GIT_NAME:-$(git config --global --get user.name 2>/dev/null || echo "local-user")}
+  SNAPSHOT_GIT_EMAIL=${SNAPSHOT_GIT_EMAIL:-$(git config --global --get user.email 2>/dev/null || echo "local@example.com")}
   (
     cd "$TARGET_DIR"
-    git init
+    git init -q
     git config user.name "$SNAPSHOT_GIT_NAME"
     git config user.email "$SNAPSHOT_GIT_EMAIL"
     git add .
-    git commit -m "baseline snapshot"
+    git commit -q -m "baseline snapshot"
   )
 fi
 

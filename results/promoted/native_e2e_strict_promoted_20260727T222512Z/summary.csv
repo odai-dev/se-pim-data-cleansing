@@ -1,0 +1,3 @@
+variant,policy,native_zero_path,individual_runs,seeds,corruption_rates,baseline_total_ticks,cleaned_total_ticks,incremental_ticks,mean_overhead_pct,stddev_overhead_pct,min_overhead_pct,max_overhead_pct,fixed_transcript,correctness
+fused-zero,zero,fused,12,3,4,1977979000,1979004000,1025000,0.051820570390,0.000000000000,0.051820570390,0.051820570390,pass,pass
+separate-mean,mean,separate,12,3,4,1977979000,2104955000,126976000,6.419481703294,0.000000000000,6.419481703294,6.419481703294,pass,pass

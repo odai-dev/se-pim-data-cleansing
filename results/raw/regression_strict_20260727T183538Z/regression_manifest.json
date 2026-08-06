@@ -1,0 +1,2881 @@
+{
+  "case_plan": [
+    {
+      "id": "table2_pass1",
+      "mode": "all_10_commands",
+      "workload": "sepim_cmd"
+    },
+    {
+      "id": "table2_pass2",
+      "mode": "all_10_commands",
+      "workload": "sepim_cmd"
+    },
+    {
+      "id": "dma_full",
+      "mode": "full",
+      "workload": "dma_benchmark_fs"
+    },
+    {
+      "id": "controlled_full",
+      "mode": "full",
+      "workload": "controlled_access_bench_fs"
+    },
+    {
+      "id": "hashtable_canonical",
+      "mode": "canonical",
+      "workload": "hashtable"
+    },
+    {
+      "id": "trace_cpu_full",
+      "mode": "full",
+      "workload": "trace_lookup_cpu"
+    },
+    {
+      "id": "trace_sepim_full",
+      "mode": "full",
+      "workload": "trace_lookup_sepim"
+    },
+    {
+      "id": "kmeans_legacy_full",
+      "mode": "no_arguments",
+      "workload": "kmeans_sepim_fs"
+    }
+  ],
+  "cases": [
+    {
+      "checkpoint_role": "main",
+      "cpu": {
+        "cpu_class": "AtomicSimpleCPU",
+        "cpu_type": "atomic",
+        "kernel_memory_limit": "1984MB",
+        "mem_mode": "atomic",
+        "num_cpus": 4,
+        "physical_bytes": 2147483648
+      },
+      "expected_artifact_sha256": "1abde3b6c4ab3a24697207168729b32ef69bc04d1945860981e56c2384a87105",
+      "guest_command": "./sepim_cmd || fail 'Table 2 command run failed'",
+      "guest_script": {
+        "bytes": 686,
+        "mode": 493,
+        "mtime_ns": 1785179048063619451,
+        "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/regression_strict_20260727T183538Z/rcs/table2_pass1.rcS",
+        "sha256": "a01d0d91754095a632c75693fa7abb5379dcecd339b9730f1d41de11fba20d45"
+      },
+      "id": "table2_pass1",
+      "mode": "all_10_commands",
+      "output_tree": {
+        "files": [
+          {
+            "bytes": 31163,
+            "path": "config.ini",
+            "sha256": "5b8a18ab5c7217e01c1b848145184540e01e9f48f9abfe5c35b703e40ff9b561",
+            "type": "file"
+          },
+          {
+            "bytes": 83673,
+            "path": "config.json",
+            "sha256": "6c2041c1eea042f98e30ab36a4141d5148c445a651d3a390e53c3565d8a4a5d4",
+            "type": "file"
+          },
+          {
+            "bytes": 132943,
+            "path": "stats.txt",
+            "sha256": "7045301a1d0034cae267e21cf716c354453265bfd39ea02137b0fe1edfae0fd9",
+            "type": "file"
+          },
+          {
+            "bytes": 1869,
+            "path": "system.terminal",
+            "sha256": "d999ab57ca5f9d43f605dc8bd730e1e70b3ab11c2e9d590a43bcc962ecf556a3",
+            "type": "file"
+          }
+        ],
+        "tree_sha256": "dc07249964de822b1f671947597ca0d35b887f79502499dd624176fd08542312"
+      },
+      "pass": true,
+      "terminal": {
+        "bytes": 1869,
+        "mode": 420,
+        "mtime_ns": 1785179098464110218,
+        "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/regression_strict_20260727T183538Z/cases/table2_pass1/system.terminal",
+        "sha256": "d999ab57ca5f9d43f605dc8bd730e1e70b3ab11c2e9d590a43bcc962ecf556a3"
+      },
+      "validation": {
+        "command_transcript_sha256": "9ce3d329ddd9664cf2a1f6d3a70de10086016f73a2588fa5d28f820c9e2f7daf",
+        "commands": [
+          {
+            "command": 1,
+            "counter": 1,
+            "nonce": 1,
+            "res0": "0x534550494d5f4345",
+            "res1": "0xab93612d8f981c68",
+            "status": 1
+          },
+          {
+            "command": 2,
+            "counter": 2,
+            "nonce": 2,
+            "res0": "0x0000000000000000",
+            "res1": "0x0000000000000000",
+            "status": 1
+          },
+          {
+            "command": 3,
+            "counter": 3,
+            "nonce": 3,
+            "res0": "0x0000000000000000",
+            "res1": "0x0000000000000000",
+            "status": 1
+          },
+          {
+            "command": 4,
+            "counter": 4,
+            "nonce": 4,
+            "res0": "0x718d99fa6ddf5303",
+            "res1": "0x0000000000000004",
+            "status": 1
+          },
+          {
+            "command": 5,
+            "counter": 5,
+            "nonce": 5,
+            "res0": "0x102a5a781fff0f43",
+            "res1": "0x0000000000000005",
+            "status": 1
+          },
+          {
+            "command": 6,
+            "counter": 6,
+            "nonce": 6,
+            "res0": "0xe01dba79b5cf6b91",
+            "res1": "0x0000000080000000",
+            "status": 1
+          },
+          {
+            "command": 8,
+            "counter": 7,
+            "nonce": 7,
+            "res0": "0x3b888ac83ec7efb8",
+            "res1": "0x0000000000015fe3",
+            "status": 1
+          },
+          {
+            "command": 7,
+            "counter": 8,
+            "nonce": 8,
+            "res0": "0x0000000000000200",
+            "res1": "0x0000000000000092",
+            "status": 1
+          },
+          {
+            "command": 9,
+            "counter": 9,
+            "nonce": 9,
+            "res0": "0x0000000000000000",
+            "res1": "0x0000000000000000",
+            "status": 1
+          },
+          {
+            "command": 10,
+            "counter": 10,
+            "nonce": 10,
+            "res0": "0x0000000000000000",
+            "res1": "0x0000000000000000",
+            "status": 1
+          }
+        ],
+        "pass": true
+      },
+      "workload": "sepim_cmd"
+    },
+    {
+      "checkpoint_role": "main",
+      "cpu": {
+        "cpu_class": "AtomicSimpleCPU",
+        "cpu_type": "atomic",
+        "kernel_memory_limit": "1984MB",
+        "mem_mode": "atomic",
+        "num_cpus": 4,
+        "physical_bytes": 2147483648
+      },
+      "expected_artifact_sha256": "1abde3b6c4ab3a24697207168729b32ef69bc04d1945860981e56c2384a87105",
+      "guest_command": "./sepim_cmd || fail 'Table 2 command run failed'",
+      "guest_script": {
+        "bytes": 686,
+        "mode": 493,
+        "mtime_ns": 1785179098894282509,
+        "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/regression_strict_20260727T183538Z/rcs/table2_pass2.rcS",
+        "sha256": "a01d0d91754095a632c75693fa7abb5379dcecd339b9730f1d41de11fba20d45"
+      },
+      "id": "table2_pass2",
+      "mode": "all_10_commands",
+      "output_tree": {
+        "files": [
+          {
+            "bytes": 31163,
+            "path": "config.ini",
+            "sha256": "e1aecff6d0abe12c74314eeec0bb7f720f8611c74225c3fcf674dab859f6f852",
+            "type": "file"
+          },
+          {
+            "bytes": 83673,
+            "path": "config.json",
+            "sha256": "2dee1f3ec277ef230bd7de72820506f1ffff6b201514dc0662a1703cc6844320",
+            "type": "file"
+          },
+          {
+            "bytes": 132943,
+            "path": "stats.txt",
+            "sha256": "189684058af0e1a9e4b6ce0a11b013e22507796349c7dfdfacd6dbc95d5a968d",
+            "type": "file"
+          },
+          {
+            "bytes": 1869,
+            "path": "system.terminal",
+            "sha256": "d999ab57ca5f9d43f605dc8bd730e1e70b3ab11c2e9d590a43bcc962ecf556a3",
+            "type": "file"
+          }
+        ],
+        "tree_sha256": "35cd82d15379efcfff81a691eb2efd878d2dff8ccbdd0c487d83dc1bd7f33c0c"
+      },
+      "pass": true,
+      "terminal": {
+        "bytes": 1869,
+        "mode": 420,
+        "mtime_ns": 1785179139194335409,
+        "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/regression_strict_20260727T183538Z/cases/table2_pass2/system.terminal",
+        "sha256": "d999ab57ca5f9d43f605dc8bd730e1e70b3ab11c2e9d590a43bcc962ecf556a3"
+      },
+      "validation": {
+        "command_transcript_sha256": "9ce3d329ddd9664cf2a1f6d3a70de10086016f73a2588fa5d28f820c9e2f7daf",
+        "commands": [
+          {
+            "command": 1,
+            "counter": 1,
+            "nonce": 1,
+            "res0": "0x534550494d5f4345",
+            "res1": "0xab93612d8f981c68",
+            "status": 1
+          },
+          {
+            "command": 2,
+            "counter": 2,
+            "nonce": 2,
+            "res0": "0x0000000000000000",
+            "res1": "0x0000000000000000",
+            "status": 1
+          },
+          {
+            "command": 3,
+            "counter": 3,
+            "nonce": 3,
+            "res0": "0x0000000000000000",
+            "res1": "0x0000000000000000",
+            "status": 1
+          },
+          {
+            "command": 4,
+            "counter": 4,
+            "nonce": 4,
+            "res0": "0x718d99fa6ddf5303",
+            "res1": "0x0000000000000004",
+            "status": 1
+          },
+          {
+            "command": 5,
+            "counter": 5,
+            "nonce": 5,
+            "res0": "0x102a5a781fff0f43",
+            "res1": "0x0000000000000005",
+            "status": 1
+          },
+          {
+            "command": 6,
+            "counter": 6,
+            "nonce": 6,
+            "res0": "0xe01dba79b5cf6b91",
+            "res1": "0x0000000080000000",
+            "status": 1
+          },
+          {
+            "command": 8,
+            "counter": 7,
+            "nonce": 7,
+            "res0": "0x3b888ac83ec7efb8",
+            "res1": "0x0000000000015fe3",
+            "status": 1
+          },
+          {
+            "command": 7,
+            "counter": 8,
+            "nonce": 8,
+            "res0": "0x0000000000000200",
+            "res1": "0x0000000000000092",
+            "status": 1
+          },
+          {
+            "command": 9,
+            "counter": 9,
+            "nonce": 9,
+            "res0": "0x0000000000000000",
+            "res1": "0x0000000000000000",
+            "status": 1
+          },
+          {
+            "command": 10,
+            "counter": 10,
+            "nonce": 10,
+            "res0": "0x0000000000000000",
+            "res1": "0x0000000000000000",
+            "status": 1
+          }
+        ],
+        "pass": true
+      },
+      "workload": "sepim_cmd"
+    },
+    {
+      "checkpoint_role": "main",
+      "cpu": {
+        "cpu_class": "AtomicSimpleCPU",
+        "cpu_type": "atomic",
+        "kernel_memory_limit": "1984MB",
+        "mem_mode": "atomic",
+        "num_cpus": 4,
+        "physical_bytes": 2147483648
+      },
+      "expected_artifact_sha256": "78a479f70b3453e384104c38321fd0314cacc8c86ad5c4926776d91768925f16",
+      "guest_command": "./dma_benchmark_fs || fail 'DMA full run failed'",
+      "guest_script": {
+        "bytes": 728,
+        "mode": 493,
+        "mtime_ns": 1785179139649553963,
+        "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/regression_strict_20260727T183538Z/rcs/dma_full.rcS",
+        "sha256": "6e78e464f4384562937c9e375cbe4e922a154ff0148cab8a5ea1326fb19fccae"
+      },
+      "id": "dma_full",
+      "mode": "full",
+      "output_tree": {
+        "files": [
+          {
+            "bytes": 31159,
+            "path": "config.ini",
+            "sha256": "0cce2768fc74a6aa79ae8261ed74a2c86df44537e0ef144978a3844e78a988e4",
+            "type": "file"
+          },
+          {
+            "bytes": 83669,
+            "path": "config.json",
+            "sha256": "b7bd3487213f5af8b5163c0384c650925a7baea251d1903813d5946440e35b41",
+            "type": "file"
+          },
+          {
+            "bytes": 1351,
+            "path": "parsed.csv",
+            "sha256": "caf2f8e7f76d3a578162f68f3ff8a0147103647c8a8466898738c86db65e5cf6",
+            "type": "file"
+          },
+          {
+            "bytes": 132942,
+            "path": "stats.txt",
+            "sha256": "681d5c87d6f8bb943990ae227a0b268f590c8c335e0bac9244c536ef777e246a",
+            "type": "file"
+          },
+          {
+            "bytes": 2462,
+            "path": "system.terminal",
+            "sha256": "e78de89802c4d4488a90c65b7e48783364795d278fd63fd5e3c25c97ff3c9b26",
+            "type": "file"
+          }
+        ],
+        "tree_sha256": "53bedd5f58f1eda0fd1ef41c7c020974722476fe901f243837349b0c1716f9c4"
+      },
+      "pass": true,
+      "terminal": {
+        "bytes": 2462,
+        "mode": 420,
+        "mtime_ns": 1785179181102567113,
+        "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/regression_strict_20260727T183538Z/cases/dma_full/system.terminal",
+        "sha256": "e78de89802c4d4488a90c65b7e48783364795d278fd63fd5e3c25c97ff3c9b26"
+      },
+      "validation": {
+        "csv": {
+          "bytes": 1351,
+          "mode": 436,
+          "mtime_ns": 1785179181556073112,
+          "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/regression_strict_20260727T183538Z/cases/dma_full/parsed.csv",
+          "sha256": "caf2f8e7f76d3a578162f68f3ff8a0147103647c8a8466898738c86db65e5cf6"
+        },
+        "matrix": [
+          [
+            "seq_read",
+            512
+          ],
+          [
+            "seq_read",
+            1024
+          ],
+          [
+            "seq_read",
+            2048
+          ],
+          [
+            "seq_read",
+            4096
+          ],
+          [
+            "seq_read",
+            8192
+          ],
+          [
+            "seq_write",
+            512
+          ],
+          [
+            "seq_write",
+            1024
+          ],
+          [
+            "seq_write",
+            2048
+          ],
+          [
+            "seq_write",
+            4096
+          ],
+          [
+            "seq_write",
+            8192
+          ],
+          [
+            "rand_read",
+            512
+          ],
+          [
+            "rand_read",
+            1024
+          ],
+          [
+            "rand_read",
+            2048
+          ],
+          [
+            "rand_read",
+            4096
+          ],
+          [
+            "rand_read",
+            8192
+          ],
+          [
+            "rand_write",
+            512
+          ],
+          [
+            "rand_write",
+            1024
+          ],
+          [
+            "rand_write",
+            2048
+          ],
+          [
+            "rand_write",
+            4096
+          ],
+          [
+            "rand_write",
+            8192
+          ]
+        ],
+        "mode": "full",
+        "pass": true,
+        "rows": 20,
+        "transfers_per_row": 1000
+      },
+      "workload": "dma_benchmark_fs"
+    },
+    {
+      "checkpoint_role": "main",
+      "cpu": {
+        "cpu_class": "AtomicSimpleCPU",
+        "cpu_type": "atomic",
+        "kernel_memory_limit": "1984MB",
+        "mem_mode": "atomic",
+        "num_cpus": 4,
+        "physical_bytes": 2147483648
+      },
+      "expected_artifact_sha256": "0e92c6d4daa7006d766c3f8c1976f6559dd0d7abe55cbe7357f53e2687224f9a",
+      "guest_command": "./controlled_access_bench_fs || fail 'controlled-access full run failed'",
+      "guest_script": {
+        "bytes": 812,
+        "mode": 493,
+        "mtime_ns": 1785179181562782119,
+        "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/regression_strict_20260727T183538Z/rcs/controlled_full.rcS",
+        "sha256": "16b4946a0a538086fd7c3d979274c44dc1ae61907b841211bf87bf93ce948d27"
+      },
+      "id": "controlled_full",
+      "mode": "full",
+      "output_tree": {
+        "files": [
+          {
+            "bytes": 31166,
+            "path": "config.ini",
+            "sha256": "ce58f36db5d5192943dd60dd6332006fc07382dcd73075d7d2ce46c53b548df5",
+            "type": "file"
+          },
+          {
+            "bytes": 83676,
+            "path": "config.json",
+            "sha256": "ecbddb74df06a9c76bda6e5b3113842ba45855a5a3583f2872c1ba45bfdbd191",
+            "type": "file"
+          },
+          {
+            "bytes": 213,
+            "path": "parsed.csv",
+            "sha256": "84e0f18a85a588e9d8625dea1057fa08d9864cde86bdece373229518ac676fee",
+            "type": "file"
+          },
+          {
+            "bytes": 132942,
+            "path": "stats.txt",
+            "sha256": "c04e32c128477097f8989ce8273daa54576368594e4660faa34892a8568aa98c",
+            "type": "file"
+          },
+          {
+            "bytes": 1392,
+            "path": "system.terminal",
+            "sha256": "a3789915aa7e8e4819b2917290ab3cdf9851e39addc0f4dfcff516188b25c597",
+            "type": "file"
+          }
+        ],
+        "tree_sha256": "0dc8958e28363cf9b3f0da164da0efb3b5ac3f48b4c321227c3ce0e16bed05f3"
+      },
+      "pass": true,
+      "terminal": {
+        "bytes": 1392,
+        "mode": 420,
+        "mtime_ns": 1785179222935798402,
+        "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/regression_strict_20260727T183538Z/cases/controlled_full/system.terminal",
+        "sha256": "a3789915aa7e8e4819b2917290ab3cdf9851e39addc0f4dfcff516188b25c597"
+      },
+      "validation": {
+        "blocks_kib": [
+          1,
+          2,
+          4,
+          8,
+          16,
+          32,
+          64,
+          128
+        ],
+        "csv": {
+          "bytes": 213,
+          "mode": 436,
+          "mtime_ns": 1785179223427796265,
+          "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/regression_strict_20260727T183538Z/cases/controlled_full/parsed.csv",
+          "sha256": "84e0f18a85a588e9d8625dea1057fa08d9864cde86bdece373229518ac676fee"
+        },
+        "mode": "full",
+        "pass": true,
+        "rows": 8
+      },
+      "workload": "controlled_access_bench_fs"
+    },
+    {
+      "checkpoint_role": "main",
+      "cpu": {
+        "cpu_class": "AtomicSimpleCPU",
+        "cpu_type": "atomic",
+        "kernel_memory_limit": "1984MB",
+        "mem_mode": "atomic",
+        "num_cpus": 4,
+        "physical_bytes": 2147483648
+      },
+      "expected_artifact_sha256": "74b8e630d8e24bb4bb21fdf35b088c05b1cae5707b0fab9e166646edfa8ad999",
+      "guest_command": "./hashtable || fail 'canonical hash-table run failed'",
+      "guest_script": {
+        "bytes": 705,
+        "mode": 493,
+        "mtime_ns": 1785179223431808693,
+        "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/regression_strict_20260727T183538Z/rcs/hashtable_canonical.rcS",
+        "sha256": "56ab9edc3474ee5efd2850774ddb499eb667aa9596ad12b5740600e931b30629"
+      },
+      "id": "hashtable_canonical",
+      "mode": "canonical",
+      "output_tree": {
+        "files": [
+          {
+            "bytes": 31170,
+            "path": "config.ini",
+            "sha256": "ec046b084d0a10457df822e4a7039445d49212ce2cf8f72ace011d06e1b3cba1",
+            "type": "file"
+          },
+          {
+            "bytes": 83680,
+            "path": "config.json",
+            "sha256": "3810c2167cce845783a331ee6d42234f6443fd88400fd156e9596e1e97da25c6",
+            "type": "file"
+          },
+          {
+            "bytes": 244842,
+            "path": "stats.txt",
+            "sha256": "9497bb73128a26889e5876b9e38fc51b249b032ad346707e32ed37d08bf1b791",
+            "type": "file"
+          },
+          {
+            "bytes": 1043,
+            "path": "system.terminal",
+            "sha256": "3169962cab2ccd7fc34b40d6bd2bc86cb1946bf13f255b83a3d6b12e24199c0b",
+            "type": "file"
+          }
+        ],
+        "tree_sha256": "3c5621c46dc8c944b2705fd501f659e1a25ddbc6eff933eb2be8088057bed05b"
+      },
+      "pass": true,
+      "terminal": {
+        "bytes": 1043,
+        "mode": 420,
+        "mtime_ns": 1785186822173383529,
+        "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/regression_strict_20260727T183538Z/cases/hashtable_canonical/system.terminal",
+        "sha256": "3169962cab2ccd7fc34b40d6bd2bc86cb1946bf13f255b83a3d6b12e24199c0b"
+      },
+      "validation": {
+        "canonical_input_size": 1572864,
+        "completion_basis": "workload reached its canonical start marker, emitted non-empty gem5 stats, and terminated via its embedded m5 exit without error markers",
+        "pass": true,
+        "stats": {
+          "bytes": 244842,
+          "mode": 420,
+          "mtime_ns": 1785187213331584305,
+          "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/regression_strict_20260727T183538Z/cases/hashtable_canonical/stats.txt",
+          "sha256": "9497bb73128a26889e5876b9e38fc51b249b032ad346707e32ed37d08bf1b791"
+        }
+      },
+      "workload": "hashtable"
+    },
+    {
+      "checkpoint_role": "trace",
+      "cpu": {
+        "checkpoint_cpu_type": "atomic",
+        "comm_monitor_capture_capable": true,
+        "cpu_class": "TimingSimpleCPU",
+        "cpu_switch_used": false,
+        "cpu_type": "timing",
+        "mem_mode": "timing",
+        "num_cpus": 4,
+        "physical_bytes": 2147483648,
+        "restore_strategy": "direct",
+        "restore_with_cpu": "timing"
+      },
+      "expected_artifact_sha256": "5766d710e264ba6bbb757b175ded6045f92d337e857f8c8db10c8ddcaac9f886",
+      "guest_command": "./trace_lookup_cpu --full || fail 'CPU trace full run failed'",
+      "guest_script": {
+        "bytes": 741,
+        "mode": 493,
+        "mtime_ns": 1785187213534525129,
+        "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/regression_strict_20260727T183538Z/rcs/trace_cpu_full.rcS",
+        "sha256": "55e1358becfff0ff40ff894aabeab70543d198b1283395596ebe7a1dd3e5dffc"
+      },
+      "id": "trace_cpu_full",
+      "mode": "full",
+      "output_tree": {
+        "files": [
+          {
+            "bytes": 47896,
+            "path": "config.ini",
+            "sha256": "a1061a00194b63ad5a08c3f81588f690438693656b624fb693a79aee2bcd3fd1",
+            "type": "file"
+          },
+          {
+            "bytes": 126297,
+            "path": "config.json",
+            "sha256": "db5b91bd4b988fb7e9924bec83c382c1c74ba62ee6c7a80c8cd36b3ca9e0a185",
+            "type": "file"
+          },
+          {
+            "bytes": 781518,
+            "path": "stats.txt",
+            "sha256": "14ac9607f0f3da9ec4c6aa3aa8b653b53f1381d94a9ab866de5f0dc57ae3f861",
+            "type": "file"
+          },
+          {
+            "bytes": 1150,
+            "path": "system.terminal",
+            "sha256": "12eb9f254a5cab76937059b8038cf2248714e5af6b2ce7bccdc9a2f8c4aee7a0",
+            "type": "file"
+          },
+          {
+            "bytes": 5835122,
+            "path": "trace_cpu_full.ptrc",
+            "sha256": "11f81245a1e47990ec81ff7c5e466a2868835fff24f8f287d57a12d6e01c7ee4",
+            "type": "file"
+          },
+          {
+            "bytes": 293523,
+            "path": "trace_cpu_full.ptrc.io",
+            "sha256": "4b2b38c4106a2ac9778113eb9b01a079f9af7d5d707141f578a1953332fcdefe",
+            "type": "file"
+          },
+          {
+            "bytes": 153187,
+            "path": "trace_cpu_full_decoded.csv",
+            "sha256": "445541cec8a2225d55c391bd93241602a62f27b51538a140a01f21b50adb6475",
+            "type": "file"
+          },
+          {
+            "bytes": 2899,
+            "path": "trace_cpu_full_io_decoded.csv",
+            "sha256": "d14c218bb164847494717ffffe1dc72a999310508e03101f5fd92dd2c98bed58",
+            "type": "file"
+          }
+        ],
+        "tree_sha256": "bbd836d934f9007fd5f2e448f1febde54568870d5321646e92694dbe644b7dc3"
+      },
+      "pass": true,
+      "terminal": {
+        "bytes": 1150,
+        "mode": 420,
+        "mtime_ns": 1785190147441178726,
+        "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/regression_strict_20260727T183538Z/cases/trace_cpu_full/system.terminal",
+        "sha256": "12eb9f254a5cab76937059b8038cf2248714e5af6b2ce7bccdc9a2f8c4aee7a0"
+      },
+      "validation": {
+        "auxiliary_io_trace": {
+          "decoded": {
+            "address_max": "0xfb000040",
+            "address_min": "0xfb000000",
+            "command_histogram": {
+              "1": 82
+            },
+            "csv": {
+              "bytes": 2899,
+              "mode": 420,
+              "mtime_ns": 1785190149785755893,
+              "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/regression_strict_20260727T183538Z/cases/trace_cpu_full/trace_cpu_full_io_decoded.csv",
+              "sha256": "d14c218bb164847494717ffffe1dc72a999310508e03101f5fd92dd2c98bed58"
+            },
+            "pass": true,
+            "role": "auxiliary",
+            "rows": 82,
+            "rw_counts": {
+              "R": 82
+            },
+            "rw_only": true,
+            "size_histogram": {
+              "64": 82
+            },
+            "tail_packets_requested": 4096,
+            "time_monotonic_non_decreasing": true,
+            "unique_addresses": 2
+          },
+          "present": true,
+          "raw": {
+            "bytes": 293523,
+            "mode": 420,
+            "mtime_ns": 1785190147932181532,
+            "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/regression_strict_20260727T183538Z/cases/trace_cpu_full/trace_cpu_full.ptrc.io",
+            "sha256": "4b2b38c4106a2ac9778113eb9b01a079f9af7d5d707141f578a1953332fcdefe"
+          },
+          "role": "auxiliary"
+        },
+        "lookups": 2400,
+        "pass": true,
+        "primary_trace": {
+          "decoded": {
+            "address_max": "0xfaffe000",
+            "address_min": "0x2c001f00",
+            "command_histogram": {
+              "1": 4092,
+              "4": 4
+            },
+            "cpu_address_diversity": {
+              "minimum_unique_addresses": 64,
+              "observed_unique_addresses": 3911,
+              "pass": true
+            },
+            "csv": {
+              "bytes": 153187,
+              "mode": 420,
+              "mtime_ns": 1785190149577190932,
+              "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/regression_strict_20260727T183538Z/cases/trace_cpu_full/trace_cpu_full_decoded.csv",
+              "sha256": "445541cec8a2225d55c391bd93241602a62f27b51538a140a01f21b50adb6475"
+            },
+            "pass": true,
+            "role": "primary",
+            "rows": 4096,
+            "rw_counts": {
+              "R": 4092,
+              "W": 4
+            },
+            "rw_only": true,
+            "size_histogram": {
+              "4": 8,
+              "64": 4088
+            },
+            "tail_packets_requested": 4096,
+            "time_monotonic_non_decreasing": true,
+            "unique_addresses": 3911
+          },
+          "raw": {
+            "bytes": 5835122,
+            "mode": 420,
+            "mtime_ns": 1785190147932181532,
+            "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/regression_strict_20260727T183538Z/cases/trace_cpu_full/trace_cpu_full.ptrc",
+            "sha256": "11f81245a1e47990ec81ff7c5e466a2868835fff24f8f287d57a12d6e01c7ee4"
+          }
+        },
+        "source_policy": "The main .ptrc is primary evidence; .ptrc.io is decoded and retained only as auxiliary evidence.",
+        "trace_topology": {
+          "fs_config": "IMPICA/gem5/configs/se_pim/se_pim_fs.py",
+          "io_trace_role": "auxiliary",
+          "main_trace_role": "primary",
+          "monitors": {
+            "system.sepim_trace_monitor": "CommMonitor",
+            "system.sepim_trace_monitor_io": "CommMonitor"
+          },
+          "pass": true,
+          "trace_enabled": {
+            "system.sepim_trace_monitor": true,
+            "system.sepim_trace_monitor_io": true
+          },
+          "trace_files": {
+            "system.sepim_trace_monitor": "/workspace/results/raw/regression_strict_20260727T183538Z/cases/trace_cpu_full/trace_cpu_full.ptrc",
+            "system.sepim_trace_monitor_io": "/workspace/results/raw/regression_strict_20260727T183538Z/cases/trace_cpu_full/trace_cpu_full.ptrc.io"
+          }
+        }
+      },
+      "workload": "trace_lookup_cpu"
+    },
+    {
+      "checkpoint_role": "trace",
+      "cpu": {
+        "checkpoint_cpu_type": "atomic",
+        "comm_monitor_capture_capable": true,
+        "cpu_class": "TimingSimpleCPU",
+        "cpu_switch_used": false,
+        "cpu_type": "timing",
+        "mem_mode": "timing",
+        "num_cpus": 4,
+        "physical_bytes": 2147483648,
+        "restore_strategy": "direct",
+        "restore_with_cpu": "timing"
+      },
+      "expected_artifact_sha256": "f81079c30b8b75ddddf0e931a083d04e76b746cfcd6ced3b7678bd1e76b02144",
+      "guest_command": "./trace_lookup_sepim --full || fail 'SE-PIM trace full run failed'",
+      "guest_script": {
+        "bytes": 758,
+        "mode": 493,
+        "mtime_ns": 1785190149943908702,
+        "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/regression_strict_20260727T183538Z/rcs/trace_sepim_full.rcS",
+        "sha256": "5bd04bc5cbc35a1c69e6db15e35cfa4fa360158c8015510d1a14b4e751ccbef4"
+      },
+      "id": "trace_sepim_full",
+      "mode": "full",
+      "output_tree": {
+        "files": [
+          {
+            "bytes": 47906,
+            "path": "config.ini",
+            "sha256": "b391774f77f44f27b5041199951d9d718a97198e3e0040845a83f9fe17c5520d",
+            "type": "file"
+          },
+          {
+            "bytes": 126307,
+            "path": "config.json",
+            "sha256": "3d58037e66a0ce21f3cd0fb9c47447d1ca32d44e2339e94715e344a1535ffbe7",
+            "type": "file"
+          },
+          {
+            "bytes": 782510,
+            "path": "stats.txt",
+            "sha256": "aa187b28ac40341560eee4c5ce2422a7f1e3642777b1655129015f17baca1738",
+            "type": "file"
+          },
+          {
+            "bytes": 1144,
+            "path": "system.terminal",
+            "sha256": "e4e3152022e037b4d90367bc6d48ef5dfd0974799c896571c3564a8e98dd4858",
+            "type": "file"
+          },
+          {
+            "bytes": 6010110,
+            "path": "trace_sepim_full.ptrc",
+            "sha256": "9fec28030db13ff441e00dc02e2129b5b7d744919f82ce1d3285dbe4de961f3d",
+            "type": "file"
+          },
+          {
+            "bytes": 294823,
+            "path": "trace_sepim_full.ptrc.io",
+            "sha256": "42e9289b3e226441ccb5a03b168ebf52008d9494b235278701e6a5590c69f1aa",
+            "type": "file"
+          },
+          {
+            "bytes": 152732,
+            "path": "trace_sepim_full_decoded.csv",
+            "sha256": "d27b03ec9999400dd2efbfddc97d811ab04d0425a0497785e0570e6f194d0c52",
+            "type": "file"
+          },
+          {
+            "bytes": 2934,
+            "path": "trace_sepim_full_io_decoded.csv",
+            "sha256": "df300dce8bf6b35ebb732750dd991a3c87d6ca9591f02f2c8707eeb00250016c",
+            "type": "file"
+          }
+        ],
+        "tree_sha256": "7da43b18c291b8117c32852a34c719a7c837c799b48c2402da737b76a6adfd7c"
+      },
+      "pass": true,
+      "terminal": {
+        "bytes": 1144,
+        "mode": 420,
+        "mtime_ns": 1785190201118485450,
+        "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/regression_strict_20260727T183538Z/cases/trace_sepim_full/system.terminal",
+        "sha256": "e4e3152022e037b4d90367bc6d48ef5dfd0974799c896571c3564a8e98dd4858"
+      },
+      "validation": {
+        "auxiliary_memory_trace": {
+          "decoded": {
+            "address_max": "0xfaffe000",
+            "address_min": "0x1c090000",
+            "command_histogram": {
+              "1": 4024,
+              "4": 72
+            },
+            "cpu_address_diversity": {
+              "minimum_unique_addresses": 64,
+              "observed_unique_addresses": 3834,
+              "pass": true
+            },
+            "csv": {
+              "bytes": 152732,
+              "mode": 420,
+              "mtime_ns": 1785190203266497724,
+              "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/regression_strict_20260727T183538Z/cases/trace_sepim_full/trace_sepim_full_decoded.csv",
+              "sha256": "d27b03ec9999400dd2efbfddc97d811ab04d0425a0497785e0570e6f194d0c52"
+            },
+            "pass": true,
+            "role": "primary",
+            "rows": 4096,
+            "rw_counts": {
+              "R": 4024,
+              "W": 72
+            },
+            "rw_only": true,
+            "size_histogram": {
+              "2": 81,
+              "4": 30,
+              "64": 3985
+            },
+            "tail_packets_requested": 4096,
+            "time_monotonic_non_decreasing": true,
+            "unique_addresses": 3834
+          },
+          "present": true,
+          "raw": {
+            "bytes": 6010110,
+            "mode": 420,
+            "mtime_ns": 1785190201552487930,
+            "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/regression_strict_20260727T183538Z/cases/trace_sepim_full/trace_sepim_full.ptrc",
+            "sha256": "9fec28030db13ff441e00dc02e2129b5b7d744919f82ce1d3285dbe4de961f3d"
+          },
+          "role": "auxiliary_memory_bus"
+        },
+        "lookups": 2400,
+        "pass": true,
+        "primary_trace": {
+          "decoded": {
+            "address_max": "0xfb000040",
+            "address_min": "0xfb000000",
+            "command_histogram": {
+              "1": 83
+            },
+            "csv": {
+              "bytes": 2934,
+              "mode": 420,
+              "mtime_ns": 1785190203454712482,
+              "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/regression_strict_20260727T183538Z/cases/trace_sepim_full/trace_sepim_full_io_decoded.csv",
+              "sha256": "df300dce8bf6b35ebb732750dd991a3c87d6ca9591f02f2c8707eeb00250016c"
+            },
+            "pass": true,
+            "role": "auxiliary",
+            "rows": 83,
+            "rw_counts": {
+              "R": 83
+            },
+            "rw_only": true,
+            "size_histogram": {
+              "64": 83
+            },
+            "tail_packets_requested": 4096,
+            "time_monotonic_non_decreasing": true,
+            "unique_addresses": 2
+          },
+          "raw": {
+            "bytes": 294823,
+            "mode": 420,
+            "mtime_ns": 1785190201552487930,
+            "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/regression_strict_20260727T183538Z/cases/trace_sepim_full/trace_sepim_full.ptrc.io",
+            "sha256": "42e9289b3e226441ccb5a03b168ebf52008d9494b235278701e6a5590c69f1aa"
+          },
+          "source": "io_bus_trace"
+        },
+        "source_policy": "SE-PIM: .ptrc.io (IO bus) is primary DMA/MMIO evidence; .ptrc (memory bus) is retained as auxiliary evidence. Consistent with original run_gate8_trace.sh behaviour (required >=16 decoded rows from IO trace source).",
+        "trace_topology": {
+          "fs_config": "IMPICA/gem5/configs/se_pim/se_pim_fs.py",
+          "io_trace_role": "auxiliary",
+          "main_trace_role": "primary",
+          "monitors": {
+            "system.sepim_trace_monitor": "CommMonitor",
+            "system.sepim_trace_monitor_io": "CommMonitor"
+          },
+          "pass": true,
+          "trace_enabled": {
+            "system.sepim_trace_monitor": true,
+            "system.sepim_trace_monitor_io": true
+          },
+          "trace_files": {
+            "system.sepim_trace_monitor": "/workspace/results/raw/regression_strict_20260727T183538Z/cases/trace_sepim_full/trace_sepim_full.ptrc",
+            "system.sepim_trace_monitor_io": "/workspace/results/raw/regression_strict_20260727T183538Z/cases/trace_sepim_full/trace_sepim_full.ptrc.io"
+          }
+        }
+      },
+      "workload": "trace_lookup_sepim"
+    },
+    {
+      "checkpoint_role": "main",
+      "cpu": {
+        "cpu_class": "AtomicSimpleCPU",
+        "cpu_type": "atomic",
+        "kernel_memory_limit": "1984MB",
+        "mem_mode": "atomic",
+        "num_cpus": 4,
+        "physical_bytes": 2147483648
+      },
+      "expected_artifact_sha256": "2d5c0f08ad4ec446ce3c119a13a180098be53348be56a2103fece8b5cfa74e0b",
+      "guest_command": "./kmeans_sepim_fs || fail 'legacy k-means full run failed'",
+      "guest_script": {
+        "bytes": 732,
+        "mode": 493,
+        "mtime_ns": 1785190203609549448,
+        "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/regression_strict_20260727T183538Z/rcs/kmeans_legacy_full.rcS",
+        "sha256": "d9926626bd3a0f89612c1b247ee8d1fb17cc0e16ab9679a84b4631761e9c1bf6"
+      },
+      "id": "kmeans_legacy_full",
+      "mode": "no_arguments",
+      "output_tree": {
+        "files": [
+          {
+            "bytes": 31169,
+            "path": "config.ini",
+            "sha256": "5007ee63bfe9b640ced6c3d92a4aad0ae85bc8036cb7e56b733df1c2f401753d",
+            "type": "file"
+          },
+          {
+            "bytes": 83679,
+            "path": "config.json",
+            "sha256": "16e0f6ab516356e71334d82e3c5c674fad95bf5b221b8e14559ba22c0f98c9d6",
+            "type": "file"
+          },
+          {
+            "bytes": 770,
+            "path": "parsed.csv",
+            "sha256": "d3675fd53240c90e9300937c2c5aa4fdc2d395b807cc0208c5586fe88cb0f292",
+            "type": "file"
+          },
+          {
+            "bytes": 132942,
+            "path": "stats.txt",
+            "sha256": "4023d79ca9bbbd32e65572241e543ab7b4694733dadaa742a693313b3dbd6f9d",
+            "type": "file"
+          },
+          {
+            "bytes": 1869,
+            "path": "system.terminal",
+            "sha256": "dc11ba319a777c251efe638775a9ea278ae21ca617334464c6fdff2a38e50c14",
+            "type": "file"
+          }
+        ],
+        "tree_sha256": "9bf64a876a6da0590b6f570fb5b696ea1f252d9cec368f0b1510cc10d4e1fa8a"
+      },
+      "pass": true,
+      "terminal": {
+        "bytes": 1869,
+        "mode": 420,
+        "mtime_ns": 1785190255021793464,
+        "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/regression_strict_20260727T183538Z/cases/kmeans_legacy_full/system.terminal",
+        "sha256": "dc11ba319a777c251efe638775a9ea278ae21ca617334464c6fdff2a38e50c14"
+      },
+      "validation": {
+        "csv": {
+          "bytes": 770,
+          "mode": 436,
+          "mtime_ns": 1785190255547820799,
+          "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/regression_strict_20260727T183538Z/cases/kmeans_legacy_full/parsed.csv",
+          "sha256": "d3675fd53240c90e9300937c2c5aa4fdc2d395b807cc0208c5586fe88cb0f292"
+        },
+        "direct_end_to_end_measurement": false,
+        "disclosure": "Each row extrapolates sampled SE-PIM ACCESS_DATA MMIO cycle values; it is not a native end-to-end k-means execution.",
+        "formula": {
+          "cpu_reference_seconds_at_512_mib": 63.5,
+          "operations_per_mib": 3000,
+          "rows": [
+            {
+              "bytes_per_sampled_mmio_op": 1024,
+              "dataset_mb": 64,
+              "extrapolated_operations": 192000,
+              "pim_cores": 1,
+              "sampled_baseline_cycles": 91331,
+              "sampled_sepim_cycles": 91395
+            },
+            {
+              "bytes_per_sampled_mmio_op": 1104,
+              "dataset_mb": 64,
+              "extrapolated_operations": 96000,
+              "pim_cores": 2,
+              "sampled_baseline_cycles": 91435,
+              "sampled_sepim_cycles": 91504
+            },
+            {
+              "bytes_per_sampled_mmio_op": 1264,
+              "dataset_mb": 64,
+              "extrapolated_operations": 48000,
+              "pim_cores": 4,
+              "sampled_baseline_cycles": 91643,
+              "sampled_sepim_cycles": 91722
+            },
+            {
+              "bytes_per_sampled_mmio_op": 1584,
+              "dataset_mb": 64,
+              "extrapolated_operations": 24000,
+              "pim_cores": 8,
+              "sampled_baseline_cycles": 92059,
+              "sampled_sepim_cycles": 92158
+            },
+            {
+              "bytes_per_sampled_mmio_op": 1024,
+              "dataset_mb": 128,
+              "extrapolated_operations": 384000,
+              "pim_cores": 1,
+              "sampled_baseline_cycles": 91331,
+              "sampled_sepim_cycles": 91395
+            },
+            {
+              "bytes_per_sampled_mmio_op": 1104,
+              "dataset_mb": 128,
+              "extrapolated_operations": 192000,
+              "pim_cores": 2,
+              "sampled_baseline_cycles": 91435,
+              "sampled_sepim_cycles": 91504
+            },
+            {
+              "bytes_per_sampled_mmio_op": 1264,
+              "dataset_mb": 128,
+              "extrapolated_operations": 96000,
+              "pim_cores": 4,
+              "sampled_baseline_cycles": 91643,
+              "sampled_sepim_cycles": 91722
+            },
+            {
+              "bytes_per_sampled_mmio_op": 1584,
+              "dataset_mb": 128,
+              "extrapolated_operations": 48000,
+              "pim_cores": 8,
+              "sampled_baseline_cycles": 92059,
+              "sampled_sepim_cycles": 92158
+            },
+            {
+              "bytes_per_sampled_mmio_op": 1024,
+              "dataset_mb": 256,
+              "extrapolated_operations": 768000,
+              "pim_cores": 1,
+              "sampled_baseline_cycles": 91331,
+              "sampled_sepim_cycles": 91395
+            },
+            {
+              "bytes_per_sampled_mmio_op": 1104,
+              "dataset_mb": 256,
+              "extrapolated_operations": 384000,
+              "pim_cores": 2,
+              "sampled_baseline_cycles": 91435,
+              "sampled_sepim_cycles": 91504
+            },
+            {
+              "bytes_per_sampled_mmio_op": 1264,
+              "dataset_mb": 256,
+              "extrapolated_operations": 192000,
+              "pim_cores": 4,
+              "sampled_baseline_cycles": 91643,
+              "sampled_sepim_cycles": 91722
+            },
+            {
+              "bytes_per_sampled_mmio_op": 1584,
+              "dataset_mb": 256,
+              "extrapolated_operations": 96000,
+              "pim_cores": 8,
+              "sampled_baseline_cycles": 92059,
+              "sampled_sepim_cycles": 92158
+            },
+            {
+              "bytes_per_sampled_mmio_op": 1024,
+              "dataset_mb": 512,
+              "extrapolated_operations": 1536000,
+              "pim_cores": 1,
+              "sampled_baseline_cycles": 91331,
+              "sampled_sepim_cycles": 91395
+            },
+            {
+              "bytes_per_sampled_mmio_op": 1104,
+              "dataset_mb": 512,
+              "extrapolated_operations": 768000,
+              "pim_cores": 2,
+              "sampled_baseline_cycles": 91435,
+              "sampled_sepim_cycles": 91504
+            },
+            {
+              "bytes_per_sampled_mmio_op": 1264,
+              "dataset_mb": 512,
+              "extrapolated_operations": 384000,
+              "pim_cores": 4,
+              "sampled_baseline_cycles": 91643,
+              "sampled_sepim_cycles": 91722
+            },
+            {
+              "bytes_per_sampled_mmio_op": 1584,
+              "dataset_mb": 512,
+              "extrapolated_operations": 192000,
+              "pim_cores": 8,
+              "sampled_baseline_cycles": 92059,
+              "sampled_sepim_cycles": 92158
+            }
+          ],
+          "sample_operations": 256
+        },
+        "matrix": [
+          [
+            64,
+            1
+          ],
+          [
+            64,
+            2
+          ],
+          [
+            64,
+            4
+          ],
+          [
+            64,
+            8
+          ],
+          [
+            128,
+            1
+          ],
+          [
+            128,
+            2
+          ],
+          [
+            128,
+            4
+          ],
+          [
+            128,
+            8
+          ],
+          [
+            256,
+            1
+          ],
+          [
+            256,
+            2
+          ],
+          [
+            256,
+            4
+          ],
+          [
+            256,
+            8
+          ],
+          [
+            512,
+            1
+          ],
+          [
+            512,
+            2
+          ],
+          [
+            512,
+            4
+          ],
+          [
+            512,
+            8
+          ]
+        ],
+        "model_kind": "legacy_extrapolated_mmio_model",
+        "pass": true,
+        "rows": 16
+      },
+      "workload": "kmeans_sepim_fs"
+    }
+  ],
+  "commands": [
+    {
+      "argv": [
+        "docker",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--privileged",
+        "--mount",
+        "type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict,dst=/workspace",
+        "--mount",
+        "type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,dst=/workspace/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,readonly",
+        "--mount",
+        "type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/native_strict_timing_checkpoint_2,dst=/workspace/results/raw/native_strict_timing_checkpoint_2,readonly",
+        "-w",
+        "/workspace",
+        "-e",
+        "SEPIM_IN_CONTAINER=1",
+        "-e",
+        "IMAGE_NAME=sepim-impica:ubuntu18",
+        "sepim-impica:ubuntu18",
+        "/bin/bash",
+        "-lc",
+        "set -euo pipefail\ntrap 'chown -R 1000:1000 /workspace/results/raw/regression_strict_20260727T183538Z /workspace/IMPICA/workloads/sepim_cmd /workspace/IMPICA/workloads/dma_benchmark_fs /workspace/IMPICA/workloads/controlled_access_bench_fs /workspace/IMPICA/workloads/hashtable /workspace/IMPICA/workloads/trace_lookup_cpu /workspace/IMPICA/workloads/trace_lookup_sepim /workspace/IMPICA/workloads/kmeans_sepim_fs 2>/dev/null || true' EXIT\nexport FAST_INPUT_SIZE=0\nmake -C IMPICA/workloads/hashtable clean\nrm -f IMPICA/workloads/hashtable/.prebuilt_mode\nscripts/prebuild_guest_workloads.sh\nmake -C IMPICA/workloads/sepim_cmd clean\nmake -C IMPICA/workloads/sepim_cmd CC=aarch64-linux-gnu-gcc CFLAGS='-O2 -Wall -std=gnu99 -I../../pim_driver -static' LDFLAGS=-static sepim_cmd\nmake -C IMPICA/workloads/dma_benchmark_fs clean all\nmake -C IMPICA/workloads/controlled_access_bench_fs clean all\nmake -C IMPICA/workloads/trace_lookup_cpu clean all\nmake -C IMPICA/workloads/trace_lookup_sepim clean all\nmake -C IMPICA/workloads/kmeans_sepim_fs clean all\ntest \"$(cat IMPICA/workloads/hashtable/.prebuilt_mode)\" = full\nfile IMPICA/workloads/sepim_cmd/sepim_cmd | grep -F 'ARM aarch64'\nfile IMPICA/workloads/dma_benchmark_fs/dma_benchmark_fs | grep -F 'ARM aarch64'\nfile IMPICA/workloads/controlled_access_bench_fs/controlled_access_bench_fs | grep -F 'ARM aarch64'\nfile IMPICA/workloads/hashtable/hashtable | grep -F 'ARM aarch64'\nfile IMPICA/workloads/trace_lookup_cpu/trace_lookup_cpu | grep -F 'ARM aarch64'\nfile IMPICA/workloads/trace_lookup_sepim/trace_lookup_sepim | grep -F 'ARM aarch64'\nfile IMPICA/workloads/kmeans_sepim_fs/kmeans_sepim_fs | grep -F 'ARM aarch64'\n"
+      ],
+      "display": "docker run --rm --network none --privileged --mount 'type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict,dst=/workspace' --mount 'type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,dst=/workspace/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,readonly' --mount 'type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/native_strict_timing_checkpoint_2,dst=/workspace/results/raw/native_strict_timing_checkpoint_2,readonly' -w /workspace -e SEPIM_IN_CONTAINER=1 -e IMAGE_NAME=sepim-impica:ubuntu18 sepim-impica:ubuntu18 /bin/bash -lc 'set -euo pipefail\ntrap '\"'\"'chown -R 1000:1000 /workspace/results/raw/regression_strict_20260727T183538Z /workspace/IMPICA/workloads/sepim_cmd /workspace/IMPICA/workloads/dma_benchmark_fs /workspace/IMPICA/workloads/controlled_access_bench_fs /workspace/IMPICA/workloads/hashtable /workspace/IMPICA/workloads/trace_lookup_cpu /workspace/IMPICA/workloads/trace_lookup_sepim /workspace/IMPICA/workloads/kmeans_sepim_fs 2>/dev/null || true'\"'\"' EXIT\nexport FAST_INPUT_SIZE=0\nmake -C IMPICA/workloads/hashtable clean\nrm -f IMPICA/workloads/hashtable/.prebuilt_mode\nscripts/prebuild_guest_workloads.sh\nmake -C IMPICA/workloads/sepim_cmd clean\nmake -C IMPICA/workloads/sepim_cmd CC=aarch64-linux-gnu-gcc CFLAGS='\"'\"'-O2 -Wall -std=gnu99 -I../../pim_driver -static'\"'\"' LDFLAGS=-static sepim_cmd\nmake -C IMPICA/workloads/dma_benchmark_fs clean all\nmake -C IMPICA/workloads/controlled_access_bench_fs clean all\nmake -C IMPICA/workloads/trace_lookup_cpu clean all\nmake -C IMPICA/workloads/trace_lookup_sepim clean all\nmake -C IMPICA/workloads/kmeans_sepim_fs clean all\ntest \"$(cat IMPICA/workloads/hashtable/.prebuilt_mode)\" = full\nfile IMPICA/workloads/sepim_cmd/sepim_cmd | grep -F '\"'\"'ARM aarch64'\"'\"'\nfile IMPICA/workloads/dma_benchmark_fs/dma_benchmark_fs | grep -F '\"'\"'ARM aarch64'\"'\"'\nfile IMPICA/workloads/controlled_access_bench_fs/controlled_access_bench_fs | grep -F '\"'\"'ARM aarch64'\"'\"'\nfile IMPICA/workloads/hashtable/hashtable | grep -F '\"'\"'ARM aarch64'\"'\"'\nfile IMPICA/workloads/trace_lookup_cpu/trace_lookup_cpu | grep -F '\"'\"'ARM aarch64'\"'\"'\nfile IMPICA/workloads/trace_lookup_sepim/trace_lookup_sepim | grep -F '\"'\"'ARM aarch64'\"'\"'\nfile IMPICA/workloads/kmeans_sepim_fs/kmeans_sepim_fs | grep -F '\"'\"'ARM aarch64'\"'\"'\n'",
+      "finished_utc": "2026-07-27T18:36:38Z",
+      "inner_shell_sha256": "5613fce86f1cd6d3af45c87d55958258ebbc806fb39ae853657d5160dbb5a3bb",
+      "log": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/regression_strict_20260727T183538Z/logs/build.log",
+      "log_sha256": "81992d0fb5d26ed6238077541203908dcf4a10c7107557fc413ce84e2bafd138",
+      "network": "none",
+      "phase": "build_legacy_aarch64",
+      "returncode": 0,
+      "started_utc": "2026-07-27T18:35:57Z"
+    },
+    {
+      "argv": [
+        "docker",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--privileged",
+        "--mount",
+        "type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict,dst=/workspace",
+        "--mount",
+        "type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,dst=/workspace/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,readonly",
+        "--mount",
+        "type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/native_strict_timing_checkpoint_2,dst=/workspace/results/raw/native_strict_timing_checkpoint_2,readonly",
+        "-w",
+        "/workspace",
+        "-e",
+        "SEPIM_IN_CONTAINER=1",
+        "-e",
+        "IMAGE_NAME=sepim-impica:ubuntu18",
+        "sepim-impica:ubuntu18",
+        "/bin/bash",
+        "-lc",
+        "set -euo pipefail\ntrap 'chown -R 1000:1000 /workspace/results/raw/regression_strict_20260727T183538Z /workspace/IMPICA/workloads/sepim_cmd /workspace/IMPICA/workloads/dma_benchmark_fs /workspace/IMPICA/workloads/controlled_access_bench_fs /workspace/IMPICA/workloads/hashtable /workspace/IMPICA/workloads/trace_lookup_cpu /workspace/IMPICA/workloads/trace_lookup_sepim /workspace/IMPICA/workloads/kmeans_sepim_fs 2>/dev/null || true' EXIT\nexport DISK_IMAGE=/workspace/results/raw/regression_strict_20260727T183538Z/regression-disk.img\nexport FS_BUNDLE_DIR=/workspace/third_party/gem5_fs\nexport GEM5_BIN=/workspace/IMPICA/gem5/build/ARM/gem5.opt\nexport KERNEL=/workspace/third_party/gem5_fs/binaries/vmlinux.aarch64.20140821\nexport DTB=/workspace/third_party/gem5_fs/binaries/vexpress.aarch64.20140821.dtb\nexport MEM_SIZE=2048MB\nexport SEPIM_KERNEL_MEM=1984MB\nexport CPUS=4\nexport CHROOT_BUILD=0\nscripts/prepare_disk_image.sh\n"
+      ],
+      "display": "docker run --rm --network none --privileged --mount 'type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict,dst=/workspace' --mount 'type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,dst=/workspace/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,readonly' --mount 'type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/native_strict_timing_checkpoint_2,dst=/workspace/results/raw/native_strict_timing_checkpoint_2,readonly' -w /workspace -e SEPIM_IN_CONTAINER=1 -e IMAGE_NAME=sepim-impica:ubuntu18 sepim-impica:ubuntu18 /bin/bash -lc 'set -euo pipefail\ntrap '\"'\"'chown -R 1000:1000 /workspace/results/raw/regression_strict_20260727T183538Z /workspace/IMPICA/workloads/sepim_cmd /workspace/IMPICA/workloads/dma_benchmark_fs /workspace/IMPICA/workloads/controlled_access_bench_fs /workspace/IMPICA/workloads/hashtable /workspace/IMPICA/workloads/trace_lookup_cpu /workspace/IMPICA/workloads/trace_lookup_sepim /workspace/IMPICA/workloads/kmeans_sepim_fs 2>/dev/null || true'\"'\"' EXIT\nexport DISK_IMAGE=/workspace/results/raw/regression_strict_20260727T183538Z/regression-disk.img\nexport FS_BUNDLE_DIR=/workspace/third_party/gem5_fs\nexport GEM5_BIN=/workspace/IMPICA/gem5/build/ARM/gem5.opt\nexport KERNEL=/workspace/third_party/gem5_fs/binaries/vmlinux.aarch64.20140821\nexport DTB=/workspace/third_party/gem5_fs/binaries/vexpress.aarch64.20140821.dtb\nexport MEM_SIZE=2048MB\nexport SEPIM_KERNEL_MEM=1984MB\nexport CPUS=4\nexport CHROOT_BUILD=0\nscripts/prepare_disk_image.sh\n'",
+      "finished_utc": "2026-07-27T18:36:39Z",
+      "inner_shell_sha256": "d273103ac089781276ad70e4780865aba6b9a296f0b8692505fc50b405f1f8f5",
+      "log": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/regression_strict_20260727T183538Z/logs/inject.log",
+      "log_sha256": "3b9773903875f65827ddaec7f30f978d696479073b6c5d3a5a361705725407a6",
+      "network": "none",
+      "phase": "inject_disposable_disk",
+      "returncode": 0,
+      "started_utc": "2026-07-27T18:36:38Z"
+    },
+    {
+      "argv": [
+        "docker",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--privileged",
+        "--mount",
+        "type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict,dst=/workspace",
+        "--mount",
+        "type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,dst=/workspace/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,readonly",
+        "--mount",
+        "type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/native_strict_timing_checkpoint_2,dst=/workspace/results/raw/native_strict_timing_checkpoint_2,readonly",
+        "-w",
+        "/workspace",
+        "-e",
+        "SEPIM_IN_CONTAINER=1",
+        "-e",
+        "IMAGE_NAME=sepim-impica:ubuntu18",
+        "sepim-impica:ubuntu18",
+        "/bin/bash",
+        "-lc",
+        "set -euo pipefail\ntrap 'chown -R 1000:1000 /workspace/results/raw/regression_strict_20260727T183538Z /workspace/IMPICA/workloads/sepim_cmd /workspace/IMPICA/workloads/dma_benchmark_fs /workspace/IMPICA/workloads/controlled_access_bench_fs /workspace/IMPICA/workloads/hashtable /workspace/IMPICA/workloads/trace_lookup_cpu /workspace/IMPICA/workloads/trace_lookup_sepim /workspace/IMPICA/workloads/kmeans_sepim_fs 2>/dev/null || true' EXIT\nexport DISK_IMAGE=/workspace/results/raw/regression_strict_20260727T183538Z/regression-disk.img\nexport FS_BUNDLE_DIR=/workspace/third_party/gem5_fs\nexport GEM5_BIN=/workspace/IMPICA/gem5/build/ARM/gem5.opt\nexport KERNEL=/workspace/third_party/gem5_fs/binaries/vmlinux.aarch64.20140821\nexport DTB=/workspace/third_party/gem5_fs/binaries/vexpress.aarch64.20140821.dtb\nexport MEM_SIZE=2048MB\nexport SEPIM_KERNEL_MEM=1984MB\nexport CPUS=4\nexport OUTDIR=/workspace/results/raw/regression_strict_20260727T183538Z/checkpoint_atomic\nexport BOOT_SCRIPT=/workspace/results/raw/regression_strict_20260727T183538Z/rcs/checkpoint.rcS\nexport GEM5_EXTRA_ARGS=--cpu-type=atomic\nscripts/run_baseline_fs.sh --mode custom\n"
+      ],
+      "display": "docker run --rm --network none --privileged --mount 'type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict,dst=/workspace' --mount 'type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,dst=/workspace/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,readonly' --mount 'type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/native_strict_timing_checkpoint_2,dst=/workspace/results/raw/native_strict_timing_checkpoint_2,readonly' -w /workspace -e SEPIM_IN_CONTAINER=1 -e IMAGE_NAME=sepim-impica:ubuntu18 sepim-impica:ubuntu18 /bin/bash -lc 'set -euo pipefail\ntrap '\"'\"'chown -R 1000:1000 /workspace/results/raw/regression_strict_20260727T183538Z /workspace/IMPICA/workloads/sepim_cmd /workspace/IMPICA/workloads/dma_benchmark_fs /workspace/IMPICA/workloads/controlled_access_bench_fs /workspace/IMPICA/workloads/hashtable /workspace/IMPICA/workloads/trace_lookup_cpu /workspace/IMPICA/workloads/trace_lookup_sepim /workspace/IMPICA/workloads/kmeans_sepim_fs 2>/dev/null || true'\"'\"' EXIT\nexport DISK_IMAGE=/workspace/results/raw/regression_strict_20260727T183538Z/regression-disk.img\nexport FS_BUNDLE_DIR=/workspace/third_party/gem5_fs\nexport GEM5_BIN=/workspace/IMPICA/gem5/build/ARM/gem5.opt\nexport KERNEL=/workspace/third_party/gem5_fs/binaries/vmlinux.aarch64.20140821\nexport DTB=/workspace/third_party/gem5_fs/binaries/vexpress.aarch64.20140821.dtb\nexport MEM_SIZE=2048MB\nexport SEPIM_KERNEL_MEM=1984MB\nexport CPUS=4\nexport OUTDIR=/workspace/results/raw/regression_strict_20260727T183538Z/checkpoint_atomic\nexport BOOT_SCRIPT=/workspace/results/raw/regression_strict_20260727T183538Z/rcs/checkpoint.rcS\nexport GEM5_EXTRA_ARGS=--cpu-type=atomic\nscripts/run_baseline_fs.sh --mode custom\n'",
+      "finished_utc": "2026-07-27T18:51:26Z",
+      "inner_shell_sha256": "9a9145d41015b16a4e913abf0350c278a6962257f2501900c1cc6c32309af333",
+      "log": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/regression_strict_20260727T183538Z/logs/checkpoint.log",
+      "log_sha256": "cb85413812b2d6eff75819ad69ec0234cd702e4d152a011461cd8da8e1928fba",
+      "network": "none",
+      "phase": "create_regression_atomic_checkpoint",
+      "returncode": 0,
+      "started_utc": "2026-07-27T18:36:46Z"
+    },
+    {
+      "argv": [
+        "docker",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--privileged",
+        "--mount",
+        "type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict,dst=/workspace",
+        "--mount",
+        "type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,dst=/workspace/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,readonly",
+        "--mount",
+        "type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/native_strict_timing_checkpoint_2,dst=/workspace/results/raw/native_strict_timing_checkpoint_2,readonly",
+        "-w",
+        "/workspace",
+        "-e",
+        "SEPIM_IN_CONTAINER=1",
+        "-e",
+        "IMAGE_NAME=sepim-impica:ubuntu18",
+        "sepim-impica:ubuntu18",
+        "/bin/bash",
+        "-lc",
+        "set -euo pipefail\ntrap 'chown -R 1000:1000 /workspace/results/raw/regression_strict_20260727T183538Z /workspace/IMPICA/workloads/sepim_cmd /workspace/IMPICA/workloads/dma_benchmark_fs /workspace/IMPICA/workloads/controlled_access_bench_fs /workspace/IMPICA/workloads/hashtable /workspace/IMPICA/workloads/trace_lookup_cpu /workspace/IMPICA/workloads/trace_lookup_sepim /workspace/IMPICA/workloads/kmeans_sepim_fs 2>/dev/null || true' EXIT\nexport DISK_IMAGE=/workspace/results/raw/regression_strict_20260727T183538Z/regression-disk.img\nexport FS_BUNDLE_DIR=/workspace/third_party/gem5_fs\nexport GEM5_BIN=/workspace/IMPICA/gem5/build/ARM/gem5.opt\nexport KERNEL=/workspace/third_party/gem5_fs/binaries/vmlinux.aarch64.20140821\nexport DTB=/workspace/third_party/gem5_fs/binaries/vexpress.aarch64.20140821.dtb\nexport MEM_SIZE=2048MB\nexport SEPIM_KERNEL_MEM=1984MB\nexport CPUS=4\nexport FS_CONFIG=/workspace/IMPICA/gem5/configs/se_pim/se_pim_fs.py\nexport OUTDIR=/workspace/results/raw/regression_strict_20260727T183538Z/checkpoint_trace_atomic\nexport BOOT_SCRIPT=/workspace/results/raw/regression_strict_20260727T183538Z/rcs/trace_checkpoint.rcS\nexport GEM5_EXTRA_ARGS='--cpu-type=atomic --sepim-trace-enable=1 --sepim-trace-file=/workspace/results/raw/regression_strict_20260727T183538Z/checkpoint_trace_atomic/bootstrap.ptrc'\nscripts/run_baseline_fs.sh --mode custom\n"
+      ],
+      "display": "docker run --rm --network none --privileged --mount 'type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict,dst=/workspace' --mount 'type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,dst=/workspace/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,readonly' --mount 'type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/native_strict_timing_checkpoint_2,dst=/workspace/results/raw/native_strict_timing_checkpoint_2,readonly' -w /workspace -e SEPIM_IN_CONTAINER=1 -e IMAGE_NAME=sepim-impica:ubuntu18 sepim-impica:ubuntu18 /bin/bash -lc 'set -euo pipefail\ntrap '\"'\"'chown -R 1000:1000 /workspace/results/raw/regression_strict_20260727T183538Z /workspace/IMPICA/workloads/sepim_cmd /workspace/IMPICA/workloads/dma_benchmark_fs /workspace/IMPICA/workloads/controlled_access_bench_fs /workspace/IMPICA/workloads/hashtable /workspace/IMPICA/workloads/trace_lookup_cpu /workspace/IMPICA/workloads/trace_lookup_sepim /workspace/IMPICA/workloads/kmeans_sepim_fs 2>/dev/null || true'\"'\"' EXIT\nexport DISK_IMAGE=/workspace/results/raw/regression_strict_20260727T183538Z/regression-disk.img\nexport FS_BUNDLE_DIR=/workspace/third_party/gem5_fs\nexport GEM5_BIN=/workspace/IMPICA/gem5/build/ARM/gem5.opt\nexport KERNEL=/workspace/third_party/gem5_fs/binaries/vmlinux.aarch64.20140821\nexport DTB=/workspace/third_party/gem5_fs/binaries/vexpress.aarch64.20140821.dtb\nexport MEM_SIZE=2048MB\nexport SEPIM_KERNEL_MEM=1984MB\nexport CPUS=4\nexport FS_CONFIG=/workspace/IMPICA/gem5/configs/se_pim/se_pim_fs.py\nexport OUTDIR=/workspace/results/raw/regression_strict_20260727T183538Z/checkpoint_trace_atomic\nexport BOOT_SCRIPT=/workspace/results/raw/regression_strict_20260727T183538Z/rcs/trace_checkpoint.rcS\nexport GEM5_EXTRA_ARGS='\"'\"'--cpu-type=atomic --sepim-trace-enable=1 --sepim-trace-file=/workspace/results/raw/regression_strict_20260727T183538Z/checkpoint_trace_atomic/bootstrap.ptrc'\"'\"'\nscripts/run_baseline_fs.sh --mode custom\n'",
+      "finished_utc": "2026-07-27T19:04:07Z",
+      "inner_shell_sha256": "0bbb2d03ade8071aa72941ffac9509f20e0f4b6e22c56ee7ca97a8f05bcb710e",
+      "log": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/regression_strict_20260727T183538Z/logs/trace_checkpoint.log",
+      "log_sha256": "ebd945c800010e02883e386d7a11d0604bf7fcd865ef78b45da38fa0173c8402",
+      "network": "none",
+      "phase": "create_trace_topology_atomic_checkpoint",
+      "returncode": 0,
+      "started_utc": "2026-07-27T18:51:26Z"
+    },
+    {
+      "argv": [
+        "docker",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--privileged",
+        "--mount",
+        "type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict,dst=/workspace",
+        "--mount",
+        "type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,dst=/workspace/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,readonly",
+        "--mount",
+        "type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/native_strict_timing_checkpoint_2,dst=/workspace/results/raw/native_strict_timing_checkpoint_2,readonly",
+        "-w",
+        "/workspace",
+        "-e",
+        "SEPIM_IN_CONTAINER=1",
+        "-e",
+        "IMAGE_NAME=sepim-impica:ubuntu18",
+        "sepim-impica:ubuntu18",
+        "/bin/bash",
+        "-lc",
+        "set -euo pipefail\ntrap 'chown -R 1000:1000 /workspace/results/raw/regression_strict_20260727T183538Z /workspace/IMPICA/workloads/sepim_cmd /workspace/IMPICA/workloads/dma_benchmark_fs /workspace/IMPICA/workloads/controlled_access_bench_fs /workspace/IMPICA/workloads/hashtable /workspace/IMPICA/workloads/trace_lookup_cpu /workspace/IMPICA/workloads/trace_lookup_sepim /workspace/IMPICA/workloads/kmeans_sepim_fs 2>/dev/null || true' EXIT\nexport DISK_IMAGE=/workspace/results/raw/regression_strict_20260727T183538Z/regression-disk.img\nexport FS_BUNDLE_DIR=/workspace/third_party/gem5_fs\nexport GEM5_BIN=/workspace/IMPICA/gem5/build/ARM/gem5.opt\nexport KERNEL=/workspace/third_party/gem5_fs/binaries/vmlinux.aarch64.20140821\nexport DTB=/workspace/third_party/gem5_fs/binaries/vexpress.aarch64.20140821.dtb\nexport MEM_SIZE=2048MB\nexport SEPIM_KERNEL_MEM=1984MB\nexport CPUS=4\nexport OUTDIR=/workspace/results/raw/regression_strict_20260727T183538Z/cases/table2_pass1\nexport BOOT_SCRIPT=/workspace/results/raw/regression_strict_20260727T183538Z/rcs/table2_pass1.rcS\nexport GEM5_EXTRA_ARGS='-r 1 --checkpoint-dir=/workspace/results/raw/regression_strict_20260727T183538Z/checkpoint_atomic --cpu-type=atomic --restore-with-cpu=atomic'\nscripts/run_baseline_fs.sh --mode custom\n"
+      ],
+      "display": "docker run --rm --network none --privileged --mount 'type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict,dst=/workspace' --mount 'type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,dst=/workspace/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,readonly' --mount 'type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/native_strict_timing_checkpoint_2,dst=/workspace/results/raw/native_strict_timing_checkpoint_2,readonly' -w /workspace -e SEPIM_IN_CONTAINER=1 -e IMAGE_NAME=sepim-impica:ubuntu18 sepim-impica:ubuntu18 /bin/bash -lc 'set -euo pipefail\ntrap '\"'\"'chown -R 1000:1000 /workspace/results/raw/regression_strict_20260727T183538Z /workspace/IMPICA/workloads/sepim_cmd /workspace/IMPICA/workloads/dma_benchmark_fs /workspace/IMPICA/workloads/controlled_access_bench_fs /workspace/IMPICA/workloads/hashtable /workspace/IMPICA/workloads/trace_lookup_cpu /workspace/IMPICA/workloads/trace_lookup_sepim /workspace/IMPICA/workloads/kmeans_sepim_fs 2>/dev/null || true'\"'\"' EXIT\nexport DISK_IMAGE=/workspace/results/raw/regression_strict_20260727T183538Z/regression-disk.img\nexport FS_BUNDLE_DIR=/workspace/third_party/gem5_fs\nexport GEM5_BIN=/workspace/IMPICA/gem5/build/ARM/gem5.opt\nexport KERNEL=/workspace/third_party/gem5_fs/binaries/vmlinux.aarch64.20140821\nexport DTB=/workspace/third_party/gem5_fs/binaries/vexpress.aarch64.20140821.dtb\nexport MEM_SIZE=2048MB\nexport SEPIM_KERNEL_MEM=1984MB\nexport CPUS=4\nexport OUTDIR=/workspace/results/raw/regression_strict_20260727T183538Z/cases/table2_pass1\nexport BOOT_SCRIPT=/workspace/results/raw/regression_strict_20260727T183538Z/rcs/table2_pass1.rcS\nexport GEM5_EXTRA_ARGS='\"'\"'-r 1 --checkpoint-dir=/workspace/results/raw/regression_strict_20260727T183538Z/checkpoint_atomic --cpu-type=atomic --restore-with-cpu=atomic'\"'\"'\nscripts/run_baseline_fs.sh --mode custom\n'",
+      "finished_utc": "2026-07-27T19:04:58Z",
+      "inner_shell_sha256": "04cef03780404227c5c1fdae0a1b071e8ec1b33195bf8758678097a9293158e6",
+      "log": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/regression_strict_20260727T183538Z/logs/table2_pass1.log",
+      "log_sha256": "6eba28fba1bccd7e8c9b7b39f03c9436ab97fca609c76e3223d04cb814d11565",
+      "network": "none",
+      "phase": "table2_pass1",
+      "returncode": 0,
+      "started_utc": "2026-07-27T19:04:08Z"
+    },
+    {
+      "argv": [
+        "docker",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--privileged",
+        "--mount",
+        "type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict,dst=/workspace",
+        "--mount",
+        "type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,dst=/workspace/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,readonly",
+        "--mount",
+        "type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/native_strict_timing_checkpoint_2,dst=/workspace/results/raw/native_strict_timing_checkpoint_2,readonly",
+        "-w",
+        "/workspace",
+        "-e",
+        "SEPIM_IN_CONTAINER=1",
+        "-e",
+        "IMAGE_NAME=sepim-impica:ubuntu18",
+        "sepim-impica:ubuntu18",
+        "/bin/bash",
+        "-lc",
+        "set -euo pipefail\ntrap 'chown -R 1000:1000 /workspace/results/raw/regression_strict_20260727T183538Z /workspace/IMPICA/workloads/sepim_cmd /workspace/IMPICA/workloads/dma_benchmark_fs /workspace/IMPICA/workloads/controlled_access_bench_fs /workspace/IMPICA/workloads/hashtable /workspace/IMPICA/workloads/trace_lookup_cpu /workspace/IMPICA/workloads/trace_lookup_sepim /workspace/IMPICA/workloads/kmeans_sepim_fs 2>/dev/null || true' EXIT\nexport DISK_IMAGE=/workspace/results/raw/regression_strict_20260727T183538Z/regression-disk.img\nexport FS_BUNDLE_DIR=/workspace/third_party/gem5_fs\nexport GEM5_BIN=/workspace/IMPICA/gem5/build/ARM/gem5.opt\nexport KERNEL=/workspace/third_party/gem5_fs/binaries/vmlinux.aarch64.20140821\nexport DTB=/workspace/third_party/gem5_fs/binaries/vexpress.aarch64.20140821.dtb\nexport MEM_SIZE=2048MB\nexport SEPIM_KERNEL_MEM=1984MB\nexport CPUS=4\nexport OUTDIR=/workspace/results/raw/regression_strict_20260727T183538Z/cases/table2_pass2\nexport BOOT_SCRIPT=/workspace/results/raw/regression_strict_20260727T183538Z/rcs/table2_pass2.rcS\nexport GEM5_EXTRA_ARGS='-r 1 --checkpoint-dir=/workspace/results/raw/regression_strict_20260727T183538Z/checkpoint_atomic --cpu-type=atomic --restore-with-cpu=atomic'\nscripts/run_baseline_fs.sh --mode custom\n"
+      ],
+      "display": "docker run --rm --network none --privileged --mount 'type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict,dst=/workspace' --mount 'type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,dst=/workspace/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,readonly' --mount 'type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/native_strict_timing_checkpoint_2,dst=/workspace/results/raw/native_strict_timing_checkpoint_2,readonly' -w /workspace -e SEPIM_IN_CONTAINER=1 -e IMAGE_NAME=sepim-impica:ubuntu18 sepim-impica:ubuntu18 /bin/bash -lc 'set -euo pipefail\ntrap '\"'\"'chown -R 1000:1000 /workspace/results/raw/regression_strict_20260727T183538Z /workspace/IMPICA/workloads/sepim_cmd /workspace/IMPICA/workloads/dma_benchmark_fs /workspace/IMPICA/workloads/controlled_access_bench_fs /workspace/IMPICA/workloads/hashtable /workspace/IMPICA/workloads/trace_lookup_cpu /workspace/IMPICA/workloads/trace_lookup_sepim /workspace/IMPICA/workloads/kmeans_sepim_fs 2>/dev/null || true'\"'\"' EXIT\nexport DISK_IMAGE=/workspace/results/raw/regression_strict_20260727T183538Z/regression-disk.img\nexport FS_BUNDLE_DIR=/workspace/third_party/gem5_fs\nexport GEM5_BIN=/workspace/IMPICA/gem5/build/ARM/gem5.opt\nexport KERNEL=/workspace/third_party/gem5_fs/binaries/vmlinux.aarch64.20140821\nexport DTB=/workspace/third_party/gem5_fs/binaries/vexpress.aarch64.20140821.dtb\nexport MEM_SIZE=2048MB\nexport SEPIM_KERNEL_MEM=1984MB\nexport CPUS=4\nexport OUTDIR=/workspace/results/raw/regression_strict_20260727T183538Z/cases/table2_pass2\nexport BOOT_SCRIPT=/workspace/results/raw/regression_strict_20260727T183538Z/rcs/table2_pass2.rcS\nexport GEM5_EXTRA_ARGS='\"'\"'-r 1 --checkpoint-dir=/workspace/results/raw/regression_strict_20260727T183538Z/checkpoint_atomic --cpu-type=atomic --restore-with-cpu=atomic'\"'\"'\nscripts/run_baseline_fs.sh --mode custom\n'",
+      "finished_utc": "2026-07-27T19:05:39Z",
+      "inner_shell_sha256": "ad084b6d54f51d7a24314abb4592384b48768067fe9194e50b8999bf1fd68308",
+      "log": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/regression_strict_20260727T183538Z/logs/table2_pass2.log",
+      "log_sha256": "cd0d32566fce42ac4ff0d7bea2bda9f5abbff39ee742e0d0815c96697914281e",
+      "network": "none",
+      "phase": "table2_pass2",
+      "returncode": 0,
+      "started_utc": "2026-07-27T19:04:58Z"
+    },
+    {
+      "argv": [
+        "docker",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--privileged",
+        "--mount",
+        "type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict,dst=/workspace",
+        "--mount",
+        "type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,dst=/workspace/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,readonly",
+        "--mount",
+        "type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/native_strict_timing_checkpoint_2,dst=/workspace/results/raw/native_strict_timing_checkpoint_2,readonly",
+        "-w",
+        "/workspace",
+        "-e",
+        "SEPIM_IN_CONTAINER=1",
+        "-e",
+        "IMAGE_NAME=sepim-impica:ubuntu18",
+        "sepim-impica:ubuntu18",
+        "/bin/bash",
+        "-lc",
+        "set -euo pipefail\ntrap 'chown -R 1000:1000 /workspace/results/raw/regression_strict_20260727T183538Z /workspace/IMPICA/workloads/sepim_cmd /workspace/IMPICA/workloads/dma_benchmark_fs /workspace/IMPICA/workloads/controlled_access_bench_fs /workspace/IMPICA/workloads/hashtable /workspace/IMPICA/workloads/trace_lookup_cpu /workspace/IMPICA/workloads/trace_lookup_sepim /workspace/IMPICA/workloads/kmeans_sepim_fs 2>/dev/null || true' EXIT\nexport DISK_IMAGE=/workspace/results/raw/regression_strict_20260727T183538Z/regression-disk.img\nexport FS_BUNDLE_DIR=/workspace/third_party/gem5_fs\nexport GEM5_BIN=/workspace/IMPICA/gem5/build/ARM/gem5.opt\nexport KERNEL=/workspace/third_party/gem5_fs/binaries/vmlinux.aarch64.20140821\nexport DTB=/workspace/third_party/gem5_fs/binaries/vexpress.aarch64.20140821.dtb\nexport MEM_SIZE=2048MB\nexport SEPIM_KERNEL_MEM=1984MB\nexport CPUS=4\nexport OUTDIR=/workspace/results/raw/regression_strict_20260727T183538Z/cases/dma_full\nexport BOOT_SCRIPT=/workspace/results/raw/regression_strict_20260727T183538Z/rcs/dma_full.rcS\nexport GEM5_EXTRA_ARGS='-r 1 --checkpoint-dir=/workspace/results/raw/regression_strict_20260727T183538Z/checkpoint_atomic --cpu-type=atomic --restore-with-cpu=atomic'\nscripts/run_baseline_fs.sh --mode custom\n"
+      ],
+      "display": "docker run --rm --network none --privileged --mount 'type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict,dst=/workspace' --mount 'type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,dst=/workspace/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,readonly' --mount 'type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/native_strict_timing_checkpoint_2,dst=/workspace/results/raw/native_strict_timing_checkpoint_2,readonly' -w /workspace -e SEPIM_IN_CONTAINER=1 -e IMAGE_NAME=sepim-impica:ubuntu18 sepim-impica:ubuntu18 /bin/bash -lc 'set -euo pipefail\ntrap '\"'\"'chown -R 1000:1000 /workspace/results/raw/regression_strict_20260727T183538Z /workspace/IMPICA/workloads/sepim_cmd /workspace/IMPICA/workloads/dma_benchmark_fs /workspace/IMPICA/workloads/controlled_access_bench_fs /workspace/IMPICA/workloads/hashtable /workspace/IMPICA/workloads/trace_lookup_cpu /workspace/IMPICA/workloads/trace_lookup_sepim /workspace/IMPICA/workloads/kmeans_sepim_fs 2>/dev/null || true'\"'\"' EXIT\nexport DISK_IMAGE=/workspace/results/raw/regression_strict_20260727T183538Z/regression-disk.img\nexport FS_BUNDLE_DIR=/workspace/third_party/gem5_fs\nexport GEM5_BIN=/workspace/IMPICA/gem5/build/ARM/gem5.opt\nexport KERNEL=/workspace/third_party/gem5_fs/binaries/vmlinux.aarch64.20140821\nexport DTB=/workspace/third_party/gem5_fs/binaries/vexpress.aarch64.20140821.dtb\nexport MEM_SIZE=2048MB\nexport SEPIM_KERNEL_MEM=1984MB\nexport CPUS=4\nexport OUTDIR=/workspace/results/raw/regression_strict_20260727T183538Z/cases/dma_full\nexport BOOT_SCRIPT=/workspace/results/raw/regression_strict_20260727T183538Z/rcs/dma_full.rcS\nexport GEM5_EXTRA_ARGS='\"'\"'-r 1 --checkpoint-dir=/workspace/results/raw/regression_strict_20260727T183538Z/checkpoint_atomic --cpu-type=atomic --restore-with-cpu=atomic'\"'\"'\nscripts/run_baseline_fs.sh --mode custom\n'",
+      "finished_utc": "2026-07-27T19:06:21Z",
+      "inner_shell_sha256": "57772e7de682332015cf701f8dda6b7df6282de4ef9e2e53aaa19b54c77c083c",
+      "log": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/regression_strict_20260727T183538Z/logs/dma_full.log",
+      "log_sha256": "93d900615e820897e55330c84caf331437b27fcae41a7eb88f005b6e251767e0",
+      "network": "none",
+      "phase": "dma_full",
+      "returncode": 0,
+      "started_utc": "2026-07-27T19:05:39Z"
+    },
+    {
+      "argv": [
+        "docker",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--privileged",
+        "--mount",
+        "type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict,dst=/workspace",
+        "--mount",
+        "type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,dst=/workspace/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,readonly",
+        "--mount",
+        "type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/native_strict_timing_checkpoint_2,dst=/workspace/results/raw/native_strict_timing_checkpoint_2,readonly",
+        "-w",
+        "/workspace",
+        "-e",
+        "SEPIM_IN_CONTAINER=1",
+        "-e",
+        "IMAGE_NAME=sepim-impica:ubuntu18",
+        "sepim-impica:ubuntu18",
+        "/bin/bash",
+        "-lc",
+        "set -euo pipefail\ntrap 'chown -R 1000:1000 /workspace/results/raw/regression_strict_20260727T183538Z /workspace/IMPICA/workloads/sepim_cmd /workspace/IMPICA/workloads/dma_benchmark_fs /workspace/IMPICA/workloads/controlled_access_bench_fs /workspace/IMPICA/workloads/hashtable /workspace/IMPICA/workloads/trace_lookup_cpu /workspace/IMPICA/workloads/trace_lookup_sepim /workspace/IMPICA/workloads/kmeans_sepim_fs 2>/dev/null || true' EXIT\nexport DISK_IMAGE=/workspace/results/raw/regression_strict_20260727T183538Z/regression-disk.img\nexport FS_BUNDLE_DIR=/workspace/third_party/gem5_fs\nexport GEM5_BIN=/workspace/IMPICA/gem5/build/ARM/gem5.opt\nexport KERNEL=/workspace/third_party/gem5_fs/binaries/vmlinux.aarch64.20140821\nexport DTB=/workspace/third_party/gem5_fs/binaries/vexpress.aarch64.20140821.dtb\nexport MEM_SIZE=2048MB\nexport SEPIM_KERNEL_MEM=1984MB\nexport CPUS=4\nexport OUTDIR=/workspace/results/raw/regression_strict_20260727T183538Z/cases/controlled_full\nexport BOOT_SCRIPT=/workspace/results/raw/regression_strict_20260727T183538Z/rcs/controlled_full.rcS\nexport GEM5_EXTRA_ARGS='-r 1 --checkpoint-dir=/workspace/results/raw/regression_strict_20260727T183538Z/checkpoint_atomic --cpu-type=atomic --restore-with-cpu=atomic'\nscripts/run_baseline_fs.sh --mode custom\n"
+      ],
+      "display": "docker run --rm --network none --privileged --mount 'type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict,dst=/workspace' --mount 'type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,dst=/workspace/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,readonly' --mount 'type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/native_strict_timing_checkpoint_2,dst=/workspace/results/raw/native_strict_timing_checkpoint_2,readonly' -w /workspace -e SEPIM_IN_CONTAINER=1 -e IMAGE_NAME=sepim-impica:ubuntu18 sepim-impica:ubuntu18 /bin/bash -lc 'set -euo pipefail\ntrap '\"'\"'chown -R 1000:1000 /workspace/results/raw/regression_strict_20260727T183538Z /workspace/IMPICA/workloads/sepim_cmd /workspace/IMPICA/workloads/dma_benchmark_fs /workspace/IMPICA/workloads/controlled_access_bench_fs /workspace/IMPICA/workloads/hashtable /workspace/IMPICA/workloads/trace_lookup_cpu /workspace/IMPICA/workloads/trace_lookup_sepim /workspace/IMPICA/workloads/kmeans_sepim_fs 2>/dev/null || true'\"'\"' EXIT\nexport DISK_IMAGE=/workspace/results/raw/regression_strict_20260727T183538Z/regression-disk.img\nexport FS_BUNDLE_DIR=/workspace/third_party/gem5_fs\nexport GEM5_BIN=/workspace/IMPICA/gem5/build/ARM/gem5.opt\nexport KERNEL=/workspace/third_party/gem5_fs/binaries/vmlinux.aarch64.20140821\nexport DTB=/workspace/third_party/gem5_fs/binaries/vexpress.aarch64.20140821.dtb\nexport MEM_SIZE=2048MB\nexport SEPIM_KERNEL_MEM=1984MB\nexport CPUS=4\nexport OUTDIR=/workspace/results/raw/regression_strict_20260727T183538Z/cases/controlled_full\nexport BOOT_SCRIPT=/workspace/results/raw/regression_strict_20260727T183538Z/rcs/controlled_full.rcS\nexport GEM5_EXTRA_ARGS='\"'\"'-r 1 --checkpoint-dir=/workspace/results/raw/regression_strict_20260727T183538Z/checkpoint_atomic --cpu-type=atomic --restore-with-cpu=atomic'\"'\"'\nscripts/run_baseline_fs.sh --mode custom\n'",
+      "finished_utc": "2026-07-27T19:07:03Z",
+      "inner_shell_sha256": "ef38b44978b293e885e91d441147bc335cb279c380a0142dda005de7aac6c79d",
+      "log": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/regression_strict_20260727T183538Z/logs/controlled_full.log",
+      "log_sha256": "321d9276e3789a77e4aa467f556e461b8f97dad71832ad1f9e8b86a6d6430406",
+      "network": "none",
+      "phase": "controlled_full",
+      "returncode": 0,
+      "started_utc": "2026-07-27T19:06:21Z"
+    },
+    {
+      "argv": [
+        "docker",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--privileged",
+        "--mount",
+        "type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict,dst=/workspace",
+        "--mount",
+        "type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,dst=/workspace/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,readonly",
+        "--mount",
+        "type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/native_strict_timing_checkpoint_2,dst=/workspace/results/raw/native_strict_timing_checkpoint_2,readonly",
+        "-w",
+        "/workspace",
+        "-e",
+        "SEPIM_IN_CONTAINER=1",
+        "-e",
+        "IMAGE_NAME=sepim-impica:ubuntu18",
+        "sepim-impica:ubuntu18",
+        "/bin/bash",
+        "-lc",
+        "set -euo pipefail\ntrap 'chown -R 1000:1000 /workspace/results/raw/regression_strict_20260727T183538Z /workspace/IMPICA/workloads/sepim_cmd /workspace/IMPICA/workloads/dma_benchmark_fs /workspace/IMPICA/workloads/controlled_access_bench_fs /workspace/IMPICA/workloads/hashtable /workspace/IMPICA/workloads/trace_lookup_cpu /workspace/IMPICA/workloads/trace_lookup_sepim /workspace/IMPICA/workloads/kmeans_sepim_fs 2>/dev/null || true' EXIT\nexport DISK_IMAGE=/workspace/results/raw/regression_strict_20260727T183538Z/regression-disk.img\nexport FS_BUNDLE_DIR=/workspace/third_party/gem5_fs\nexport GEM5_BIN=/workspace/IMPICA/gem5/build/ARM/gem5.opt\nexport KERNEL=/workspace/third_party/gem5_fs/binaries/vmlinux.aarch64.20140821\nexport DTB=/workspace/third_party/gem5_fs/binaries/vexpress.aarch64.20140821.dtb\nexport MEM_SIZE=2048MB\nexport SEPIM_KERNEL_MEM=1984MB\nexport CPUS=4\nexport OUTDIR=/workspace/results/raw/regression_strict_20260727T183538Z/cases/hashtable_canonical\nexport BOOT_SCRIPT=/workspace/results/raw/regression_strict_20260727T183538Z/rcs/hashtable_canonical.rcS\nexport GEM5_EXTRA_ARGS='-r 1 --checkpoint-dir=/workspace/results/raw/regression_strict_20260727T183538Z/checkpoint_atomic --cpu-type=atomic --restore-with-cpu=atomic'\nscripts/run_baseline_fs.sh --mode custom\n"
+      ],
+      "display": "docker run --rm --network none --privileged --mount 'type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict,dst=/workspace' --mount 'type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,dst=/workspace/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,readonly' --mount 'type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/native_strict_timing_checkpoint_2,dst=/workspace/results/raw/native_strict_timing_checkpoint_2,readonly' -w /workspace -e SEPIM_IN_CONTAINER=1 -e IMAGE_NAME=sepim-impica:ubuntu18 sepim-impica:ubuntu18 /bin/bash -lc 'set -euo pipefail\ntrap '\"'\"'chown -R 1000:1000 /workspace/results/raw/regression_strict_20260727T183538Z /workspace/IMPICA/workloads/sepim_cmd /workspace/IMPICA/workloads/dma_benchmark_fs /workspace/IMPICA/workloads/controlled_access_bench_fs /workspace/IMPICA/workloads/hashtable /workspace/IMPICA/workloads/trace_lookup_cpu /workspace/IMPICA/workloads/trace_lookup_sepim /workspace/IMPICA/workloads/kmeans_sepim_fs 2>/dev/null || true'\"'\"' EXIT\nexport DISK_IMAGE=/workspace/results/raw/regression_strict_20260727T183538Z/regression-disk.img\nexport FS_BUNDLE_DIR=/workspace/third_party/gem5_fs\nexport GEM5_BIN=/workspace/IMPICA/gem5/build/ARM/gem5.opt\nexport KERNEL=/workspace/third_party/gem5_fs/binaries/vmlinux.aarch64.20140821\nexport DTB=/workspace/third_party/gem5_fs/binaries/vexpress.aarch64.20140821.dtb\nexport MEM_SIZE=2048MB\nexport SEPIM_KERNEL_MEM=1984MB\nexport CPUS=4\nexport OUTDIR=/workspace/results/raw/regression_strict_20260727T183538Z/cases/hashtable_canonical\nexport BOOT_SCRIPT=/workspace/results/raw/regression_strict_20260727T183538Z/rcs/hashtable_canonical.rcS\nexport GEM5_EXTRA_ARGS='\"'\"'-r 1 --checkpoint-dir=/workspace/results/raw/regression_strict_20260727T183538Z/checkpoint_atomic --cpu-type=atomic --restore-with-cpu=atomic'\"'\"'\nscripts/run_baseline_fs.sh --mode custom\n'",
+      "finished_utc": "2026-07-27T21:20:13Z",
+      "inner_shell_sha256": "6e6dc6c1a0b59303256905899e39af3bacb5914d95dc8e03ffd32f1b6bb270fc",
+      "log": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/regression_strict_20260727T183538Z/logs/hashtable_canonical.log",
+      "log_sha256": "e1cfa92a8c109a6895d2deb94e72981e0b67f25e3b8ef2b0f2ff8c2b52274d54",
+      "network": "none",
+      "phase": "hashtable_canonical",
+      "returncode": 0,
+      "started_utc": "2026-07-27T19:07:03Z"
+    },
+    {
+      "argv": [
+        "docker",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--privileged",
+        "--mount",
+        "type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict,dst=/workspace",
+        "--mount",
+        "type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,dst=/workspace/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,readonly",
+        "--mount",
+        "type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/native_strict_timing_checkpoint_2,dst=/workspace/results/raw/native_strict_timing_checkpoint_2,readonly",
+        "-w",
+        "/workspace",
+        "-e",
+        "SEPIM_IN_CONTAINER=1",
+        "-e",
+        "IMAGE_NAME=sepim-impica:ubuntu18",
+        "sepim-impica:ubuntu18",
+        "/bin/bash",
+        "-lc",
+        "set -euo pipefail\ntrap 'chown -R 1000:1000 /workspace/results/raw/regression_strict_20260727T183538Z /workspace/IMPICA/workloads/sepim_cmd /workspace/IMPICA/workloads/dma_benchmark_fs /workspace/IMPICA/workloads/controlled_access_bench_fs /workspace/IMPICA/workloads/hashtable /workspace/IMPICA/workloads/trace_lookup_cpu /workspace/IMPICA/workloads/trace_lookup_sepim /workspace/IMPICA/workloads/kmeans_sepim_fs 2>/dev/null || true' EXIT\nexport DISK_IMAGE=/workspace/results/raw/regression_strict_20260727T183538Z/regression-disk.img\nexport FS_BUNDLE_DIR=/workspace/third_party/gem5_fs\nexport GEM5_BIN=/workspace/IMPICA/gem5/build/ARM/gem5.opt\nexport KERNEL=/workspace/third_party/gem5_fs/binaries/vmlinux.aarch64.20140821\nexport DTB=/workspace/third_party/gem5_fs/binaries/vexpress.aarch64.20140821.dtb\nexport MEM_SIZE=2048MB\nexport SEPIM_KERNEL_MEM=1984MB\nexport CPUS=4\nexport FS_CONFIG=/workspace/IMPICA/gem5/configs/se_pim/se_pim_fs.py\nexport OUTDIR=/workspace/results/raw/regression_strict_20260727T183538Z/cases/trace_cpu_full\nexport BOOT_SCRIPT=/workspace/results/raw/regression_strict_20260727T183538Z/rcs/trace_cpu_full.rcS\nexport GEM5_EXTRA_ARGS='-r 1 --checkpoint-dir=/workspace/results/raw/regression_strict_20260727T183538Z/checkpoint_trace_atomic --cpu-type=timing --restore-with-cpu=timing --sepim-trace-enable=1 --sepim-trace-file=/workspace/results/raw/regression_strict_20260727T183538Z/cases/trace_cpu_full/trace_cpu_full.ptrc'\nscripts/run_baseline_fs.sh --mode custom\n"
+      ],
+      "display": "docker run --rm --network none --privileged --mount 'type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict,dst=/workspace' --mount 'type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,dst=/workspace/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,readonly' --mount 'type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/native_strict_timing_checkpoint_2,dst=/workspace/results/raw/native_strict_timing_checkpoint_2,readonly' -w /workspace -e SEPIM_IN_CONTAINER=1 -e IMAGE_NAME=sepim-impica:ubuntu18 sepim-impica:ubuntu18 /bin/bash -lc 'set -euo pipefail\ntrap '\"'\"'chown -R 1000:1000 /workspace/results/raw/regression_strict_20260727T183538Z /workspace/IMPICA/workloads/sepim_cmd /workspace/IMPICA/workloads/dma_benchmark_fs /workspace/IMPICA/workloads/controlled_access_bench_fs /workspace/IMPICA/workloads/hashtable /workspace/IMPICA/workloads/trace_lookup_cpu /workspace/IMPICA/workloads/trace_lookup_sepim /workspace/IMPICA/workloads/kmeans_sepim_fs 2>/dev/null || true'\"'\"' EXIT\nexport DISK_IMAGE=/workspace/results/raw/regression_strict_20260727T183538Z/regression-disk.img\nexport FS_BUNDLE_DIR=/workspace/third_party/gem5_fs\nexport GEM5_BIN=/workspace/IMPICA/gem5/build/ARM/gem5.opt\nexport KERNEL=/workspace/third_party/gem5_fs/binaries/vmlinux.aarch64.20140821\nexport DTB=/workspace/third_party/gem5_fs/binaries/vexpress.aarch64.20140821.dtb\nexport MEM_SIZE=2048MB\nexport SEPIM_KERNEL_MEM=1984MB\nexport CPUS=4\nexport FS_CONFIG=/workspace/IMPICA/gem5/configs/se_pim/se_pim_fs.py\nexport OUTDIR=/workspace/results/raw/regression_strict_20260727T183538Z/cases/trace_cpu_full\nexport BOOT_SCRIPT=/workspace/results/raw/regression_strict_20260727T183538Z/rcs/trace_cpu_full.rcS\nexport GEM5_EXTRA_ARGS='\"'\"'-r 1 --checkpoint-dir=/workspace/results/raw/regression_strict_20260727T183538Z/checkpoint_trace_atomic --cpu-type=timing --restore-with-cpu=timing --sepim-trace-enable=1 --sepim-trace-file=/workspace/results/raw/regression_strict_20260727T183538Z/cases/trace_cpu_full/trace_cpu_full.ptrc'\"'\"'\nscripts/run_baseline_fs.sh --mode custom\n'",
+      "finished_utc": "2026-07-27T22:09:08Z",
+      "inner_shell_sha256": "61cd042a739a52e3e3871195415550c5c62684d185ba848429a56cac8f25e16a",
+      "log": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/regression_strict_20260727T183538Z/logs/trace_cpu_full.log",
+      "log_sha256": "861cdf2f0a2f122d8990060ea815c55166d4d102770002b9d4d4e0d42e9cf8a2",
+      "network": "none",
+      "phase": "trace_cpu_full",
+      "returncode": 0,
+      "started_utc": "2026-07-27T21:20:13Z"
+    },
+    {
+      "argv": [
+        "docker",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--privileged",
+        "--mount",
+        "type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict,dst=/workspace",
+        "--mount",
+        "type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,dst=/workspace/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,readonly",
+        "--mount",
+        "type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/native_strict_timing_checkpoint_2,dst=/workspace/results/raw/native_strict_timing_checkpoint_2,readonly",
+        "-w",
+        "/workspace",
+        "-e",
+        "SEPIM_IN_CONTAINER=1",
+        "-e",
+        "IMAGE_NAME=sepim-impica:ubuntu18",
+        "sepim-impica:ubuntu18",
+        "/bin/bash",
+        "-lc",
+        "set -euo pipefail\ntrap 'chown -R 1000:1000 /workspace/results/raw/regression_strict_20260727T183538Z /workspace/IMPICA/workloads/sepim_cmd /workspace/IMPICA/workloads/dma_benchmark_fs /workspace/IMPICA/workloads/controlled_access_bench_fs /workspace/IMPICA/workloads/hashtable /workspace/IMPICA/workloads/trace_lookup_cpu /workspace/IMPICA/workloads/trace_lookup_sepim /workspace/IMPICA/workloads/kmeans_sepim_fs 2>/dev/null || true' EXIT\npython3 scripts/decode_ptrace_csv.py --input /workspace/results/raw/regression_strict_20260727T183538Z/cases/trace_cpu_full/trace_cpu_full.ptrc --output /workspace/results/raw/regression_strict_20260727T183538Z/cases/trace_cpu_full/trace_cpu_full_decoded.csv --gem5-root /workspace/IMPICA/gem5 --tail 4096 --rw-only\nif test -s /workspace/results/raw/regression_strict_20260727T183538Z/cases/trace_cpu_full/trace_cpu_full.ptrc.io; then python3 scripts/decode_ptrace_csv.py --input /workspace/results/raw/regression_strict_20260727T183538Z/cases/trace_cpu_full/trace_cpu_full.ptrc.io --output /workspace/results/raw/regression_strict_20260727T183538Z/cases/trace_cpu_full/trace_cpu_full_io_decoded.csv --gem5-root /workspace/IMPICA/gem5 --tail 4096 --rw-only; fi\n"
+      ],
+      "display": "docker run --rm --network none --privileged --mount 'type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict,dst=/workspace' --mount 'type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,dst=/workspace/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,readonly' --mount 'type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/native_strict_timing_checkpoint_2,dst=/workspace/results/raw/native_strict_timing_checkpoint_2,readonly' -w /workspace -e SEPIM_IN_CONTAINER=1 -e IMAGE_NAME=sepim-impica:ubuntu18 sepim-impica:ubuntu18 /bin/bash -lc 'set -euo pipefail\ntrap '\"'\"'chown -R 1000:1000 /workspace/results/raw/regression_strict_20260727T183538Z /workspace/IMPICA/workloads/sepim_cmd /workspace/IMPICA/workloads/dma_benchmark_fs /workspace/IMPICA/workloads/controlled_access_bench_fs /workspace/IMPICA/workloads/hashtable /workspace/IMPICA/workloads/trace_lookup_cpu /workspace/IMPICA/workloads/trace_lookup_sepim /workspace/IMPICA/workloads/kmeans_sepim_fs 2>/dev/null || true'\"'\"' EXIT\npython3 scripts/decode_ptrace_csv.py --input /workspace/results/raw/regression_strict_20260727T183538Z/cases/trace_cpu_full/trace_cpu_full.ptrc --output /workspace/results/raw/regression_strict_20260727T183538Z/cases/trace_cpu_full/trace_cpu_full_decoded.csv --gem5-root /workspace/IMPICA/gem5 --tail 4096 --rw-only\nif test -s /workspace/results/raw/regression_strict_20260727T183538Z/cases/trace_cpu_full/trace_cpu_full.ptrc.io; then python3 scripts/decode_ptrace_csv.py --input /workspace/results/raw/regression_strict_20260727T183538Z/cases/trace_cpu_full/trace_cpu_full.ptrc.io --output /workspace/results/raw/regression_strict_20260727T183538Z/cases/trace_cpu_full/trace_cpu_full_io_decoded.csv --gem5-root /workspace/IMPICA/gem5 --tail 4096 --rw-only; fi\n'",
+      "finished_utc": "2026-07-27T22:09:09Z",
+      "inner_shell_sha256": "74e47c24dc0c5bad9df61f73ed46984366b0b96feca3076cd22ee4b555dfa0ad",
+      "log": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/regression_strict_20260727T183538Z/logs/decode_trace_cpu_full.log",
+      "log_sha256": "b9e7f97d5720ac6980d21071b7954375a2bf412493d0f76db1730075ec4297a4",
+      "network": "none",
+      "phase": "decode_trace_cpu_full",
+      "returncode": 0,
+      "started_utc": "2026-07-27T22:09:08Z"
+    },
+    {
+      "argv": [
+        "docker",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--privileged",
+        "--mount",
+        "type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict,dst=/workspace",
+        "--mount",
+        "type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,dst=/workspace/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,readonly",
+        "--mount",
+        "type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/native_strict_timing_checkpoint_2,dst=/workspace/results/raw/native_strict_timing_checkpoint_2,readonly",
+        "-w",
+        "/workspace",
+        "-e",
+        "SEPIM_IN_CONTAINER=1",
+        "-e",
+        "IMAGE_NAME=sepim-impica:ubuntu18",
+        "sepim-impica:ubuntu18",
+        "/bin/bash",
+        "-lc",
+        "set -euo pipefail\ntrap 'chown -R 1000:1000 /workspace/results/raw/regression_strict_20260727T183538Z /workspace/IMPICA/workloads/sepim_cmd /workspace/IMPICA/workloads/dma_benchmark_fs /workspace/IMPICA/workloads/controlled_access_bench_fs /workspace/IMPICA/workloads/hashtable /workspace/IMPICA/workloads/trace_lookup_cpu /workspace/IMPICA/workloads/trace_lookup_sepim /workspace/IMPICA/workloads/kmeans_sepim_fs 2>/dev/null || true' EXIT\nexport DISK_IMAGE=/workspace/results/raw/regression_strict_20260727T183538Z/regression-disk.img\nexport FS_BUNDLE_DIR=/workspace/third_party/gem5_fs\nexport GEM5_BIN=/workspace/IMPICA/gem5/build/ARM/gem5.opt\nexport KERNEL=/workspace/third_party/gem5_fs/binaries/vmlinux.aarch64.20140821\nexport DTB=/workspace/third_party/gem5_fs/binaries/vexpress.aarch64.20140821.dtb\nexport MEM_SIZE=2048MB\nexport SEPIM_KERNEL_MEM=1984MB\nexport CPUS=4\nexport FS_CONFIG=/workspace/IMPICA/gem5/configs/se_pim/se_pim_fs.py\nexport OUTDIR=/workspace/results/raw/regression_strict_20260727T183538Z/cases/trace_sepim_full\nexport BOOT_SCRIPT=/workspace/results/raw/regression_strict_20260727T183538Z/rcs/trace_sepim_full.rcS\nexport GEM5_EXTRA_ARGS='-r 1 --checkpoint-dir=/workspace/results/raw/regression_strict_20260727T183538Z/checkpoint_trace_atomic --cpu-type=timing --restore-with-cpu=timing --sepim-trace-enable=1 --sepim-trace-file=/workspace/results/raw/regression_strict_20260727T183538Z/cases/trace_sepim_full/trace_sepim_full.ptrc'\nscripts/run_baseline_fs.sh --mode custom\n"
+      ],
+      "display": "docker run --rm --network none --privileged --mount 'type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict,dst=/workspace' --mount 'type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,dst=/workspace/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,readonly' --mount 'type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/native_strict_timing_checkpoint_2,dst=/workspace/results/raw/native_strict_timing_checkpoint_2,readonly' -w /workspace -e SEPIM_IN_CONTAINER=1 -e IMAGE_NAME=sepim-impica:ubuntu18 sepim-impica:ubuntu18 /bin/bash -lc 'set -euo pipefail\ntrap '\"'\"'chown -R 1000:1000 /workspace/results/raw/regression_strict_20260727T183538Z /workspace/IMPICA/workloads/sepim_cmd /workspace/IMPICA/workloads/dma_benchmark_fs /workspace/IMPICA/workloads/controlled_access_bench_fs /workspace/IMPICA/workloads/hashtable /workspace/IMPICA/workloads/trace_lookup_cpu /workspace/IMPICA/workloads/trace_lookup_sepim /workspace/IMPICA/workloads/kmeans_sepim_fs 2>/dev/null || true'\"'\"' EXIT\nexport DISK_IMAGE=/workspace/results/raw/regression_strict_20260727T183538Z/regression-disk.img\nexport FS_BUNDLE_DIR=/workspace/third_party/gem5_fs\nexport GEM5_BIN=/workspace/IMPICA/gem5/build/ARM/gem5.opt\nexport KERNEL=/workspace/third_party/gem5_fs/binaries/vmlinux.aarch64.20140821\nexport DTB=/workspace/third_party/gem5_fs/binaries/vexpress.aarch64.20140821.dtb\nexport MEM_SIZE=2048MB\nexport SEPIM_KERNEL_MEM=1984MB\nexport CPUS=4\nexport FS_CONFIG=/workspace/IMPICA/gem5/configs/se_pim/se_pim_fs.py\nexport OUTDIR=/workspace/results/raw/regression_strict_20260727T183538Z/cases/trace_sepim_full\nexport BOOT_SCRIPT=/workspace/results/raw/regression_strict_20260727T183538Z/rcs/trace_sepim_full.rcS\nexport GEM5_EXTRA_ARGS='\"'\"'-r 1 --checkpoint-dir=/workspace/results/raw/regression_strict_20260727T183538Z/checkpoint_trace_atomic --cpu-type=timing --restore-with-cpu=timing --sepim-trace-enable=1 --sepim-trace-file=/workspace/results/raw/regression_strict_20260727T183538Z/cases/trace_sepim_full/trace_sepim_full.ptrc'\"'\"'\nscripts/run_baseline_fs.sh --mode custom\n'",
+      "finished_utc": "2026-07-27T22:10:01Z",
+      "inner_shell_sha256": "7b8eaa57cad63a622e65fdbc43ac2112e15dbf23d77d5d7d9272d989c0b1c194",
+      "log": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/regression_strict_20260727T183538Z/logs/trace_sepim_full.log",
+      "log_sha256": "15b8d5647cc9f2fd084c827c219b4bda1f2dc7560817fe9aa5f58479faacb3b2",
+      "network": "none",
+      "phase": "trace_sepim_full",
+      "returncode": 0,
+      "started_utc": "2026-07-27T22:09:09Z"
+    },
+    {
+      "argv": [
+        "docker",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--privileged",
+        "--mount",
+        "type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict,dst=/workspace",
+        "--mount",
+        "type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,dst=/workspace/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,readonly",
+        "--mount",
+        "type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/native_strict_timing_checkpoint_2,dst=/workspace/results/raw/native_strict_timing_checkpoint_2,readonly",
+        "-w",
+        "/workspace",
+        "-e",
+        "SEPIM_IN_CONTAINER=1",
+        "-e",
+        "IMAGE_NAME=sepim-impica:ubuntu18",
+        "sepim-impica:ubuntu18",
+        "/bin/bash",
+        "-lc",
+        "set -euo pipefail\ntrap 'chown -R 1000:1000 /workspace/results/raw/regression_strict_20260727T183538Z /workspace/IMPICA/workloads/sepim_cmd /workspace/IMPICA/workloads/dma_benchmark_fs /workspace/IMPICA/workloads/controlled_access_bench_fs /workspace/IMPICA/workloads/hashtable /workspace/IMPICA/workloads/trace_lookup_cpu /workspace/IMPICA/workloads/trace_lookup_sepim /workspace/IMPICA/workloads/kmeans_sepim_fs 2>/dev/null || true' EXIT\npython3 scripts/decode_ptrace_csv.py --input /workspace/results/raw/regression_strict_20260727T183538Z/cases/trace_sepim_full/trace_sepim_full.ptrc --output /workspace/results/raw/regression_strict_20260727T183538Z/cases/trace_sepim_full/trace_sepim_full_decoded.csv --gem5-root /workspace/IMPICA/gem5 --tail 4096 --rw-only\nif test -s /workspace/results/raw/regression_strict_20260727T183538Z/cases/trace_sepim_full/trace_sepim_full.ptrc.io; then python3 scripts/decode_ptrace_csv.py --input /workspace/results/raw/regression_strict_20260727T183538Z/cases/trace_sepim_full/trace_sepim_full.ptrc.io --output /workspace/results/raw/regression_strict_20260727T183538Z/cases/trace_sepim_full/trace_sepim_full_io_decoded.csv --gem5-root /workspace/IMPICA/gem5 --tail 4096 --rw-only; fi\n"
+      ],
+      "display": "docker run --rm --network none --privileged --mount 'type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict,dst=/workspace' --mount 'type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,dst=/workspace/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,readonly' --mount 'type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/native_strict_timing_checkpoint_2,dst=/workspace/results/raw/native_strict_timing_checkpoint_2,readonly' -w /workspace -e SEPIM_IN_CONTAINER=1 -e IMAGE_NAME=sepim-impica:ubuntu18 sepim-impica:ubuntu18 /bin/bash -lc 'set -euo pipefail\ntrap '\"'\"'chown -R 1000:1000 /workspace/results/raw/regression_strict_20260727T183538Z /workspace/IMPICA/workloads/sepim_cmd /workspace/IMPICA/workloads/dma_benchmark_fs /workspace/IMPICA/workloads/controlled_access_bench_fs /workspace/IMPICA/workloads/hashtable /workspace/IMPICA/workloads/trace_lookup_cpu /workspace/IMPICA/workloads/trace_lookup_sepim /workspace/IMPICA/workloads/kmeans_sepim_fs 2>/dev/null || true'\"'\"' EXIT\npython3 scripts/decode_ptrace_csv.py --input /workspace/results/raw/regression_strict_20260727T183538Z/cases/trace_sepim_full/trace_sepim_full.ptrc --output /workspace/results/raw/regression_strict_20260727T183538Z/cases/trace_sepim_full/trace_sepim_full_decoded.csv --gem5-root /workspace/IMPICA/gem5 --tail 4096 --rw-only\nif test -s /workspace/results/raw/regression_strict_20260727T183538Z/cases/trace_sepim_full/trace_sepim_full.ptrc.io; then python3 scripts/decode_ptrace_csv.py --input /workspace/results/raw/regression_strict_20260727T183538Z/cases/trace_sepim_full/trace_sepim_full.ptrc.io --output /workspace/results/raw/regression_strict_20260727T183538Z/cases/trace_sepim_full/trace_sepim_full_io_decoded.csv --gem5-root /workspace/IMPICA/gem5 --tail 4096 --rw-only; fi\n'",
+      "finished_utc": "2026-07-27T22:10:03Z",
+      "inner_shell_sha256": "5ea40a6767534efce45205bf88cf16e381fd398707986ccec9e2d11820e4b587",
+      "log": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/regression_strict_20260727T183538Z/logs/decode_trace_sepim_full.log",
+      "log_sha256": "b9e7f97d5720ac6980d21071b7954375a2bf412493d0f76db1730075ec4297a4",
+      "network": "none",
+      "phase": "decode_trace_sepim_full",
+      "returncode": 0,
+      "started_utc": "2026-07-27T22:10:01Z"
+    },
+    {
+      "argv": [
+        "docker",
+        "run",
+        "--rm",
+        "--network",
+        "none",
+        "--privileged",
+        "--mount",
+        "type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict,dst=/workspace",
+        "--mount",
+        "type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,dst=/workspace/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,readonly",
+        "--mount",
+        "type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/native_strict_timing_checkpoint_2,dst=/workspace/results/raw/native_strict_timing_checkpoint_2,readonly",
+        "-w",
+        "/workspace",
+        "-e",
+        "SEPIM_IN_CONTAINER=1",
+        "-e",
+        "IMAGE_NAME=sepim-impica:ubuntu18",
+        "sepim-impica:ubuntu18",
+        "/bin/bash",
+        "-lc",
+        "set -euo pipefail\ntrap 'chown -R 1000:1000 /workspace/results/raw/regression_strict_20260727T183538Z /workspace/IMPICA/workloads/sepim_cmd /workspace/IMPICA/workloads/dma_benchmark_fs /workspace/IMPICA/workloads/controlled_access_bench_fs /workspace/IMPICA/workloads/hashtable /workspace/IMPICA/workloads/trace_lookup_cpu /workspace/IMPICA/workloads/trace_lookup_sepim /workspace/IMPICA/workloads/kmeans_sepim_fs 2>/dev/null || true' EXIT\nexport DISK_IMAGE=/workspace/results/raw/regression_strict_20260727T183538Z/regression-disk.img\nexport FS_BUNDLE_DIR=/workspace/third_party/gem5_fs\nexport GEM5_BIN=/workspace/IMPICA/gem5/build/ARM/gem5.opt\nexport KERNEL=/workspace/third_party/gem5_fs/binaries/vmlinux.aarch64.20140821\nexport DTB=/workspace/third_party/gem5_fs/binaries/vexpress.aarch64.20140821.dtb\nexport MEM_SIZE=2048MB\nexport SEPIM_KERNEL_MEM=1984MB\nexport CPUS=4\nexport OUTDIR=/workspace/results/raw/regression_strict_20260727T183538Z/cases/kmeans_legacy_full\nexport BOOT_SCRIPT=/workspace/results/raw/regression_strict_20260727T183538Z/rcs/kmeans_legacy_full.rcS\nexport GEM5_EXTRA_ARGS='-r 1 --checkpoint-dir=/workspace/results/raw/regression_strict_20260727T183538Z/checkpoint_atomic --cpu-type=atomic --restore-with-cpu=atomic'\nscripts/run_baseline_fs.sh --mode custom\n"
+      ],
+      "display": "docker run --rm --network none --privileged --mount 'type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict,dst=/workspace' --mount 'type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,dst=/workspace/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img,readonly' --mount 'type=bind,src=/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/native_strict_timing_checkpoint_2,dst=/workspace/results/raw/native_strict_timing_checkpoint_2,readonly' -w /workspace -e SEPIM_IN_CONTAINER=1 -e IMAGE_NAME=sepim-impica:ubuntu18 sepim-impica:ubuntu18 /bin/bash -lc 'set -euo pipefail\ntrap '\"'\"'chown -R 1000:1000 /workspace/results/raw/regression_strict_20260727T183538Z /workspace/IMPICA/workloads/sepim_cmd /workspace/IMPICA/workloads/dma_benchmark_fs /workspace/IMPICA/workloads/controlled_access_bench_fs /workspace/IMPICA/workloads/hashtable /workspace/IMPICA/workloads/trace_lookup_cpu /workspace/IMPICA/workloads/trace_lookup_sepim /workspace/IMPICA/workloads/kmeans_sepim_fs 2>/dev/null || true'\"'\"' EXIT\nexport DISK_IMAGE=/workspace/results/raw/regression_strict_20260727T183538Z/regression-disk.img\nexport FS_BUNDLE_DIR=/workspace/third_party/gem5_fs\nexport GEM5_BIN=/workspace/IMPICA/gem5/build/ARM/gem5.opt\nexport KERNEL=/workspace/third_party/gem5_fs/binaries/vmlinux.aarch64.20140821\nexport DTB=/workspace/third_party/gem5_fs/binaries/vexpress.aarch64.20140821.dtb\nexport MEM_SIZE=2048MB\nexport SEPIM_KERNEL_MEM=1984MB\nexport CPUS=4\nexport OUTDIR=/workspace/results/raw/regression_strict_20260727T183538Z/cases/kmeans_legacy_full\nexport BOOT_SCRIPT=/workspace/results/raw/regression_strict_20260727T183538Z/rcs/kmeans_legacy_full.rcS\nexport GEM5_EXTRA_ARGS='\"'\"'-r 1 --checkpoint-dir=/workspace/results/raw/regression_strict_20260727T183538Z/checkpoint_atomic --cpu-type=atomic --restore-with-cpu=atomic'\"'\"'\nscripts/run_baseline_fs.sh --mode custom\n'",
+      "finished_utc": "2026-07-27T22:10:55Z",
+      "inner_shell_sha256": "d60faf4a97a1a63193bb6fabfa4566c962bb0007d3e0706deaaa68ab2c4efe1b",
+      "log": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/regression_strict_20260727T183538Z/logs/kmeans_legacy_full.log",
+      "log_sha256": "c1fa46d70efa9c3ca5a6d31834a03b44ef21f086d1262c7d41cc73121a45b916",
+      "network": "none",
+      "phase": "kmeans_legacy_full",
+      "returncode": 0,
+      "started_utc": "2026-07-27T22:10:03Z"
+    }
+  ],
+  "container_image": {
+    "image_id": "sha256:b4935cb7b1343fcaef5dcf19bb7644a7cfc3843522b81b0fbf04c741ad11c296",
+    "network": "none",
+    "repo_digests": [
+      "sepim-impica@sha256:b4935cb7b1343fcaef5dcf19bb7644a7cfc3843522b81b0fbf04c741ad11c296"
+    ],
+    "requested": "sepim-impica@sha256:b4935cb7b1343fcaef5dcf19bb7644a7cfc3843522b81b0fbf04c741ad11c296",
+    "requested_reference_pinned": true
+  },
+  "container_image_requested": "sepim-impica:ubuntu18",
+  "container_runtime": [
+    "docker"
+  ],
+  "disk_clone": {
+    "bytes": 2147475456,
+    "method": "shutil.copyfile",
+    "mode": 420,
+    "mtime_ns": 1785107133297627501,
+    "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/regression_strict_20260727T183538Z/regression-disk.img",
+    "sha256": "af6232a935819d21bcce2e8789913a3920cc7250a6de1edffe2f1176579c38af",
+    "source_inode_alias": false
+  },
+  "disk_clone_after_injection": {
+    "bytes": 2147475456,
+    "mode": 420,
+    "mtime_ns": 1785177399874737486,
+    "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/regression_strict_20260727T183538Z/regression-disk.img",
+    "sha256": "371a70d3304ababd934934ee5b2417a6c70575e6d9bdd0041f522fd766aae0dc"
+  },
+  "disk_clone_method": "Python shutil.copyfile byte copy; no hard link",
+  "finished_utc": "2026-07-27T22:11:04Z",
+  "injected_artifacts": {
+    "controlled_access_bench_fs": {
+      "bytes": 555376,
+      "file_description": "ELF 64-bit LSB executable, ARM aarch64, version 1 (GNU/Linux), statically linked, for GNU/Linux 3.7.0, BuildID[sha1]=52b222fe596b48f96fc58483500c1d4a4dfa6a7f, not stripped",
+      "mode": 493,
+      "mtime_ns": 1785177397456724159,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/IMPICA/workloads/controlled_access_bench_fs/controlled_access_bench_fs",
+      "sha256": "0e92c6d4daa7006d766c3f8c1976f6559dd0d7abe55cbe7357f53e2687224f9a"
+    },
+    "dma_benchmark_fs": {
+      "bytes": 551096,
+      "file_description": "ELF 64-bit LSB executable, ARM aarch64, version 1 (GNU/Linux), statically linked, for GNU/Linux 3.7.0, BuildID[sha1]=19f60c719c31479abecc1ae3a57aa960a229d7be, not stripped",
+      "mode": 493,
+      "mtime_ns": 1785177397331723471,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/IMPICA/workloads/dma_benchmark_fs/dma_benchmark_fs",
+      "sha256": "78a479f70b3453e384104c38321fd0314cacc8c86ad5c4926776d91768925f16"
+    },
+    "hashtable": {
+      "bytes": 142895120,
+      "file_description": "ELF 64-bit LSB executable, ARM aarch64, version 1 (GNU/Linux), statically linked, for GNU/Linux 3.7.0, BuildID[sha1]=1faf5c42227a453205dea74ed3573aac85d9ca92, with debug_info, not stripped",
+      "mode": 493,
+      "mtime_ns": 1785177396916721183,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/IMPICA/workloads/hashtable/hashtable",
+      "sha256": "74b8e630d8e24bb4bb21fdf35b088c05b1cae5707b0fab9e166646edfa8ad999"
+    },
+    "hashtable_build_mode": "full",
+    "hashtable_input_size": 1572864,
+    "kmeans_sepim_fs": {
+      "bytes": 594264,
+      "file_description": "ELF 64-bit LSB executable, ARM aarch64, version 1 (GNU/Linux), statically linked, for GNU/Linux 3.7.0, BuildID[sha1]=6e8aedc5d311b5c717c87a925eabcc5258aaa289, not stripped",
+      "mode": 493,
+      "mtime_ns": 1785177398463729709,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/IMPICA/workloads/kmeans_sepim_fs/kmeans_sepim_fs",
+      "sha256": "2d5c0f08ad4ec446ce3c119a13a180098be53348be56a2103fece8b5cfa74e0b"
+    },
+    "sepim_cmd": {
+      "bytes": 551200,
+      "file_description": "ELF 64-bit LSB executable, ARM aarch64, version 1 (GNU/Linux), statically linked, for GNU/Linux 3.7.0, BuildID[sha1]=96c31b9e4e4c20864ddcd2c2c503030b0685d040, not stripped",
+      "mode": 493,
+      "mtime_ns": 1785177397142722429,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/IMPICA/workloads/sepim_cmd/sepim_cmd",
+      "sha256": "1abde3b6c4ab3a24697207168729b32ef69bc04d1945860981e56c2384a87105"
+    },
+    "test-driver.ko": {
+      "bytes": 238696,
+      "file_description": "ELF 64-bit LSB relocatable, ARM aarch64, version 1 (SYSV), with debug_info, not stripped",
+      "mode": 420,
+      "mtime_ns": 1785104401547254171,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/IMPICA/pim_driver/test-driver.ko",
+      "sha256": "0f938758e975b5ef2ad8777bebf0b8f9f789c29cc6123de036ec76cd34f50e10"
+    },
+    "trace_lookup_cpu": {
+      "bytes": 546104,
+      "file_description": "ELF 64-bit LSB executable, ARM aarch64, version 1 (GNU/Linux), statically linked, for GNU/Linux 3.7.0, BuildID[sha1]=838ac24e6216c0e65b53fe7b6c94bfafc2fdcb02, not stripped",
+      "mode": 493,
+      "mtime_ns": 1785177397558724722,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/IMPICA/workloads/trace_lookup_cpu/trace_lookup_cpu",
+      "sha256": "5766d710e264ba6bbb757b175ded6045f92d337e857f8c8db10c8ddcaac9f886"
+    },
+    "trace_lookup_sepim": {
+      "bytes": 551152,
+      "file_description": "ELF 64-bit LSB executable, ARM aarch64, version 1 (GNU/Linux), statically linked, for GNU/Linux 3.7.0, BuildID[sha1]=f51717bf5b49349d673116138720bca52f718cff, not stripped",
+      "mode": 493,
+      "mtime_ns": 1785177397666725317,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/IMPICA/workloads/trace_lookup_sepim/trace_lookup_sepim",
+      "sha256": "f81079c30b8b75ddddf0e931a083d04e76b746cfcd6ced3b7678bd1e76b02144"
+    }
+  },
+  "injected_artifacts_end": {
+    "controlled_access_bench_fs": {
+      "bytes": 555376,
+      "file_description": "ELF 64-bit LSB executable, ARM aarch64, version 1 (GNU/Linux), statically linked, for GNU/Linux 3.7.0, BuildID[sha1]=52b222fe596b48f96fc58483500c1d4a4dfa6a7f, not stripped",
+      "mode": 493,
+      "mtime_ns": 1785177397456724159,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/IMPICA/workloads/controlled_access_bench_fs/controlled_access_bench_fs",
+      "sha256": "0e92c6d4daa7006d766c3f8c1976f6559dd0d7abe55cbe7357f53e2687224f9a"
+    },
+    "dma_benchmark_fs": {
+      "bytes": 551096,
+      "file_description": "ELF 64-bit LSB executable, ARM aarch64, version 1 (GNU/Linux), statically linked, for GNU/Linux 3.7.0, BuildID[sha1]=19f60c719c31479abecc1ae3a57aa960a229d7be, not stripped",
+      "mode": 493,
+      "mtime_ns": 1785177397331723471,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/IMPICA/workloads/dma_benchmark_fs/dma_benchmark_fs",
+      "sha256": "78a479f70b3453e384104c38321fd0314cacc8c86ad5c4926776d91768925f16"
+    },
+    "hashtable": {
+      "bytes": 142895120,
+      "file_description": "ELF 64-bit LSB executable, ARM aarch64, version 1 (GNU/Linux), statically linked, for GNU/Linux 3.7.0, BuildID[sha1]=1faf5c42227a453205dea74ed3573aac85d9ca92, with debug_info, not stripped",
+      "mode": 493,
+      "mtime_ns": 1785177396916721183,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/IMPICA/workloads/hashtable/hashtable",
+      "sha256": "74b8e630d8e24bb4bb21fdf35b088c05b1cae5707b0fab9e166646edfa8ad999"
+    },
+    "hashtable_build_mode": "full",
+    "hashtable_input_size": 1572864,
+    "kmeans_sepim_fs": {
+      "bytes": 594264,
+      "file_description": "ELF 64-bit LSB executable, ARM aarch64, version 1 (GNU/Linux), statically linked, for GNU/Linux 3.7.0, BuildID[sha1]=6e8aedc5d311b5c717c87a925eabcc5258aaa289, not stripped",
+      "mode": 493,
+      "mtime_ns": 1785177398463729709,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/IMPICA/workloads/kmeans_sepim_fs/kmeans_sepim_fs",
+      "sha256": "2d5c0f08ad4ec446ce3c119a13a180098be53348be56a2103fece8b5cfa74e0b"
+    },
+    "sepim_cmd": {
+      "bytes": 551200,
+      "file_description": "ELF 64-bit LSB executable, ARM aarch64, version 1 (GNU/Linux), statically linked, for GNU/Linux 3.7.0, BuildID[sha1]=96c31b9e4e4c20864ddcd2c2c503030b0685d040, not stripped",
+      "mode": 493,
+      "mtime_ns": 1785177397142722429,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/IMPICA/workloads/sepim_cmd/sepim_cmd",
+      "sha256": "1abde3b6c4ab3a24697207168729b32ef69bc04d1945860981e56c2384a87105"
+    },
+    "test-driver.ko": {
+      "bytes": 238696,
+      "file_description": "ELF 64-bit LSB relocatable, ARM aarch64, version 1 (SYSV), with debug_info, not stripped",
+      "mode": 420,
+      "mtime_ns": 1785104401547254171,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/IMPICA/pim_driver/test-driver.ko",
+      "sha256": "0f938758e975b5ef2ad8777bebf0b8f9f789c29cc6123de036ec76cd34f50e10"
+    },
+    "trace_lookup_cpu": {
+      "bytes": 546104,
+      "file_description": "ELF 64-bit LSB executable, ARM aarch64, version 1 (GNU/Linux), statically linked, for GNU/Linux 3.7.0, BuildID[sha1]=838ac24e6216c0e65b53fe7b6c94bfafc2fdcb02, not stripped",
+      "mode": 493,
+      "mtime_ns": 1785177397558724722,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/IMPICA/workloads/trace_lookup_cpu/trace_lookup_cpu",
+      "sha256": "5766d710e264ba6bbb757b175ded6045f92d337e857f8c8db10c8ddcaac9f886"
+    },
+    "trace_lookup_sepim": {
+      "bytes": 551152,
+      "file_description": "ELF 64-bit LSB executable, ARM aarch64, version 1 (GNU/Linux), statically linked, for GNU/Linux 3.7.0, BuildID[sha1]=f51717bf5b49349d673116138720bca52f718cff, not stripped",
+      "mode": 493,
+      "mtime_ns": 1785177397666725317,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/IMPICA/workloads/trace_lookup_sepim/trace_lookup_sepim",
+      "sha256": "f81079c30b8b75ddddf0e931a083d04e76b746cfcd6ced3b7678bd1e76b02144"
+    }
+  },
+  "injected_artifacts_immutable": true,
+  "legacy_dma_event_coverage": {
+    "declared_event_ids": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "dedicated_dynamic_harness": false,
+    "limitation": "Dynamic legacy PimDevice DMA event coverage for event IDs 0..5 is incomplete; the canonical hash-table case does not prove that every event ID executed.",
+    "publication_claim_allowed": false,
+    "status": "incomplete"
+  },
+  "limitations": [
+    "Dynamic legacy PimDevice DMA event coverage for event IDs 0..5 is incomplete unless a dedicated instrumented harness is run. The canonical hash-table regression is not evidence that every event ID executed."
+  ],
+  "mode": "full",
+  "network": "none",
+  "prepare_only": false,
+  "promotability": {
+    "checks": {
+      "all_cases_passed": true,
+      "container_content_id_pinned": true,
+      "container_reference_pinned": true,
+      "event_coverage_limitation_preserved": true,
+      "exact_case_matrix": true,
+      "injected_artifacts_immutable": true,
+      "mode_is_full": true,
+      "network_disabled": true,
+      "runtime_inputs_immutable": true,
+      "source_evidence_immutable": true,
+      "status_passed": true
+    },
+    "eligible": true,
+    "ineligible_reasons": [],
+    "policy": "Only a full, exact eight-case pass with a digest-pinned container, network disabled, immutable runtime/artifact inputs, and byte/metadata-identical source evidence is eligible for publication promotion. Quick mode is diagnostic only."
+  },
+  "publication_eligible": true,
+  "regression_checkpoint": {
+    "checkpoint_directories": [
+      "cpt.3268862729500"
+    ],
+    "cpu": {
+      "cpu_class": "AtomicSimpleCPU",
+      "cpu_type": "atomic",
+      "kernel_memory_limit": "1984MB",
+      "mem_mode": "atomic",
+      "num_cpus": 4,
+      "physical_bytes": 2147483648
+    },
+    "files": [
+      {
+        "bytes": 31161,
+        "path": "config.ini",
+        "sha256": "54401105a668b7b9d6d51a3cd22b6767b1801c1fb6b1a4e7889cbf72489880c2",
+        "type": "file"
+      },
+      {
+        "bytes": 83671,
+        "path": "config.json",
+        "sha256": "1410d0f48da356ab2f355b424d98634012d936356f787241cb89a9076deb4a7a",
+        "type": "file"
+      },
+      {
+        "path": "cpt.3268862729500",
+        "type": "directory"
+      },
+      {
+        "bytes": 10767244,
+        "path": "cpt.3268862729500/m5.cpt",
+        "sha256": "1980d46a73601bba04c1da50bb6c0ef049e813d8abea4ff40742fed453803f0c",
+        "type": "file"
+      },
+      {
+        "bytes": 4184,
+        "path": "cpt.3268862729500/system.cf0.image.cow",
+        "sha256": "ed48fd31d9d092ad46295ba00bbb102ad02ba1aa1622151906be1cdf52def22a",
+        "type": "file"
+      },
+      {
+        "bytes": 65522,
+        "path": "cpt.3268862729500/system.physmem.store0.pmem",
+        "sha256": "260e1e7a774022ec9b19d5e1ce76f8d2c1e2df4388a969bdd2faecdcec1872c2",
+        "type": "file"
+      },
+      {
+        "bytes": 32635,
+        "path": "cpt.3268862729500/system.physmem.store1.pmem",
+        "sha256": "2d274fbd5d0ffaebfc4f8a26036d86e85ca758418d4d057fa901fadc4c3c1892",
+        "type": "file"
+      },
+      {
+        "bytes": 15298040,
+        "path": "cpt.3268862729500/system.physmem.store2.pmem",
+        "sha256": "cb0973e8058b040199c8a86975648d7ef49b9122fce1ed173f0724d2d378c6f7",
+        "type": "file"
+      },
+      {
+        "bytes": 145578,
+        "path": "stats.txt",
+        "sha256": "f89c4e4403f42df0115672444b495fda4b09d5dfa7f400bc2148c4a9105ebebb",
+        "type": "file"
+      },
+      {
+        "bytes": 11144,
+        "path": "system.terminal",
+        "sha256": "09f66a0b92519b9b5abe19e54a14cd06246d4a559b801b68bad4419bba6ba2cb",
+        "type": "file"
+      }
+    ],
+    "guest_script": {
+      "bytes": 555,
+      "mode": 493,
+      "mtime_ns": 1785177406419920556,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/regression_strict_20260727T183538Z/rcs/checkpoint.rcS",
+      "sha256": "a4733b43fee24eacb4239f05c9edc2c74961cf6fdeda3a017208bca64489b935"
+    },
+    "pass": true,
+    "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/regression_strict_20260727T183538Z/checkpoint_atomic",
+    "source_evidence_checkpoint_used_for_restore": false,
+    "tree_sha256": "5ec92e37aedf5e3adfa79d75f99bfc34ed8c52efcd5dd90ec741400564aa65e9"
+  },
+  "repository_end": {
+    "commit": "10e771120c40f5f755feb1cf4732efd9d7899109",
+    "tracked_diff_bytes": 76124,
+    "tracked_diff_sha256": "1f672caca4ef0b3859894a5d2f63150a048aad2f78d93263fcc21cf86c0588de",
+    "untracked_path_list_bytes": 20,
+    "untracked_path_list_sha256": "b0ab00551656ed3d0d613cbf0058e70bdc5b04dcab54380b13849b074aa38e3c"
+  },
+  "repository_start": {
+    "commit": "10e771120c40f5f755feb1cf4732efd9d7899109",
+    "tracked_diff_bytes": 76124,
+    "tracked_diff_sha256": "1f672caca4ef0b3859894a5d2f63150a048aad2f78d93263fcc21cf86c0588de",
+    "untracked_path_list_bytes": 20,
+    "untracked_path_list_sha256": "b0ab00551656ed3d0d613cbf0058e70bdc5b04dcab54380b13849b074aa38e3c"
+  },
+  "run_directory": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/regression_strict_20260727T183538Z",
+  "run_id": "regression_strict_20260727T183538Z",
+  "runtime_inputs": {
+    "bootloader": {
+      "bytes": 1455,
+      "mode": 420,
+      "mtime_ns": 1785101769265069361,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/third_party/gem5_fs/binaries/boot_emm.arm64",
+      "sha256": "0ea41ffb125ab343cb917d91da5b8f9dea6eaa982e4b465f3c4058bb62edfd0b"
+    },
+    "cache_config": {
+      "bytes": 5021,
+      "mode": 436,
+      "mtime_ns": 1785099096564786040,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/IMPICA/gem5/configs/common/CacheConfig.py",
+      "sha256": "72c45bb8d38be15801c98c2e3c3448b5a7e5c21489a8d55e8d81890783b21314"
+    },
+    "comm_monitor_config": {
+      "bytes": 5583,
+      "mode": 436,
+      "mtime_ns": 1785099096735205782,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/IMPICA/gem5/src/mem/CommMonitor.py",
+      "sha256": "b9a3a58164a0962ac3c8ba227ce56061c22c2bc8a94a24799a4719532a50aae8"
+    },
+    "dtb": {
+      "bytes": 6468,
+      "mode": 420,
+      "mtime_ns": 1785101769266064805,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/third_party/gem5_fs/binaries/vexpress.aarch64.20140821.dtb",
+      "sha256": "6be2b1acfc25be5ab325aad6abda59d2ec5a497f846bdb6a509a4df9bbd18fd4"
+    },
+    "fs_platform_config": {
+      "bytes": 22293,
+      "mode": 436,
+      "mtime_ns": 1785099096565648254,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/IMPICA/gem5/configs/common/FSConfig.py",
+      "sha256": "da843a475cee92b9ac4aef95aebfecad20a7c1f13fc7be0ac0a2000bade463d5"
+    },
+    "gem5_fs_config": {
+      "bytes": 13020,
+      "mode": 436,
+      "mtime_ns": 1785099096567648266,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/IMPICA/gem5/configs/example/fs.py",
+      "sha256": "0d6b776d72dee1ecb7221e7df32faa9c2febe77485b4c925091e0096c0295349"
+    },
+    "gem5_opt": {
+      "bytes": 350229104,
+      "mode": 493,
+      "mtime_ns": 1785104390702189403,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/IMPICA/gem5/build/ARM/gem5.opt",
+      "sha256": "e88ece5d62634fda4a776cf06065eeb586e8986eb43c00783df314e362f93a1d"
+    },
+    "kernel": {
+      "bytes": 88303435,
+      "mode": 420,
+      "mtime_ns": 1785101769405543134,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/third_party/gem5_fs/binaries/vmlinux.aarch64.20140821",
+      "sha256": "6a391f3109c91316f4fc7f240b658c7ca885202154b8ef9cfd29f251b28bfcdf"
+    },
+    "kmeans_source": {
+      "bytes": 74394,
+      "mode": 436,
+      "mtime_ns": 1785099663966042989,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/IMPICA/workloads/kmeans_sepim_fs/kmeans_sepim_fs.c",
+      "sha256": "56dd8fbdef8a2ac6f8941bbcec13337605941c6edd829aa13cca58ab7935ca75"
+    },
+    "packet_command_header": {
+      "bytes": 32853,
+      "mode": 436,
+      "mtime_ns": 1785099096741649307,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/IMPICA/gem5/src/mem/packet.hh",
+      "sha256": "974fd4258c2146515d474eb91b087146281f551c77fb87ed6bd3877d0cd1438d"
+    },
+    "packet_proto": {
+      "bytes": 3246,
+      "mode": 436,
+      "mtime_ns": 1785099096767845136,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/IMPICA/gem5/src/proto/packet.proto",
+      "sha256": "a9df5feda3dbee867ccfd21d3205663ec4049cdbb2180a45aa008e6a96f57827"
+    },
+    "pim_device_header": {
+      "bytes": 21816,
+      "mode": 436,
+      "mtime_ns": 1785099096718649170,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/IMPICA/gem5/src/dev/arm/pimDevice_hashtable.hh",
+      "sha256": "809522095e61c4281d9837a953375808511ca5e0ebf9f4cd00b998be9ffb8c83"
+    },
+    "pim_device_source": {
+      "bytes": 101923,
+      "mode": 436,
+      "mtime_ns": 1785099096717649164,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/IMPICA/gem5/src/dev/arm/pimDevice_hashtable.cc",
+      "sha256": "45ca7f79de995b14acb8a228ff55efa19d4420a62242c48acb877dc1af0ee6e9"
+    },
+    "prebuild_guest_workloads": {
+      "bytes": 5199,
+      "mode": 509,
+      "mtime_ns": 1785099036959291623,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/scripts/prebuild_guest_workloads.sh",
+      "sha256": "6a2e014070d32ebc23fb2678927abb6d129eb2a6e1a1baf34e614b6882b96f1c"
+    },
+    "prepare_disk_image": {
+      "bytes": 5383,
+      "mode": 509,
+      "mtime_ns": 1785099036959291623,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/scripts/prepare_disk_image.sh",
+      "sha256": "eb6d550ba46b405b7ac1b2f60493b1030601f958423d79c264dd15ee07b8f766"
+    },
+    "protocol_header": {
+      "bytes": 5295,
+      "mode": 436,
+      "mtime_ns": 1785099101189957527,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/IMPICA/pim_driver/sepim_cmd_if.h",
+      "sha256": "8ac10eff1dac755e7b5a9ed2dd7997c31d0ea1e18dcce87637e3b19b85dd1c96"
+    },
+    "realview_config": {
+      "bytes": 28929,
+      "mode": 436,
+      "mtime_ns": 1785099096716112110,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/IMPICA/gem5/src/dev/arm/RealView.py",
+      "sha256": "f1947746396494cea5dadbc5bcc6d443eac16f6419ec5331508728dee61bb520"
+    },
+    "run_baseline_fs": {
+      "bytes": 7507,
+      "mode": 509,
+      "mtime_ns": 1785099036961291636,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/scripts/run_baseline_fs.sh",
+      "sha256": "511ad6688606f9b3158a2981d4ec504995d756a18221745ad900d3bc6efd3f58"
+    },
+    "sepim_fs_config": {
+      "bytes": 2629,
+      "mode": 436,
+      "mtime_ns": 1785099096569648278,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/IMPICA/gem5/configs/se_pim/se_pim_fs.py",
+      "sha256": "523a946de113bd0bfa14ba76270fa3242023f2024a09be2fd7b758367c528fb0"
+    },
+    "trace_cpu_source": {
+      "bytes": 1703,
+      "mode": 436,
+      "mtime_ns": 1785099103087687276,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/IMPICA/workloads/trace_lookup_cpu/trace_lookup_cpu.c",
+      "sha256": "b2a7fe9bcdef8cb331c16533707234f084b016325ec6b766149f96e635b905fe"
+    },
+    "trace_decoder": {
+      "bytes": 4674,
+      "mode": 509,
+      "mtime_ns": 1785099036954291594,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/scripts/decode_ptrace_csv.py",
+      "sha256": "d830134a8886e2f0398e59205522d3ee6e3c82a805ed6a0df4b6097aedae5f9f"
+    },
+    "trace_sepim_source": {
+      "bytes": 3197,
+      "mode": 436,
+      "mtime_ns": 1785099103088687282,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/IMPICA/workloads/trace_lookup_sepim/trace_lookup_sepim.c",
+      "sha256": "7452452a6061f70e7b92f6bf7be063dd59f1482a14b04805bcc18c2ab2198779"
+    }
+  },
+  "runtime_inputs_end": {
+    "bootloader": {
+      "bytes": 1455,
+      "mode": 420,
+      "mtime_ns": 1785101769265069361,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/third_party/gem5_fs/binaries/boot_emm.arm64",
+      "sha256": "0ea41ffb125ab343cb917d91da5b8f9dea6eaa982e4b465f3c4058bb62edfd0b"
+    },
+    "cache_config": {
+      "bytes": 5021,
+      "mode": 436,
+      "mtime_ns": 1785099096564786040,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/IMPICA/gem5/configs/common/CacheConfig.py",
+      "sha256": "72c45bb8d38be15801c98c2e3c3448b5a7e5c21489a8d55e8d81890783b21314"
+    },
+    "comm_monitor_config": {
+      "bytes": 5583,
+      "mode": 436,
+      "mtime_ns": 1785099096735205782,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/IMPICA/gem5/src/mem/CommMonitor.py",
+      "sha256": "b9a3a58164a0962ac3c8ba227ce56061c22c2bc8a94a24799a4719532a50aae8"
+    },
+    "dtb": {
+      "bytes": 6468,
+      "mode": 420,
+      "mtime_ns": 1785101769266064805,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/third_party/gem5_fs/binaries/vexpress.aarch64.20140821.dtb",
+      "sha256": "6be2b1acfc25be5ab325aad6abda59d2ec5a497f846bdb6a509a4df9bbd18fd4"
+    },
+    "fs_platform_config": {
+      "bytes": 22293,
+      "mode": 436,
+      "mtime_ns": 1785099096565648254,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/IMPICA/gem5/configs/common/FSConfig.py",
+      "sha256": "da843a475cee92b9ac4aef95aebfecad20a7c1f13fc7be0ac0a2000bade463d5"
+    },
+    "gem5_fs_config": {
+      "bytes": 13020,
+      "mode": 436,
+      "mtime_ns": 1785099096567648266,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/IMPICA/gem5/configs/example/fs.py",
+      "sha256": "0d6b776d72dee1ecb7221e7df32faa9c2febe77485b4c925091e0096c0295349"
+    },
+    "gem5_opt": {
+      "bytes": 350229104,
+      "mode": 493,
+      "mtime_ns": 1785104390702189403,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/IMPICA/gem5/build/ARM/gem5.opt",
+      "sha256": "e88ece5d62634fda4a776cf06065eeb586e8986eb43c00783df314e362f93a1d"
+    },
+    "kernel": {
+      "bytes": 88303435,
+      "mode": 420,
+      "mtime_ns": 1785101769405543134,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/third_party/gem5_fs/binaries/vmlinux.aarch64.20140821",
+      "sha256": "6a391f3109c91316f4fc7f240b658c7ca885202154b8ef9cfd29f251b28bfcdf"
+    },
+    "kmeans_source": {
+      "bytes": 74394,
+      "mode": 436,
+      "mtime_ns": 1785099663966042989,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/IMPICA/workloads/kmeans_sepim_fs/kmeans_sepim_fs.c",
+      "sha256": "56dd8fbdef8a2ac6f8941bbcec13337605941c6edd829aa13cca58ab7935ca75"
+    },
+    "packet_command_header": {
+      "bytes": 32853,
+      "mode": 436,
+      "mtime_ns": 1785099096741649307,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/IMPICA/gem5/src/mem/packet.hh",
+      "sha256": "974fd4258c2146515d474eb91b087146281f551c77fb87ed6bd3877d0cd1438d"
+    },
+    "packet_proto": {
+      "bytes": 3246,
+      "mode": 436,
+      "mtime_ns": 1785099096767845136,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/IMPICA/gem5/src/proto/packet.proto",
+      "sha256": "a9df5feda3dbee867ccfd21d3205663ec4049cdbb2180a45aa008e6a96f57827"
+    },
+    "pim_device_header": {
+      "bytes": 21816,
+      "mode": 436,
+      "mtime_ns": 1785099096718649170,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/IMPICA/gem5/src/dev/arm/pimDevice_hashtable.hh",
+      "sha256": "809522095e61c4281d9837a953375808511ca5e0ebf9f4cd00b998be9ffb8c83"
+    },
+    "pim_device_source": {
+      "bytes": 101923,
+      "mode": 436,
+      "mtime_ns": 1785099096717649164,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/IMPICA/gem5/src/dev/arm/pimDevice_hashtable.cc",
+      "sha256": "45ca7f79de995b14acb8a228ff55efa19d4420a62242c48acb877dc1af0ee6e9"
+    },
+    "prebuild_guest_workloads": {
+      "bytes": 5199,
+      "mode": 509,
+      "mtime_ns": 1785099036959291623,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/scripts/prebuild_guest_workloads.sh",
+      "sha256": "6a2e014070d32ebc23fb2678927abb6d129eb2a6e1a1baf34e614b6882b96f1c"
+    },
+    "prepare_disk_image": {
+      "bytes": 5383,
+      "mode": 509,
+      "mtime_ns": 1785099036959291623,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/scripts/prepare_disk_image.sh",
+      "sha256": "eb6d550ba46b405b7ac1b2f60493b1030601f958423d79c264dd15ee07b8f766"
+    },
+    "protocol_header": {
+      "bytes": 5295,
+      "mode": 436,
+      "mtime_ns": 1785099101189957527,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/IMPICA/pim_driver/sepim_cmd_if.h",
+      "sha256": "8ac10eff1dac755e7b5a9ed2dd7997c31d0ea1e18dcce87637e3b19b85dd1c96"
+    },
+    "realview_config": {
+      "bytes": 28929,
+      "mode": 436,
+      "mtime_ns": 1785099096716112110,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/IMPICA/gem5/src/dev/arm/RealView.py",
+      "sha256": "f1947746396494cea5dadbc5bcc6d443eac16f6419ec5331508728dee61bb520"
+    },
+    "run_baseline_fs": {
+      "bytes": 7507,
+      "mode": 509,
+      "mtime_ns": 1785099036961291636,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/scripts/run_baseline_fs.sh",
+      "sha256": "511ad6688606f9b3158a2981d4ec504995d756a18221745ad900d3bc6efd3f58"
+    },
+    "sepim_fs_config": {
+      "bytes": 2629,
+      "mode": 436,
+      "mtime_ns": 1785099096569648278,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/IMPICA/gem5/configs/se_pim/se_pim_fs.py",
+      "sha256": "523a946de113bd0bfa14ba76270fa3242023f2024a09be2fd7b758367c528fb0"
+    },
+    "trace_cpu_source": {
+      "bytes": 1703,
+      "mode": 436,
+      "mtime_ns": 1785099103087687276,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/IMPICA/workloads/trace_lookup_cpu/trace_lookup_cpu.c",
+      "sha256": "b2a7fe9bcdef8cb331c16533707234f084b016325ec6b766149f96e635b905fe"
+    },
+    "trace_decoder": {
+      "bytes": 4674,
+      "mode": 509,
+      "mtime_ns": 1785099036954291594,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/scripts/decode_ptrace_csv.py",
+      "sha256": "d830134a8886e2f0398e59205522d3ee6e3c82a805ed6a0df4b6097aedae5f9f"
+    },
+    "trace_sepim_source": {
+      "bytes": 3197,
+      "mode": 436,
+      "mtime_ns": 1785099103088687282,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/IMPICA/workloads/trace_lookup_sepim/trace_lookup_sepim.c",
+      "sha256": "7452452a6061f70e7b92f6bf7be063dd59f1482a14b04805bcc18c2ab2198779"
+    }
+  },
+  "runtime_inputs_immutable": true,
+  "schema_version": 2,
+  "security_properties": {
+    "container_network": "none",
+    "injected_artifacts_hashed_at_build_and_suite_end": true,
+    "refuse_overwrite": true,
+    "runtime_inputs_hashed_at_start_and_end": true,
+    "source_checkpoint_mounted_read_only_if_inside_workspace": true,
+    "source_content_and_metadata_hashed_at_start_and_end": true,
+    "source_disk_mounted_read_only_if_inside_workspace": true
+  },
+  "source_checkpoint": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/native_strict_timing_checkpoint_2",
+  "source_disk": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img",
+  "source_evidence_end": {
+    "checkpoint": {
+      "entries": [
+        {
+          "mode": 493,
+          "mtime_ns": 1785108276179490941,
+          "path": ".",
+          "type": "directory"
+        },
+        {
+          "bytes": 124432,
+          "mode": 420,
+          "mtime_ns": 1785108276169490881,
+          "path": "checkpoint_provenance.json",
+          "sha256": "dd1df5330301459021524298cb3f5f167d6dac88d0b2c4302fa3f385d7d4db1b",
+          "type": "file"
+        },
+        {
+          "bytes": 30823,
+          "mode": 420,
+          "mtime_ns": 1785108208664088456,
+          "path": "config.ini",
+          "sha256": "cac710d6e9cfc80161ad681b31fa74bbcdba9c93650eef7ff3f79feeb916bb41",
+          "type": "file"
+        },
+        {
+          "bytes": 82997,
+          "mode": 420,
+          "mtime_ns": 1785108208682088563,
+          "path": "config.json",
+          "sha256": "e66e01a41ef410b8844c0fc079f4ec7cb54ed3dfa3fd386f3b59014f1b30106f",
+          "type": "file"
+        },
+        {
+          "mode": 493,
+          "mtime_ns": 1785108153531759795,
+          "path": "cpt.3030283393000",
+          "type": "directory"
+        },
+        {
+          "bytes": 10767244,
+          "mode": 420,
+          "mtime_ns": 1785108167837845080,
+          "path": "cpt.3030283393000/m5.cpt",
+          "sha256": "526214c1d759694718881181b73420e383b122bafcb7c4cba905395328ee8344",
+          "type": "file"
+        },
+        {
+          "bytes": 4184,
+          "mode": 420,
+          "mtime_ns": 1785108152639754477,
+          "path": "cpt.3030283393000/system.cf0.image.cow",
+          "sha256": "009cde2d06d65b3e8733bfd477ecbcc85460237e271a6fbb163b8b483ef44399",
+          "type": "file"
+        },
+        {
+          "bytes": 65522,
+          "mode": 420,
+          "mtime_ns": 1785108153324758561,
+          "path": "cpt.3030283393000/system.physmem.store0.pmem",
+          "sha256": "260e1e7a774022ec9b19d5e1ce76f8d2c1e2df4388a969bdd2faecdcec1872c2",
+          "type": "file"
+        },
+        {
+          "bytes": 32635,
+          "mode": 420,
+          "mtime_ns": 1785108153531759795,
+          "path": "cpt.3030283393000/system.physmem.store1.pmem",
+          "sha256": "2d274fbd5d0ffaebfc4f8a26036d86e85ca758418d4d057fa901fadc4c3c1892",
+          "type": "file"
+        },
+        {
+          "bytes": 15390782,
+          "mode": 420,
+          "mtime_ns": 1785108167837845080,
+          "path": "cpt.3030283393000/system.physmem.store2.pmem",
+          "sha256": "fc71135222583919d0ab8b112da8d0c20379a755af52d81d9ba72fa2c0990125",
+          "type": "file"
+        },
+        {
+          "mode": 493,
+          "mtime_ns": 1785108240464278028,
+          "path": "cpt.3303577571500",
+          "type": "directory"
+        },
+        {
+          "bytes": 10767569,
+          "mode": 420,
+          "mtime_ns": 1785108255456367403,
+          "path": "cpt.3303577571500/m5.cpt",
+          "sha256": "d7d3ab9e12dadbd9b343bf4b5c95e3f67b7b9d29cd61f839f4ceec841582c1e3",
+          "type": "file"
+        },
+        {
+          "bytes": 4184,
+          "mode": 420,
+          "mtime_ns": 1785108239550272580,
+          "path": "cpt.3303577571500/system.cf0.image.cow",
+          "sha256": "ef4249979502b33a8e5d1d1d5abc3358d02069e98482abb3e8ee6e7d0df1ec3e",
+          "type": "file"
+        },
+        {
+          "bytes": 65522,
+          "mode": 420,
+          "mtime_ns": 1785108240274276896,
+          "path": "cpt.3303577571500/system.physmem.store0.pmem",
+          "sha256": "260e1e7a774022ec9b19d5e1ce76f8d2c1e2df4388a969bdd2faecdcec1872c2",
+          "type": "file"
+        },
+        {
+          "bytes": 32635,
+          "mode": 420,
+          "mtime_ns": 1785108240464278028,
+          "path": "cpt.3303577571500/system.physmem.store1.pmem",
+          "sha256": "2d274fbd5d0ffaebfc4f8a26036d86e85ca758418d4d057fa901fadc4c3c1892",
+          "type": "file"
+        },
+        {
+          "bytes": 15370307,
+          "mode": 420,
+          "mtime_ns": 1785108255456367403,
+          "path": "cpt.3303577571500/system.physmem.store2.pmem",
+          "sha256": "fa5e3c27bf740774bdacbc92d8ef4357e8007cfd9a275b3c28598baf5f8a56aa",
+          "type": "file"
+        },
+        {
+          "bytes": 137250,
+          "mode": 420,
+          "mtime_ns": 1785108268174443219,
+          "path": "stats.txt",
+          "sha256": "941afd2411bd42d46f37d5289c8a2e7ae529f61b369c09fdc9ddbf4d3473591b",
+          "type": "file"
+        },
+        {
+          "bytes": 345,
+          "mode": 420,
+          "mtime_ns": 1785108266574433681,
+          "path": "system.terminal",
+          "sha256": "370183307f42cebe12b9a383b474c38b53d9289c4d4b0ee96c7481de262853a2",
+          "type": "file"
+        }
+      ],
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/native_strict_timing_checkpoint_2",
+      "tree_sha256": "3c35652bc0671ed6cb4b9a91945677bffcbf06ebdd62bff450c43f2c367bb354"
+    },
+    "disk": {
+      "bytes": 2147475456,
+      "mode": 420,
+      "mtime_ns": 1785107133297627501,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img",
+      "sha256": "af6232a935819d21bcce2e8789913a3920cc7250a6de1edffe2f1176579c38af"
+    }
+  },
+  "source_evidence_immutable": true,
+  "source_evidence_start": {
+    "checkpoint": {
+      "entries": [
+        {
+          "mode": 493,
+          "mtime_ns": 1785108276179490941,
+          "path": ".",
+          "type": "directory"
+        },
+        {
+          "bytes": 124432,
+          "mode": 420,
+          "mtime_ns": 1785108276169490881,
+          "path": "checkpoint_provenance.json",
+          "sha256": "dd1df5330301459021524298cb3f5f167d6dac88d0b2c4302fa3f385d7d4db1b",
+          "type": "file"
+        },
+        {
+          "bytes": 30823,
+          "mode": 420,
+          "mtime_ns": 1785108208664088456,
+          "path": "config.ini",
+          "sha256": "cac710d6e9cfc80161ad681b31fa74bbcdba9c93650eef7ff3f79feeb916bb41",
+          "type": "file"
+        },
+        {
+          "bytes": 82997,
+          "mode": 420,
+          "mtime_ns": 1785108208682088563,
+          "path": "config.json",
+          "sha256": "e66e01a41ef410b8844c0fc079f4ec7cb54ed3dfa3fd386f3b59014f1b30106f",
+          "type": "file"
+        },
+        {
+          "mode": 493,
+          "mtime_ns": 1785108153531759795,
+          "path": "cpt.3030283393000",
+          "type": "directory"
+        },
+        {
+          "bytes": 10767244,
+          "mode": 420,
+          "mtime_ns": 1785108167837845080,
+          "path": "cpt.3030283393000/m5.cpt",
+          "sha256": "526214c1d759694718881181b73420e383b122bafcb7c4cba905395328ee8344",
+          "type": "file"
+        },
+        {
+          "bytes": 4184,
+          "mode": 420,
+          "mtime_ns": 1785108152639754477,
+          "path": "cpt.3030283393000/system.cf0.image.cow",
+          "sha256": "009cde2d06d65b3e8733bfd477ecbcc85460237e271a6fbb163b8b483ef44399",
+          "type": "file"
+        },
+        {
+          "bytes": 65522,
+          "mode": 420,
+          "mtime_ns": 1785108153324758561,
+          "path": "cpt.3030283393000/system.physmem.store0.pmem",
+          "sha256": "260e1e7a774022ec9b19d5e1ce76f8d2c1e2df4388a969bdd2faecdcec1872c2",
+          "type": "file"
+        },
+        {
+          "bytes": 32635,
+          "mode": 420,
+          "mtime_ns": 1785108153531759795,
+          "path": "cpt.3030283393000/system.physmem.store1.pmem",
+          "sha256": "2d274fbd5d0ffaebfc4f8a26036d86e85ca758418d4d057fa901fadc4c3c1892",
+          "type": "file"
+        },
+        {
+          "bytes": 15390782,
+          "mode": 420,
+          "mtime_ns": 1785108167837845080,
+          "path": "cpt.3030283393000/system.physmem.store2.pmem",
+          "sha256": "fc71135222583919d0ab8b112da8d0c20379a755af52d81d9ba72fa2c0990125",
+          "type": "file"
+        },
+        {
+          "mode": 493,
+          "mtime_ns": 1785108240464278028,
+          "path": "cpt.3303577571500",
+          "type": "directory"
+        },
+        {
+          "bytes": 10767569,
+          "mode": 420,
+          "mtime_ns": 1785108255456367403,
+          "path": "cpt.3303577571500/m5.cpt",
+          "sha256": "d7d3ab9e12dadbd9b343bf4b5c95e3f67b7b9d29cd61f839f4ceec841582c1e3",
+          "type": "file"
+        },
+        {
+          "bytes": 4184,
+          "mode": 420,
+          "mtime_ns": 1785108239550272580,
+          "path": "cpt.3303577571500/system.cf0.image.cow",
+          "sha256": "ef4249979502b33a8e5d1d1d5abc3358d02069e98482abb3e8ee6e7d0df1ec3e",
+          "type": "file"
+        },
+        {
+          "bytes": 65522,
+          "mode": 420,
+          "mtime_ns": 1785108240274276896,
+          "path": "cpt.3303577571500/system.physmem.store0.pmem",
+          "sha256": "260e1e7a774022ec9b19d5e1ce76f8d2c1e2df4388a969bdd2faecdcec1872c2",
+          "type": "file"
+        },
+        {
+          "bytes": 32635,
+          "mode": 420,
+          "mtime_ns": 1785108240464278028,
+          "path": "cpt.3303577571500/system.physmem.store1.pmem",
+          "sha256": "2d274fbd5d0ffaebfc4f8a26036d86e85ca758418d4d057fa901fadc4c3c1892",
+          "type": "file"
+        },
+        {
+          "bytes": 15370307,
+          "mode": 420,
+          "mtime_ns": 1785108255456367403,
+          "path": "cpt.3303577571500/system.physmem.store2.pmem",
+          "sha256": "fa5e3c27bf740774bdacbc92d8ef4357e8007cfd9a275b3c28598baf5f8a56aa",
+          "type": "file"
+        },
+        {
+          "bytes": 137250,
+          "mode": 420,
+          "mtime_ns": 1785108268174443219,
+          "path": "stats.txt",
+          "sha256": "941afd2411bd42d46f37d5289c8a2e7ae529f61b369c09fdc9ddbf4d3473591b",
+          "type": "file"
+        },
+        {
+          "bytes": 345,
+          "mode": 420,
+          "mtime_ns": 1785108266574433681,
+          "path": "system.terminal",
+          "sha256": "370183307f42cebe12b9a383b474c38b53d9289c4d4b0ee96c7481de262853a2",
+          "type": "file"
+        }
+      ],
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/native_strict_timing_checkpoint_2",
+      "tree_sha256": "3c35652bc0671ed6cb4b9a91945677bffcbf06ebdd62bff450c43f2c367bb354"
+    },
+    "disk": {
+      "bytes": 2147475456,
+      "mode": 420,
+      "mtime_ns": 1785107133297627501,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/third_party/gem5_fs/disks/aarch64-ubuntu-trusty-headless.img",
+      "sha256": "af6232a935819d21bcce2e8789913a3920cc7250a6de1edffe2f1176579c38af"
+    }
+  },
+  "started_utc": "2026-07-27T18:35:45Z",
+  "status": "passed",
+  "table2_repeatability": {
+    "identical_command_transcript_sha256": "9ce3d329ddd9664cf2a1f6d3a70de10086016f73a2588fa5d28f820c9e2f7daf",
+    "pass": true,
+    "runs": 2
+  },
+  "trace_regression_checkpoint": {
+    "checkpoint_directories": [
+      "cpt.2887201355250"
+    ],
+    "cpu": {
+      "cpu_class": "AtomicSimpleCPU",
+      "cpu_type": "atomic",
+      "kernel_memory_limit": "1984MB",
+      "mem_mode": "atomic",
+      "num_cpus": 4,
+      "physical_bytes": 2147483648
+    },
+    "files": [
+      {
+        "bytes": 40,
+        "path": "bootstrap.ptrc",
+        "sha256": "6f737972f2fa70015a2a71f904c323e00eb309893947d957f4fd2ebecdd73947",
+        "type": "file"
+      },
+      {
+        "bytes": 43,
+        "path": "bootstrap.ptrc.io",
+        "sha256": "a12c26963fa8dc508c2e3a8fc920765cfc6619dbcdacae8cba089b030a59f0af",
+        "type": "file"
+      },
+      {
+        "bytes": 48198,
+        "path": "config.ini",
+        "sha256": "569345729613029c6483de03484ce1bc9f5796639a23e910b6282b218cda4273",
+        "type": "file"
+      },
+      {
+        "bytes": 126935,
+        "path": "config.json",
+        "sha256": "887b49057694fb807ba72c23da5b26f9c864f022c89ec7a306cae2117a255ea8",
+        "type": "file"
+      },
+      {
+        "path": "cpt.2887201355250",
+        "type": "directory"
+      },
+      {
+        "bytes": 10768162,
+        "path": "cpt.2887201355250/m5.cpt",
+        "sha256": "8e9b46b3456ffd08cb65e2bf558de9ad3816c2e5f34e4a8f2d9e573a97294b9c",
+        "type": "file"
+      },
+      {
+        "bytes": 4184,
+        "path": "cpt.2887201355250/system.cf0.image.cow",
+        "sha256": "ed48fd31d9d092ad46295ba00bbb102ad02ba1aa1622151906be1cdf52def22a",
+        "type": "file"
+      },
+      {
+        "bytes": 65522,
+        "path": "cpt.2887201355250/system.physmem.store0.pmem",
+        "sha256": "260e1e7a774022ec9b19d5e1ce76f8d2c1e2df4388a969bdd2faecdcec1872c2",
+        "type": "file"
+      },
+      {
+        "bytes": 32635,
+        "path": "cpt.2887201355250/system.physmem.store1.pmem",
+        "sha256": "2d274fbd5d0ffaebfc4f8a26036d86e85ca758418d4d057fa901fadc4c3c1892",
+        "type": "file"
+      },
+      {
+        "bytes": 15336877,
+        "path": "cpt.2887201355250/system.physmem.store2.pmem",
+        "sha256": "ebec2076e386851025aeaa3a257f2c790468187e8a976c63a0b9c730a42c992e",
+        "type": "file"
+      },
+      {
+        "bytes": 595418,
+        "path": "stats.txt",
+        "sha256": "12b8e327f3ecb5017968b160237c56fc0a937206b12f2c570ed3d695b659f548",
+        "type": "file"
+      },
+      {
+        "bytes": 11144,
+        "path": "system.terminal",
+        "sha256": "3b0adf9fd396404c205aa71329d1420b0537202b27288920f901810fe8eccbdb",
+        "type": "file"
+      }
+    ],
+    "guest_script": {
+      "bytes": 555,
+      "mode": 493,
+      "mtime_ns": 1785178286824373321,
+      "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/regression_strict_20260727T183538Z/rcs/trace_checkpoint.rcS",
+      "sha256": "a4733b43fee24eacb4239f05c9edc2c74961cf6fdeda3a017208bca64489b935"
+    },
+    "pass": true,
+    "path": "/home/odai/Documents/Wafaa/Data cleansing-e2e-strict/results/raw/regression_strict_20260727T183538Z/checkpoint_trace_atomic",
+    "separate_from_main_regression_checkpoint": true,
+    "source_evidence_checkpoint_used_for_restore": false,
+    "trace_topology": {
+      "fs_config": "IMPICA/gem5/configs/se_pim/se_pim_fs.py",
+      "io_trace_role": "auxiliary",
+      "main_trace_role": "primary",
+      "monitors": {
+        "system.sepim_trace_monitor": "CommMonitor",
+        "system.sepim_trace_monitor_io": "CommMonitor"
+      },
+      "pass": true,
+      "trace_enabled": {
+        "system.sepim_trace_monitor": true,
+        "system.sepim_trace_monitor_io": true
+      },
+      "trace_files": {
+        "system.sepim_trace_monitor": "/workspace/results/raw/regression_strict_20260727T183538Z/checkpoint_trace_atomic/bootstrap.ptrc",
+        "system.sepim_trace_monitor_io": "/workspace/results/raw/regression_strict_20260727T183538Z/checkpoint_trace_atomic/bootstrap.ptrc.io"
+      }
+    },
+    "tree_sha256": "67d2ac53f5cebe7f2b400cd84b6d1531ec8ddc875d25fabc8d4fa9dc0e2db012"
+  }
+}

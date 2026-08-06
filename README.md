@@ -1,392 +1,95 @@
-# SE-PIM Data Cleansing — Artifact Repository
+# PIM-Cleanser IEEE reproduction artifact
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+This repository is the public artifact for **PIM-Cleanser: In-Memory
+Acceleration of Data-Intensive Confidential Data Sanitization**.
 
-This repository contains the artifact for the paper:
+## Submitted paper
 
-> **"PIM-Cleanser: In-Memory Acceleration of Data-Intensive Confidential Data Sanitization"**  
-> Wafaa M. AL-Madhaji and Ibrahim Ahmed Al-Baltah
+The IEEE conference submission was finalized on **29 July 2026**. The immutable
+submission pair is:
 
-It provides:
-1. **Reproducible replication** of Figs. 8–11 from the SE-PIM paper using cycle-accurate gem5 full-system simulation.
-2. **Hybrid in-PIM data cleansing extension** — a novel PIM/host-hybrid k-means cleaning pipeline with security (lockdown) semantics.
+- `se_pim_data_cleansing_paper.pdf` - seven-page IEEE PDF, SHA-256
+  `f4b09368636d1a68992754b011dd9101133292a7512dc089b3fd56c3741e254f`.
+- `output/doc/se_pim_data_cleansing_paper.docx` - Word manuscript, SHA-256
+  `22f5dc370c647595b23e72b20ae3ad958feb7b6e6a362d5ecdc7ae55fc244a59`.
 
----
+`paper/SUBMISSION-MANIFEST.json` records the complete file metadata. The
+15 July surgical revision is an earlier draft and is not part of this release.
 
-## Table of Contents
+## Evidence boundary
 
-- [Repository Layout](#repository-layout)
-- [Prerequisites](#prerequisites)
-- [Quick Start](#quick-start)
-- [Setup](#setup)
-- [Running Experiments](#running-experiments)
-- [Data Cleaning Extension](#data-cleaning-extension)
-- [Expected Results](#expected-results)
-- [Artifact Checksums](#artifact-checksums)
-- [Known Deviations from Paper](#known-deviations-from-paper)
-- [Citation](#citation)
-- [License](#license)
+The paper deliberately separates three evidence classes:
 
----
-
-## Repository Layout
-
-```
-.
-├── IMPICA/               # Patched SE-PIM / IMPICA source tree
-│   ├── gem5/             # Modified gem5 simulator (ARM FS)
-│   └── workloads/        # Guest workloads (DMA bench, k-means, etc.)
-├── scripts/              # All build, run, and plot scripts
-├── docs/                 # Reproducibility log, spec notes, figure targets
-├── results/
-│   ├── raw/              # Generated simulation output dirs (gitignored)
-│   ├── csv/              # Parsed CSV results (gitignored)
-│   └── plots/            # Generated figures (gitignored)
-├── logs/                 # Build and run logs (gitignored)
-├── tools/docker/         # Dockerfile for the reproducible build environment
-├── third_party/          # Downloaded FS images and runtime libs (gitignored)
-├── README.md             # This file
-├── README_CLEANING.md    # Detailed notes on the data-cleaning extension
-├── docs/reproducibility.md  # Full gate-by-gate experiment log
-└── se_pim_data_cleansing_paper.tex  # LaTeX source of the accompanying paper
-```
-
----
-
-## Prerequisites
-
-| Requirement | Version | Notes |
+| Evidence | What it supports | Status |
 |---|---|---|
-| Docker | ≥ 20.10 | Required for all build and run steps |
-| Disk space | ≥ 20 GB free | gem5 FS image (~7 GB) + build artifacts |
-| RAM | ≥ 8 GB | sim runs are memory-intensive |
-| `curl` or `wget` | any | For downloading FS artifacts |
-| `python3` | ≥ 3.8 | For plot scripts |
-| `aarch64-linux-gnu-gcc` | optional | If available on host, skips Docker for some steps |
+| Host-native quality matrix | Repair quality on synthetic data and UCI HAR | 270 canonical rows |
+| Functional calibrated matrix | The reported `0.048495%` zero and `0.117989%` mean estimated overheads | 18,144 analytical rows, not native gem5 ticks |
+| Native gem5 runs | Cleaning calibration and fixed public transcript checks | Exact candidate input plus a separately promoted strict bundle |
 
-### Host Configuration (Ubuntu / Debian)
+The paper makes **no direct native end-to-end overhead claim**. The exact
+36-row native CSV used while generating paper assets retains its original
+`candidate` label. The independently promoted native bundle is published
+separately with its regression and assembly evidence. See
+`results/EVIDENCE-MANIFEST.json` for the complete mapping and checksums.
 
-You can install all required host dependencies with the following commands:
+## Verify the release
 
-```bash
-# Update packages
-sudo apt-get update
-
-# Install basic required tools
-sudo apt-get install -y git curl python3
-
-# (Optional) Install cross-compiler to speed up workload builds
-sudo apt-get install -y gcc-aarch64-linux-gnu
-```
-
-### Docker Installation
-
-You **must** have Docker installed because the gem5 execution environment relies on a specific legacy toolchain (`ubuntu18`).
+Required for the packaged verification path: Bash, Python 3, a C compiler,
+`latexmk`, an IEEEtran-capable TeX installation, Poppler, and standard archive
+tools.
 
 ```bash
-# 1. Install Docker dependencies
-sudo apt-get update
-sudo apt-get install -y ca-certificates curl
-
-# 2. Add Docker's official GPG key
-sudo install -m 0755 -d /etc/apt/keyrings
-sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
-sudo chmod a+r /etc/apt/keyrings/docker.asc
-
-# 3. Add the Docker repository
-echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
-  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-
-# 4. Install Docker
-sudo apt-get update
-sudo apt-get install -y docker-ce docker-ce-cli containerd.io
-
-# 5. Add your user to the docker group (avoids needing 'sudo docker')
-sudo usermod -aG docker $USER
-# You may need to log out and log back in, or run 'newgrp docker' for this to take effect.
+python3 -m pip install -r requirements-reproduction.txt
+scripts/check_impica_bundle.sh
+python3 -m unittest discover -s scripts/tests -p 'test_*.py'
+python3 -m unittest discover -s tests -p 'test_*.py'
+scripts/build_release_artifact.sh
+scripts/verify_release_artifact.sh
 ```
 
-> **Note:** All build and simulation steps run inside the Docker container `sepim-impica:ubuntu18`. You do **not** need to install gem5's legacy dependencies on your host.
->
-> Gate runners (`run_gate6/7/8/9`) default to containerized execution for reproducibility. Override with `SEPIM_GATE_RUNNER_MODE=never` only for advanced local debugging.
+The verifier works from a fresh extraction, reconstructs the exact source-only
+IMPICA bundle, runs host tests, verifies all evidence hashes, regenerates paper
+assets byte-for-byte, compiles and renders the paper, and writes
+`output/artifact/clean-reproduction.json`.
 
----
+Use `scripts/build_release_artifact.sh --no-native` only for a smaller
+calibrated-only derivative. It is not the full IEEE release.
 
-## Quick Start
+## Source provenance
 
-```bash
-# 1. Clone this repository
-git clone https://github.com/odai-dev/se-pim-data-cleansing.git
-cd se-pim-data-cleansing
+The source-only IMPICA bundle is exported from nested repository commit
+`f8a18cd2677256b4b0e4ecd5cf547d033b268953`. Its manifest binds the key cleaner,
+workload, and gem5 device files used by the July 29 evidence. Build products,
+checkpoints, disk images, raw generated datasets, and repository history are not
+redistributed.
 
-# 2. Build the Docker image
-scripts/build_all.sh --jobs 4
+The full native rerun additionally needs the pinned ARM full-system image,
+kernel, rebuilt gem5 binary, and provenance-bound checkpoints described in the
+recorded manifests. The release verifies those immutable records but does not
+pretend that omitted multi-gigabyte dependencies are present.
 
-# 3. Fetch gem5 FS artifacts (ARM kernel + disk image, ~7 GB)
-scripts/fetch_gem5_fs.sh
+## Repository layout
 
-# 4. Run the full experiment suite (inside Docker automatically)
-scripts/run_gate3_container.sh          # Boot checkpoint (Gate 3)
-scripts/run_gate6_dma.sh --backend fs --full
-scripts/run_gate7_controlled_access.sh --backend fs --full
-scripts/run_gate8_trace.sh --backend fs --full
-scripts/run_gate9_kmeans.sh --backend fs --full
-
-# 5. Run the data-cleaning extension
-scripts/run_kmeans_cleaning_pim.sh --full
-scripts/run_kmeans_cleaning_hybrid.sh --full
+```text
+impica-parts/                 exact source-only IMPICA bundle and manifest
+paper/generated/              generated tables, macros, and plot data
+paper/docx_assets/            submitted Word manuscript figure assets
+results/csv/                  canonical paper and promoted-evidence rows
+results/raw/                  compact run manifests and validations
+results/promoted/             strict promoted native bundle
+scripts/                      experiment, generation, promotion, and verification tools
+tests/                        promotion and provenance tests
 ```
 
-Plots are written to `results/plots/`. See [Running Experiments](#running-experiments) for details.
+## Security scope
 
-### Clean-Clone Canonical Sequence
+The evaluated property concerns a passive observer of the host-PIM interface
+and external memory traffic under the stated SE-PIM assumptions. It does not
+cover PIM-core power, electromagnetic leakage, internal caches/branches,
+physical attacks, compromised measured code, or production hardware.
 
-The following sequence is the canonical reproducibility path from a fresh clone:
+## Citation and license
 
-```bash
-scripts/build_all.sh --jobs 4
-scripts/fetch_gem5_fs.sh
-scripts/run_gate3_container.sh
-scripts/run_gate6_dma.sh --backend fs --full
-scripts/run_gate7_controlled_access.sh --backend fs --full
-scripts/run_gate8_trace.sh --backend fs --full
-scripts/run_gate9_kmeans.sh --backend fs --full
-scripts/run_kmeans_cleaning_pim.sh --full
-scripts/run_kmeans_cleaning_hybrid.sh --full
-```
-
-### Expected Download and Runtime Budget
-
-| Stage | Typical network | Typical wall time |
-|---|---:|---:|
-| Docker image build (`build_all.sh`) | 1.5–2.5 GB | 60–120 min |
-| gem5 FS bundle (`fetch_gem5_fs.sh`) | ~7 GB | 10–40 min |
-| GATE3 checkpoint | 0 | 20–40 min |
-| GATE6/7/8/9 full runs | 0 | 60–180 min total |
-| Cleaning full runs (PIM + hybrid) | 0 | 20–60 min total |
-
-### Common Failure Recovery
-
-- `Docker is installed but not accessible`:
-  - run `newgrp docker` (or re-login) after `usermod -aG docker`.
-- `checkpoint dir missing`:
-  - run `scripts/run_gate3_container.sh` first.
-- `aarch64-linux-gnu-gcc not found`:
-  - cleaning scripts auto-fallback to Docker; for host builds install `gcc-aarch64-linux-gnu`.
-- root-owned outputs in `results/` or `logs/`:
-  - rerun through provided scripts (they normalize ownership on container exit).
-- bootstrap bundle mismatch:
-  - run `scripts/check_impica_bundle.sh` for a precise integrity report.
-
----
-
-## Setup
-
-### Step 1 — Clone
-
-```bash
-git clone https://github.com/odai-dev/se-pim-data-cleansing.git
-cd se-pim-data-cleansing
-```
-
-### Step 2 — Build Docker Image
-
-```bash
-# Default: 4 parallel jobs, no -Werror
-scripts/build_all.sh
-
-# Options
-scripts/build_all.sh --jobs 8 --image sepim-impica:ubuntu18
-```
-
-This builds:
-- The gem5 ARM simulator (`IMPICA/gem5/build/ARM/gem5.opt`)
-- The SE-PIM/IMPICA guest workloads (cross-compiled for AArch64)
-- The PIM kernel module (`pim_driver`)
-
-> The build takes **60–120 minutes** on a typical 8-core host.
-
-### Step 3 — Fetch FS Artifacts
-
-```bash
-scripts/fetch_gem5_fs.sh
-```
-
-Downloads the gem5 ARM FS bundle (`aarch64-ubuntu-trusty-headless.img` + `vmlinux.aarch64.20140821`) into `third_party/gem5_fs/`. Resumes interrupted downloads automatically.
-
-**Checksums** (see [Artifact Checksums](#artifact-checksums)):
-- Disk image: `b7cf2671...`
-- Kernel: `6a391f31...`
-
-### Step 4 — Prepare Disk Image
-
-Injects compiled workloads and the PIM driver into the guest image:
-
-```bash
-scripts/prepare_disk_image.sh
-```
-
-> Requires Docker with `--privileged` (for loop mount). Takes ~5 minutes.
-
-### Step 5 — Create Boot Checkpoint
-
-```bash
-scripts/run_gate3_container.sh
-```
-
-Creates a post-boot gem5 checkpoint in `results/raw/`. This checkpoint is reused by all subsequent experiment runs. Takes ~30 minutes.
-
----
-
-## Running Experiments
-
-All gate runners accept `--backend fs` (simulation) and `--full` (full input size) or `--quick` (reduced config for smoke testing).
-
-### Figure 8 — Memory Access Traffic Trace
-
-```bash
-scripts/run_gate8_trace.sh --backend fs --full
-# Output: results/csv/fig8_cpu_fs.csv, fig8_sepim_fs.csv
-#         results/plots/fig8_fs.png
-```
-
-### Figure 9 — DMA Overhead
-
-```bash
-scripts/run_gate6_dma.sh --backend fs --full
-# Output: results/csv/fig9_dma_fs.csv
-#         results/plots/fig9_fs.png
-```
-
-### Figure 10 — Controlled-Access Bandwidth
-
-```bash
-scripts/run_gate7_controlled_access.sh --backend fs --full
-# Output: results/csv/fig10_controlled_access_fs.csv
-#         results/plots/fig10_fs.png
-```
-
-### Figure 11 — k-means Scaling
-
-```bash
-scripts/run_gate9_kmeans.sh --backend fs --full
-# Output: results/csv/fig11_kmeans_scaling_fs.csv
-#         results/plots/fig11_fs.png
-```
-
-### Regenerate All Plots from Existing CSVs
-
-```bash
-scripts/run_fig8.sh
-scripts/run_fig9.sh
-scripts/run_fig10.sh
-scripts/run_fig11.sh
-```
-
----
-
-## Data Cleaning Extension
-
-See [`README_CLEANING.md`](README_CLEANING.md) for full details on the PIM/hybrid data-cleaning pipeline.
-
-### Generate Dirty Dataset
-
-```bash
-scripts/make_dirty_dataset.sh --dirty-frac 0.10 --seed 7 --points 131072 --dims 8
-```
-
-Produces `kmeans_clean.bin`, `kmeans_dirty_10pct.bin`, and `kmeans_dirty_10pct.meta.json` under `IMPICA/workloads/kmeans_sepim_fs/data/`.
-
-### Run PIM-Only Cleaning
-
-```bash
-scripts/run_kmeans_cleaning_pim.sh --full
-# Output: results/csv/cleaning_pim.csv, results/plots/cleaning_pim.png
-```
-
-### Run Hybrid Cleaning (block-size sweep)
-
-```bash
-scripts/run_kmeans_cleaning_hybrid.sh --full
-# Output: results/csv/cleaning_hybrid.csv, results/plots/cleaning_hybrid.png
-```
-
----
-
-## Expected Results
-
-### Figures 8–11 (from final authoritative run, 2026-03-01)
-
-| Figure | Metric | Value |
-|---|---|---|
-| **Fig. 8** | CPU trace rows / unique addresses | 2,287 / 2,182 |
-| **Fig. 8** | SE-PIM trace rows / unique addresses | 138 / 4 |
-| **Fig. 9** | Avg. DMA overhead | 22.01% |
-| **Fig. 9** | Peak baseline throughput | 3.530 GB/s |
-| **Fig. 9** | Peak SE-PIM throughput | 2.892 GB/s |
-| **Fig. 10** | Controlled-access @ 64 KB | 374.1 MB/s |
-| **Fig. 10** | Controlled-access @ 128 KB | 503.4 MB/s |
-| **Fig. 11** | k-means (512 MB, 8 cores) | 17.694 s |
-| **Fig. 11** | Speedup vs. CPU | 3.589× |
-| **Fig. 11** | SE-PIM overhead vs. PIM | 0.108% |
-
-### Data Cleaning Results (2026-03-02)
-
-| Mode | Total Time | Quality Score |
-|---|---|---|
-| Baseline clean | 17.694 s | 1.0 |
-| Dirty, no cleaning | 17.694 s | 0.900 |
-| PIM cleaning | 17.705 s (+0.06%) | 1.0 |
-| Hybrid @ 4 KB | 17.899 s | 1.0 |
-| Hybrid @ 64 KB | 17.727 s | 1.0 |
-| Hybrid @ 128 KB | 17.721 s | 1.0 |
-
----
-
-## Artifact Checksums
-
-| Artifact | SHA-256 |
-|---|---|
-| Docker image (`sepim-impica`) | `sha256:e5caacbf042ea2c2dd87a350ca35467d09aec2c0e4fac2a1de728bb1a93f308a` |
-| `gem5.opt` binary | `0306bbe995d1653c64283bb30389bcc4f4dcd9843df5a4949d7c9dd42749c9ac` |
-| `aarch64-ubuntu-trusty-headless.img` | `b7cf2671616805abaad05e2d453d4559d56f77b922f48ec5294b41736ef6fd20` |
-| `vmlinux.aarch64.20140821` | `6a391f3109c91316f4fc7f240b658c7ca885202154b8ef9cfd29f251b28bfcdf` |
-| IMPICA commit (final) | `b29c04ca` |
-| Workspace commit (snapshot) | `ef60697` |
-
----
-
-## Known Deviations from Paper
-
-| Paper Spec | This Implementation |
-|---|---|
-| HMCVault memory model | DDR3 multi-channel approximation (no native HMCVault in this IMPICA fork) |
-| Linux 3.16.0-rc6 kernel | `vmlinux.aarch64.20140821` from gem5 ARM FS bundle |
-| 2 threads/core (SMT) | `TimingSimpleCPU` (in-order-like, no SMT) |
-| Fig. 11 CPU baseline | Reference modeled line; PIM/SE-PIM values from simulated `ACCESS_DATA` command timing |
-
----
-
-## Citation
-
-If you use this artifact, please cite:
-
-```bibtex
-@article{almadhaji2026pimcleanser,
-  title     = {PIM-Cleanser: In-Memory Acceleration of Data-Intensive Confidential Data Sanitization},
-  author    = {AL-Madhaji, Wafaa M. and Al-Baltah, Ibrahim Ahmed},
-  year      = {2026}
-}
-```
-
-See also [`CITATION.cff`](CITATION.cff) for machine-readable citation metadata.
-
----
-
-## License
-
-This project is licensed under the **MIT License** — see [LICENSE](LICENSE) for details.
-
-The gem5 simulator and IMPICA baseline are subject to their own licenses (BSD and MIT respectively).
+Citation metadata is provided in `CITATION.cff`. Code and artifact glue are
+released under the repository's MIT license; upstream components retain their
+own licenses.

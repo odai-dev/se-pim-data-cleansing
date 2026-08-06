@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "submission_date": "2026-07-29",
+  "statement": "The PDF and DOCX listed here are the immutable IEEE conference submission pair.",
+  "excluded_draft": "The 2026-07-15 surgical paper is an earlier draft and is not the submitted paper.",
+  "files": {
+    "se_pim_data_cleansing_paper.pdf": {
+      "bytes": 257332,
+      "pages": 7,
+      "media": "letter",
+      "modified_local": "2026-07-29T15:01:28.340359187+03:00",
+      "sha256": "f4b09368636d1a68992754b011dd9101133292a7512dc089b3fd56c3741e254f"
+    },
+    "output/doc/se_pim_data_cleansing_paper.docx": {
+      "bytes": 568110,
+      "rendered_pages": 8,
+      "media": "A4",
+      "modified_local": "2026-07-29T14:28:53.382102226+03:00",
+      "sha256": "22f5dc370c647595b23e72b20ae3ad958feb7b6e6a362d5ecdc7ae55fc244a59"
+    },
+    "se_pim_data_cleansing_paper.tex": {
+      "bytes": 41267,
+      "modified_local": "2026-07-29T15:00:27.058975716+03:00",
+      "sha256": "8dd4083aae292a0292e51357a31f42e5327762e2dbd9a1ca0f4bcb7372e0a447"
+    }
+  }
+}

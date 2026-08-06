@@ -1,0 +1,12 @@
+#!/bin/sh
+set -ex
+cd /home/pim_driver
+mknod /dev/pimbt c 70 0 || true
+insmod ./test-driver.ko || { echo "[GUEST][ERROR] insmod failed"; m5 exit; exit 1; }
+chmod 666 /dev/pimbt
+cd /home/workloads/dma_benchmark_fs
+if [ ! -x ./dma_benchmark_fs ]; then
+  make || { echo "[GUEST][ERROR] build dma_benchmark_fs failed"; m5 exit; exit 1; }
+fi
+./dma_benchmark_fs --quick
+m5 exit

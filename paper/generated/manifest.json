@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "generated_utc": "2026-07-28T22:14:06.955306+00:00",
+  "inputs": {
+    "results/csv/publication_20260728T203351Z_quality.csv": "028e7529bb96ccaf53fa01381ed80ff650d0895f0cfe59a15bb763df1377c0b9",
+    "results/csv/publication_20260728T203351Z_performance.csv": "ce93221ed155a60bfc2eeef03318b4697ac83ffbbc91538ea14ff05b0aa836dd",
+    "results/csv/publication_20260728T213959Z_native.csv": "66c446f765c8fb9e16acdbd8749a826fec3549cf810f762452cbc120592b9423"
+  },
+  "outputs": {
+    "datasets_table.tex": "eb94ce108b41237a388100e74c3ac6cea09a6ab6d0db443ce06f21dc16654bc0",
+    "hybrid_block.csv": "a3856e2124d4d952740a1a69f88b3d04c90276d3c96b3d7ad0e42c2633ab3908",
+    "leakage.csv": "1587074e5c350a6732cd2e061039b50c5ced618330bbe2631999c47944a99d07",
+    "matrix_table.tex": "1c31caa7ee16cfaa20cf4ef5b8a0be69cba5d10b9aa25cb72862102679451c2c",
+    "mode_evidence_table.tex": "26907b23be9b302ec03a84426c18179ba82cf879a1f077fc7f586ac9c9a859c3",
+    "native_table.tex": "ad8e931a849a98d4a6a27daf9a5b2b5133b723d90591faea037156848012a606",
+    "numbers.tex": "e162093b40de509080e990d071087a0f9f0ebf447b2ed14fa559858f0e323524",
+    "overhead.csv": "b07770a2b253c71410f50dc954e2dfac26f59f7b7c0704ba4dfb141510f13070",
+    "phase_breakdown.csv": "f70cd54d11dddb9230ccc87846f75bc971860274eca52d13ff63714a3783c6c2",
+    "policy_tradeoff.csv": "876f7bfba18b15d6fc886777927c42fafae3be9d5015706a1d3c44af4cc0506d",
+    "quality_cross_table.tex": "f269bc48f7a8bdbd82e62297d1b201a70bbaf2f46b596ddc2279be7f848bab48",
+    "quality_table.tex": "64dc5064401357660c114b4e1756ecfcee07ecea9b2c5adfd99a220cd8432cf0",
+    "quality_uci_mean.csv": "8a9e29b48e2d26862fb934d830db4265af5efe497bb2b1b0c7af0fdbfe645aa2"
+  }
+}

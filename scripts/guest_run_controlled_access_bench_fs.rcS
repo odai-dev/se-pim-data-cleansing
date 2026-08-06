@@ -1,0 +1,12 @@
+#!/bin/sh
+set -ex
+cd /home/pim_driver
+mknod /dev/pimbt c 70 0 || true
+insmod ./test-driver.ko || { echo "[GUEST][ERROR] insmod failed"; m5 exit; exit 1; }
+chmod 666 /dev/pimbt
+cd /home/workloads/controlled_access_bench_fs
+if [ ! -x ./controlled_access_bench_fs ]; then
+  make || { echo "[GUEST][ERROR] build controlled_access_bench_fs failed"; m5 exit; exit 1; }
+fi
+./controlled_access_bench_fs --quick
+m5 exit

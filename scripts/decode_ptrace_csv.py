@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+from collections import deque
 import csv
 import gzip
 import importlib.util
@@ -13,10 +14,14 @@ import tempfile
 def decode_varint(in_file):
     result = 0
     shift = 0
+    saw_byte = False
     while True:
         b = in_file.read(1)
         if not b:
-            return None
+            if not saw_byte:
+                return None
+            raise EOFError("truncated protobuf size varint")
+        saw_byte = True
         v = b[0]
         result |= (v & 0x7F) << shift
         if not (v & 0x80):
@@ -32,7 +37,10 @@ def decode_message(in_file, message):
         return False
     payload = in_file.read(size)
     if len(payload) != size:
-        return False
+        raise EOFError(
+            "truncated protobuf message: expected %d bytes, found %d"
+            % (size, len(payload))
+        )
     message.ParseFromString(payload)
     return True
 
@@ -72,6 +80,62 @@ def cmd_to_rw(cmd):
     return "U"
 
 
+CSV_FIELDS = ["time", "addr", "rw", "size", "cmd", "flags"]
+
+
+def decode_rows(proto_in, pb2, tail=0, rw_only=False):
+    """Decode rows while keeping at most ``tail`` packets in memory.
+
+    Full traces can contain millions of packets.  A positive tail therefore
+    uses a bounded deque during decoding instead of accumulating the complete
+    trace and slicing it afterwards.
+    """
+    if tail < 0:
+        raise ValueError("tail must be non-negative")
+
+    header = pb2.PacketHeader()
+    packet = pb2.Packet()
+    rows = deque(maxlen=tail) if tail else []
+
+    magic = proto_in.read(4)
+    if magic != b"gem5":
+        raise RuntimeError("invalid trace magic header")
+    if not decode_message(proto_in, header):
+        raise RuntimeError("failed to decode packet header")
+
+    while decode_message(proto_in, packet):
+        rw = cmd_to_rw(packet.cmd)
+        if rw_only and rw == "U":
+            continue
+        rows.append(
+            {
+                "time": str(packet.tick),
+                "addr": "0x%x" % packet.addr,
+                "rw": rw,
+                "size": str(packet.size),
+                "cmd": str(packet.cmd),
+                "flags": str(packet.flags if packet.HasField("flags") else 0),
+            }
+        )
+    return list(rows)
+
+
+def write_csv_atomic(path, rows):
+    out_dir = os.path.dirname(path)
+    if out_dir:
+        os.makedirs(out_dir, exist_ok=True)
+    with tempfile.NamedTemporaryFile(
+        "w", newline="", delete=False, dir=out_dir or "."
+    ) as tf:
+        writer = csv.DictWriter(tf, fieldnames=CSV_FIELDS)
+        writer.writeheader()
+        writer.writerows(rows)
+        tmp_name = tf.name
+    os.chmod(tmp_name, 0o644)
+    os.replace(tmp_name, path)
+    os.chmod(path, 0o644)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--input", required=True, help="CommMonitor protobuf trace (.out or .gz)")
@@ -82,50 +146,11 @@ def main():
     args = ap.parse_args()
 
     pb2 = load_packet_pb2(args.gem5_root)
-    header = pb2.PacketHeader()
-    packet = pb2.Packet()
-    rows = []
-
     with open_trace(args.input) as proto_in:
-        magic = proto_in.read(4)
-        if magic != b"gem5":
-            raise RuntimeError("invalid trace magic header")
-
-        if not decode_message(proto_in, header):
-            raise RuntimeError("failed to decode packet header")
-
-        while decode_message(proto_in, packet):
-            rw = cmd_to_rw(packet.cmd)
-            if args.rw_only and rw == "U":
-                continue
-            rows.append(
-                {
-                    "time": str(packet.tick),
-                    "addr": "0x%x" % packet.addr,
-                    "rw": rw,
-                    "size": str(packet.size),
-                    "cmd": str(packet.cmd),
-                    "flags": str(packet.flags if packet.HasField("flags") else 0),
-                }
-            )
-
-    if args.tail > 0 and len(rows) > args.tail:
-        rows = rows[-args.tail :]
-
-    out_dir = os.path.dirname(args.output)
-    if out_dir:
-        os.makedirs(out_dir, exist_ok=True)
-
-    with tempfile.NamedTemporaryFile("w", newline="", delete=False, dir=out_dir or ".") as tf:
-        writer = csv.DictWriter(tf, fieldnames=["time", "addr", "rw", "size", "cmd", "flags"])
-        writer.writeheader()
-        for row in rows:
-            writer.writerow(row)
-        tmp_name = tf.name
-
-    os.chmod(tmp_name, 0o644)
-    os.replace(tmp_name, args.output)
-    os.chmod(args.output, 0o644)
+        rows = decode_rows(
+            proto_in, pb2, tail=args.tail, rw_only=args.rw_only
+        )
+    write_csv_atomic(args.output, rows)
 
 
 if __name__ == "__main__":

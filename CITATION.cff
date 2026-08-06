@@ -3,15 +3,23 @@ message: "If you use this software, please cite it as below."
 type: software
 title: "PIM-Cleanser: In-Memory Acceleration of Data-Intensive Confidential Data Sanitization"
 abstract: >
-  Reproducible artifact for SE-PIM / PIM-Cleanser (TCC): cycle-accurate gem5 full-system
-  simulation reproducing Figs. 8–11, plus a hybrid in-PIM data-cleansing
-  extension with security lockdown semantics.
+  Reproducible artifact for PIM-Cleanser: fixed-transcript zero and mean data
+  repair for confidential processing-in-memory, with host-native quality
+  evaluation, calibrated performance modeling, UCI HAR tooling, exact native
+  calibration inputs, and separately promoted native gem5 evidence.
 authors:
   - family-names: "AL-Madhaji"
     given-names: "Wafaa M."
+  - family-names: "Gubran"
+    given-names: "Odai M."
+    orcid: "https://orcid.org/0009-0007-3220-906X"
+    email: "odai.gubran@gmail.com"
+    affiliation: "Department of Information Technology, Ar-Rasheed Smart University"
   - family-names: "Al-Baltah"
     given-names: "Ibrahim Ahmed"
-repository-code: "https://github.com/odai-dev/se-pim-data-cleansing"
+repository-code: "https://github.com/wafaa2026/se-pim-data-cleansing"
+version: "ieee-submission-2026-07-29"
+date-released: "2026-07-29"
 license: MIT
 year: 2026
 references:
@@ -20,6 +28,9 @@ references:
     authors:
       - family-names: "AL-Madhaji"
         given-names: "Wafaa M."
+      - family-names: "Gubran"
+        given-names: "Odai M."
+        orcid: "https://orcid.org/0009-0007-3220-906X"
       - family-names: "Al-Baltah"
         given-names: "Ibrahim Ahmed"
     year: 2026

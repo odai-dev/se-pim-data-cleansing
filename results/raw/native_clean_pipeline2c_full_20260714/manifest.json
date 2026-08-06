@@ -1,0 +1,329 @@
+{
+  "schema_version": 1,
+  "run_id": "native_clean_pipeline2c_full_20260714",
+  "started_utc": "2026-07-14T16:15:26.347294+00:00",
+  "finished_utc": "2026-07-14T16:23:04.243418+00:00",
+  "model_kind": "gem5_native_candidate_cleaning",
+  "scope": "native cleaning ticks plus separately calibrated downstream workload",
+  "case_isolation": "each row restored from the identical checkpoint and public machine state",
+  "checkpoint": "results/raw/native_reserved_checkpoint_20260714_final",
+  "docker_image": "sepim-impica:ubuntu18",
+  "top_commit": "unavailable",
+  "impica_commit": "unavailable",
+  "source_diff_digest": "93adcf2253e8f3d92e5e1fd823e78b160ed42c1c136a8db105bb0e7b8f3381e5",
+  "parameters": {
+    "points": 8192,
+    "dims": 8,
+    "rates": [
+      0.0,
+      0.01,
+      0.1,
+      0.4
+    ],
+    "seeds": [
+      7,
+      19,
+      42
+    ],
+    "native_dma_burst_bytes": 131072,
+    "native_compute_lanes": 64,
+    "native_pipeline_buffers": 2,
+    "cache_line_bytes": 64
+  },
+  "dataset_id": "native_clean_pipeline2b_full_20260714",
+  "reused_checkpoint_pinned_datasets": true,
+  "disk_prepare_skipped": true,
+  "dataset_files": [
+    {
+      "clean": {
+        "path": "s7_r00_clean.bin",
+        "bytes": 262176,
+        "sha256": "37637ae3ff53f81371d1ec7a5badd21c0e8a688b1559c464a81404a065ea0742"
+      },
+      "dirty": {
+        "path": "s7_r00_dirty.bin",
+        "bytes": 262176,
+        "sha256": "37637ae3ff53f81371d1ec7a5badd21c0e8a688b1559c464a81404a065ea0742"
+      },
+      "labels": {
+        "path": "s7_r00_labels.bin",
+        "bytes": 32784,
+        "sha256": "66c710e4d0079aea76e66ff6a7eca1fed5c7ff2d1b672f0d4dda8dc72ec5d397"
+      }
+    },
+    {
+      "clean": {
+        "path": "s7_r01_clean.bin",
+        "bytes": 262176,
+        "sha256": "37637ae3ff53f81371d1ec7a5badd21c0e8a688b1559c464a81404a065ea0742"
+      },
+      "dirty": {
+        "path": "s7_r01_dirty.bin",
+        "bytes": 262176,
+        "sha256": "66bf8de75086b08304e3479918a866a0b62701ee725a4ea91da9e106f327e501"
+      },
+      "labels": {
+        "path": "s7_r01_labels.bin",
+        "bytes": 32784,
+        "sha256": "66c710e4d0079aea76e66ff6a7eca1fed5c7ff2d1b672f0d4dda8dc72ec5d397"
+      }
+    },
+    {
+      "clean": {
+        "path": "s7_r10_clean.bin",
+        "bytes": 262176,
+        "sha256": "37637ae3ff53f81371d1ec7a5badd21c0e8a688b1559c464a81404a065ea0742"
+      },
+      "dirty": {
+        "path": "s7_r10_dirty.bin",
+        "bytes": 262176,
+        "sha256": "ee755db7216d39a9e749c5b0b6fa70741dad58b23309509821b4cc0037cc1100"
+      },
+      "labels": {
+        "path": "s7_r10_labels.bin",
+        "bytes": 32784,
+        "sha256": "66c710e4d0079aea76e66ff6a7eca1fed5c7ff2d1b672f0d4dda8dc72ec5d397"
+      }
+    },
+    {
+      "clean": {
+        "path": "s7_r40_clean.bin",
+        "bytes": 262176,
+        "sha256": "37637ae3ff53f81371d1ec7a5badd21c0e8a688b1559c464a81404a065ea0742"
+      },
+      "dirty": {
+        "path": "s7_r40_dirty.bin",
+        "bytes": 262176,
+        "sha256": "402749ff797057a48c5abc8d182983db007577daeb2af773207ebba3f968a80e"
+      },
+      "labels": {
+        "path": "s7_r40_labels.bin",
+        "bytes": 32784,
+        "sha256": "66c710e4d0079aea76e66ff6a7eca1fed5c7ff2d1b672f0d4dda8dc72ec5d397"
+      }
+    },
+    {
+      "clean": {
+        "path": "s19_r00_clean.bin",
+        "bytes": 262176,
+        "sha256": "85208bcb1d839d7e9310957219192aa722ce463c7a5f679d7bc28145f85f062e"
+      },
+      "dirty": {
+        "path": "s19_r00_dirty.bin",
+        "bytes": 262176,
+        "sha256": "85208bcb1d839d7e9310957219192aa722ce463c7a5f679d7bc28145f85f062e"
+      },
+      "labels": {
+        "path": "s19_r00_labels.bin",
+        "bytes": 32784,
+        "sha256": "4407a6ec82ff46377afeeed33e531a8b360e497b16b58b7f6bae6db52b9e7378"
+      }
+    },
+    {
+      "clean": {
+        "path": "s19_r01_clean.bin",
+        "bytes": 262176,
+        "sha256": "85208bcb1d839d7e9310957219192aa722ce463c7a5f679d7bc28145f85f062e"
+      },
+      "dirty": {
+        "path": "s19_r01_dirty.bin",
+        "bytes": 262176,
+        "sha256": "49d746260a3d1bf4fc4e1ffccc8fde9110db9869787e040ed504e943e996ccb3"
+      },
+      "labels": {
+        "path": "s19_r01_labels.bin",
+        "bytes": 32784,
+        "sha256": "4407a6ec82ff46377afeeed33e531a8b360e497b16b58b7f6bae6db52b9e7378"
+      }
+    },
+    {
+      "clean": {
+        "path": "s19_r10_clean.bin",
+        "bytes": 262176,
+        "sha256": "85208bcb1d839d7e9310957219192aa722ce463c7a5f679d7bc28145f85f062e"
+      },
+      "dirty": {
+        "path": "s19_r10_dirty.bin",
+        "bytes": 262176,
+        "sha256": "600e499a56b67449c67dcab459ed4f95d9c1f372c0686db369e5589295ea51ae"
+      },
+      "labels": {
+        "path": "s19_r10_labels.bin",
+        "bytes": 32784,
+        "sha256": "4407a6ec82ff46377afeeed33e531a8b360e497b16b58b7f6bae6db52b9e7378"
+      }
+    },
+    {
+      "clean": {
+        "path": "s19_r40_clean.bin",
+        "bytes": 262176,
+        "sha256": "85208bcb1d839d7e9310957219192aa722ce463c7a5f679d7bc28145f85f062e"
+      },
+      "dirty": {
+        "path": "s19_r40_dirty.bin",
+        "bytes": 262176,
+        "sha256": "3aaacb8594ff62f06d41ae4e2b03ac346c84cdfc76f4e6a4f1b0814b8dd137ed"
+      },
+      "labels": {
+        "path": "s19_r40_labels.bin",
+        "bytes": 32784,
+        "sha256": "4407a6ec82ff46377afeeed33e531a8b360e497b16b58b7f6bae6db52b9e7378"
+      }
+    },
+    {
+      "clean": {
+        "path": "s42_r00_clean.bin",
+        "bytes": 262176,
+        "sha256": "b078495e530752b2ed6109f126a4a5bd6a778b5b83ffcb09b1db35b739d14b36"
+      },
+      "dirty": {
+        "path": "s42_r00_dirty.bin",
+        "bytes": 262176,
+        "sha256": "b078495e530752b2ed6109f126a4a5bd6a778b5b83ffcb09b1db35b739d14b36"
+      },
+      "labels": {
+        "path": "s42_r00_labels.bin",
+        "bytes": 32784,
+        "sha256": "3bfe3519fd80414ead931d33784aef1d28e256a4420a222ae907cdac9c26d39c"
+      }
+    },
+    {
+      "clean": {
+        "path": "s42_r01_clean.bin",
+        "bytes": 262176,
+        "sha256": "b078495e530752b2ed6109f126a4a5bd6a778b5b83ffcb09b1db35b739d14b36"
+      },
+      "dirty": {
+        "path": "s42_r01_dirty.bin",
+        "bytes": 262176,
+        "sha256": "c5a72cd604930ec0b2785e22a6dde6feb867311382481d3d8acb18e210603d07"
+      },
+      "labels": {
+        "path": "s42_r01_labels.bin",
+        "bytes": 32784,
+        "sha256": "3bfe3519fd80414ead931d33784aef1d28e256a4420a222ae907cdac9c26d39c"
+      }
+    },
+    {
+      "clean": {
+        "path": "s42_r10_clean.bin",
+        "bytes": 262176,
+        "sha256": "b078495e530752b2ed6109f126a4a5bd6a778b5b83ffcb09b1db35b739d14b36"
+      },
+      "dirty": {
+        "path": "s42_r10_dirty.bin",
+        "bytes": 262176,
+        "sha256": "ae2313251d86551d64267dcc3c9de11788cb9048798e578a1f22bafbc9e59b94"
+      },
+      "labels": {
+        "path": "s42_r10_labels.bin",
+        "bytes": 32784,
+        "sha256": "3bfe3519fd80414ead931d33784aef1d28e256a4420a222ae907cdac9c26d39c"
+      }
+    },
+    {
+      "clean": {
+        "path": "s42_r40_clean.bin",
+        "bytes": 262176,
+        "sha256": "b078495e530752b2ed6109f126a4a5bd6a778b5b83ffcb09b1db35b739d14b36"
+      },
+      "dirty": {
+        "path": "s42_r40_dirty.bin",
+        "bytes": 262176,
+        "sha256": "e4858461736fc530795abde90172262a6ece88fcd394e6efc9a8965adee97c33"
+      },
+      "labels": {
+        "path": "s42_r40_labels.bin",
+        "bytes": 32784,
+        "sha256": "3bfe3519fd80414ead931d33784aef1d28e256a4420a222ae907cdac9c26d39c"
+      }
+    }
+  ],
+  "commands": [
+    "reuse checksum-pinned dataset IMPICA/workloads/kmeans_sepim_fs/data/native_clean_pipeline2b_full_20260714/s7_r00_dirty.bin",
+    "reuse checksum-pinned dataset IMPICA/workloads/kmeans_sepim_fs/data/native_clean_pipeline2b_full_20260714/s7_r01_dirty.bin",
+    "reuse checksum-pinned dataset IMPICA/workloads/kmeans_sepim_fs/data/native_clean_pipeline2b_full_20260714/s7_r10_dirty.bin",
+    "reuse checksum-pinned dataset IMPICA/workloads/kmeans_sepim_fs/data/native_clean_pipeline2b_full_20260714/s7_r40_dirty.bin",
+    "reuse checksum-pinned dataset IMPICA/workloads/kmeans_sepim_fs/data/native_clean_pipeline2b_full_20260714/s19_r00_dirty.bin",
+    "reuse checksum-pinned dataset IMPICA/workloads/kmeans_sepim_fs/data/native_clean_pipeline2b_full_20260714/s19_r01_dirty.bin",
+    "reuse checksum-pinned dataset IMPICA/workloads/kmeans_sepim_fs/data/native_clean_pipeline2b_full_20260714/s19_r10_dirty.bin",
+    "reuse checksum-pinned dataset IMPICA/workloads/kmeans_sepim_fs/data/native_clean_pipeline2b_full_20260714/s19_r40_dirty.bin",
+    "reuse checksum-pinned dataset IMPICA/workloads/kmeans_sepim_fs/data/native_clean_pipeline2b_full_20260714/s42_r00_dirty.bin",
+    "reuse checksum-pinned dataset IMPICA/workloads/kmeans_sepim_fs/data/native_clean_pipeline2b_full_20260714/s42_r01_dirty.bin",
+    "reuse checksum-pinned dataset IMPICA/workloads/kmeans_sepim_fs/data/native_clean_pipeline2b_full_20260714/s42_r10_dirty.bin",
+    "reuse checksum-pinned dataset IMPICA/workloads/kmeans_sepim_fs/data/native_clean_pipeline2b_full_20260714/s42_r40_dirty.bin",
+    "./kmeans_sepim_fs --quick --cleaning=pim-oblivious --native-pim=1 --dataset=data/native_clean_pipeline2b_full_20260714/s7_r00_dirty.bin --corruption=0.0 --seed=7 --imputation=zero --outlier-threshold=8 --iterations=20 --clusters=6",
+    "./kmeans_sepim_fs --quick --cleaning=pim-oblivious --native-pim=1 --dataset=data/native_clean_pipeline2b_full_20260714/s7_r00_dirty.bin --corruption=0.0 --seed=7 --imputation=mean --outlier-threshold=8 --iterations=20 --clusters=6",
+    "./kmeans_sepim_fs --quick --cleaning=pim-oblivious --native-pim=1 --dataset=data/native_clean_pipeline2b_full_20260714/s7_r01_dirty.bin --corruption=0.01 --seed=7 --imputation=zero --outlier-threshold=8 --iterations=20 --clusters=6",
+    "./kmeans_sepim_fs --quick --cleaning=pim-oblivious --native-pim=1 --dataset=data/native_clean_pipeline2b_full_20260714/s7_r01_dirty.bin --corruption=0.01 --seed=7 --imputation=mean --outlier-threshold=8 --iterations=20 --clusters=6",
+    "./kmeans_sepim_fs --quick --cleaning=pim-oblivious --native-pim=1 --dataset=data/native_clean_pipeline2b_full_20260714/s7_r10_dirty.bin --corruption=0.1 --seed=7 --imputation=zero --outlier-threshold=8 --iterations=20 --clusters=6",
+    "./kmeans_sepim_fs --quick --cleaning=pim-oblivious --native-pim=1 --dataset=data/native_clean_pipeline2b_full_20260714/s7_r10_dirty.bin --corruption=0.1 --seed=7 --imputation=mean --outlier-threshold=8 --iterations=20 --clusters=6",
+    "./kmeans_sepim_fs --quick --cleaning=pim-oblivious --native-pim=1 --dataset=data/native_clean_pipeline2b_full_20260714/s7_r40_dirty.bin --corruption=0.4 --seed=7 --imputation=zero --outlier-threshold=8 --iterations=20 --clusters=6",
+    "./kmeans_sepim_fs --quick --cleaning=pim-oblivious --native-pim=1 --dataset=data/native_clean_pipeline2b_full_20260714/s7_r40_dirty.bin --corruption=0.4 --seed=7 --imputation=mean --outlier-threshold=8 --iterations=20 --clusters=6",
+    "./kmeans_sepim_fs --quick --cleaning=pim-oblivious --native-pim=1 --dataset=data/native_clean_pipeline2b_full_20260714/s19_r00_dirty.bin --corruption=0.0 --seed=19 --imputation=zero --outlier-threshold=8 --iterations=20 --clusters=6",
+    "./kmeans_sepim_fs --quick --cleaning=pim-oblivious --native-pim=1 --dataset=data/native_clean_pipeline2b_full_20260714/s19_r00_dirty.bin --corruption=0.0 --seed=19 --imputation=mean --outlier-threshold=8 --iterations=20 --clusters=6",
+    "./kmeans_sepim_fs --quick --cleaning=pim-oblivious --native-pim=1 --dataset=data/native_clean_pipeline2b_full_20260714/s19_r01_dirty.bin --corruption=0.01 --seed=19 --imputation=zero --outlier-threshold=8 --iterations=20 --clusters=6",
+    "./kmeans_sepim_fs --quick --cleaning=pim-oblivious --native-pim=1 --dataset=data/native_clean_pipeline2b_full_20260714/s19_r01_dirty.bin --corruption=0.01 --seed=19 --imputation=mean --outlier-threshold=8 --iterations=20 --clusters=6",
+    "./kmeans_sepim_fs --quick --cleaning=pim-oblivious --native-pim=1 --dataset=data/native_clean_pipeline2b_full_20260714/s19_r10_dirty.bin --corruption=0.1 --seed=19 --imputation=zero --outlier-threshold=8 --iterations=20 --clusters=6",
+    "./kmeans_sepim_fs --quick --cleaning=pim-oblivious --native-pim=1 --dataset=data/native_clean_pipeline2b_full_20260714/s19_r10_dirty.bin --corruption=0.1 --seed=19 --imputation=mean --outlier-threshold=8 --iterations=20 --clusters=6",
+    "./kmeans_sepim_fs --quick --cleaning=pim-oblivious --native-pim=1 --dataset=data/native_clean_pipeline2b_full_20260714/s19_r40_dirty.bin --corruption=0.4 --seed=19 --imputation=zero --outlier-threshold=8 --iterations=20 --clusters=6",
+    "./kmeans_sepim_fs --quick --cleaning=pim-oblivious --native-pim=1 --dataset=data/native_clean_pipeline2b_full_20260714/s19_r40_dirty.bin --corruption=0.4 --seed=19 --imputation=mean --outlier-threshold=8 --iterations=20 --clusters=6",
+    "./kmeans_sepim_fs --quick --cleaning=pim-oblivious --native-pim=1 --dataset=data/native_clean_pipeline2b_full_20260714/s42_r00_dirty.bin --corruption=0.0 --seed=42 --imputation=zero --outlier-threshold=8 --iterations=20 --clusters=6",
+    "./kmeans_sepim_fs --quick --cleaning=pim-oblivious --native-pim=1 --dataset=data/native_clean_pipeline2b_full_20260714/s42_r00_dirty.bin --corruption=0.0 --seed=42 --imputation=mean --outlier-threshold=8 --iterations=20 --clusters=6",
+    "./kmeans_sepim_fs --quick --cleaning=pim-oblivious --native-pim=1 --dataset=data/native_clean_pipeline2b_full_20260714/s42_r01_dirty.bin --corruption=0.01 --seed=42 --imputation=zero --outlier-threshold=8 --iterations=20 --clusters=6",
+    "./kmeans_sepim_fs --quick --cleaning=pim-oblivious --native-pim=1 --dataset=data/native_clean_pipeline2b_full_20260714/s42_r01_dirty.bin --corruption=0.01 --seed=42 --imputation=mean --outlier-threshold=8 --iterations=20 --clusters=6",
+    "./kmeans_sepim_fs --quick --cleaning=pim-oblivious --native-pim=1 --dataset=data/native_clean_pipeline2b_full_20260714/s42_r10_dirty.bin --corruption=0.1 --seed=42 --imputation=zero --outlier-threshold=8 --iterations=20 --clusters=6",
+    "./kmeans_sepim_fs --quick --cleaning=pim-oblivious --native-pim=1 --dataset=data/native_clean_pipeline2b_full_20260714/s42_r10_dirty.bin --corruption=0.1 --seed=42 --imputation=mean --outlier-threshold=8 --iterations=20 --clusters=6",
+    "./kmeans_sepim_fs --quick --cleaning=pim-oblivious --native-pim=1 --dataset=data/native_clean_pipeline2b_full_20260714/s42_r40_dirty.bin --corruption=0.4 --seed=42 --imputation=zero --outlier-threshold=8 --iterations=20 --clusters=6",
+    "./kmeans_sepim_fs --quick --cleaning=pim-oblivious --native-pim=1 --dataset=data/native_clean_pipeline2b_full_20260714/s42_r40_dirty.bin --corruption=0.4 --seed=42 --imputation=mean --outlier-threshold=8 --iterations=20 --clusters=6"
+  ],
+  "result_csv": "results/csv/native_clean_pipeline2c_full_20260714.csv",
+  "terminal": "results/raw/native_clean_pipeline2c_full_20260714/system.terminal",
+  "case_terminals": [
+    "results/raw/native_clean_pipeline2c_full_20260714/cases/s7_r00_zero/system.terminal",
+    "results/raw/native_clean_pipeline2c_full_20260714/cases/s7_r00_mean/system.terminal",
+    "results/raw/native_clean_pipeline2c_full_20260714/cases/s7_r01_zero/system.terminal",
+    "results/raw/native_clean_pipeline2c_full_20260714/cases/s7_r01_mean/system.terminal",
+    "results/raw/native_clean_pipeline2c_full_20260714/cases/s7_r10_zero/system.terminal",
+    "results/raw/native_clean_pipeline2c_full_20260714/cases/s7_r10_mean/system.terminal",
+    "results/raw/native_clean_pipeline2c_full_20260714/cases/s7_r40_zero/system.terminal",
+    "results/raw/native_clean_pipeline2c_full_20260714/cases/s7_r40_mean/system.terminal",
+    "results/raw/native_clean_pipeline2c_full_20260714/cases/s19_r00_zero/system.terminal",
+    "results/raw/native_clean_pipeline2c_full_20260714/cases/s19_r00_mean/system.terminal",
+    "results/raw/native_clean_pipeline2c_full_20260714/cases/s19_r01_zero/system.terminal",
+    "results/raw/native_clean_pipeline2c_full_20260714/cases/s19_r01_mean/system.terminal",
+    "results/raw/native_clean_pipeline2c_full_20260714/cases/s19_r10_zero/system.terminal",
+    "results/raw/native_clean_pipeline2c_full_20260714/cases/s19_r10_mean/system.terminal",
+    "results/raw/native_clean_pipeline2c_full_20260714/cases/s19_r40_zero/system.terminal",
+    "results/raw/native_clean_pipeline2c_full_20260714/cases/s19_r40_mean/system.terminal",
+    "results/raw/native_clean_pipeline2c_full_20260714/cases/s42_r00_zero/system.terminal",
+    "results/raw/native_clean_pipeline2c_full_20260714/cases/s42_r00_mean/system.terminal",
+    "results/raw/native_clean_pipeline2c_full_20260714/cases/s42_r01_zero/system.terminal",
+    "results/raw/native_clean_pipeline2c_full_20260714/cases/s42_r01_mean/system.terminal",
+    "results/raw/native_clean_pipeline2c_full_20260714/cases/s42_r10_zero/system.terminal",
+    "results/raw/native_clean_pipeline2c_full_20260714/cases/s42_r10_mean/system.terminal",
+    "results/raw/native_clean_pipeline2c_full_20260714/cases/s42_r40_zero/system.terminal",
+    "results/raw/native_clean_pipeline2c_full_20260714/cases/s42_r40_mean/system.terminal"
+  ],
+  "validation": {
+    "status": "pass",
+    "property": "equal public shape implies equal DMA trace, ticks, and status polls",
+    "groups": 2,
+    "rows": 24,
+    "fixed_fields": [
+      "visible_reads",
+      "visible_writes",
+      "visible_bytes",
+      "simulator_dma_bytes",
+      "simulator_ticks",
+      "status_polls",
+      "trace_digest",
+      "native_dma_burst_bytes",
+      "native_compute_lanes",
+      "native_pipeline_buffers",
+      "dma_action_reads",
+      "dma_action_writes",
+      "dma_action_count"
+    ]
+  }
+}

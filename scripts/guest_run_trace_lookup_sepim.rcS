@@ -1,0 +1,12 @@
+#!/bin/sh
+set -ex
+cd /home/pim_driver
+mknod /dev/pimbt c 70 0 || true
+insmod ./test-driver.ko || true
+chmod 666 /dev/pimbt || true
+cd /home/workloads/trace_lookup_sepim
+if [ ! -x ./trace_lookup_sepim ]; then
+  make || { echo "[GUEST][ERROR] build trace_lookup_sepim failed"; m5 exit; exit 1; }
+fi
+./trace_lookup_sepim --quick
+m5 exit

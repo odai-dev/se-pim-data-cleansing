@@ -13,6 +13,9 @@ OUT_DIR=${OUT_DIR:-$ROOT_DIR/IMPICA/workloads/kmeans_sepim_fs/data}
 CLEAN_BIN=${CLEAN_BIN:-$OUT_DIR/kmeans_clean.bin}
 DIRTY_BIN=${DIRTY_BIN:-$OUT_DIR/kmeans_dirty_10pct.bin}
 META_JSON=${META_JSON:-$OUT_DIR/kmeans_dirty_10pct.meta.json}
+LABELS_BIN=${LABELS_BIN:-$OUT_DIR/kmeans_labels.bin}
+CLUSTERS=${CLUSTERS:-6}
+DISTRIBUTION=${DISTRIBUTION:-balanced}
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -32,6 +35,12 @@ while [[ $# -gt 0 ]]; do
     --dirty-bin=*) DIRTY_BIN="${1#*=}"; shift ;;
     --meta-json) META_JSON="$2"; shift 2 ;;
     --meta-json=*) META_JSON="${1#*=}"; shift ;;
+    --labels-bin) LABELS_BIN="$2"; shift 2 ;;
+    --labels-bin=*) LABELS_BIN="${1#*=}"; shift ;;
+    --clusters) CLUSTERS="$2"; shift 2 ;;
+    --clusters=*) CLUSTERS="${1#*=}"; shift ;;
+    --distribution) DISTRIBUTION="$2"; shift 2 ;;
+    --distribution=*) DISTRIBUTION="${1#*=}"; shift ;;
     *) echo "[ERROR] Unknown arg: $1"; exit 2 ;;
   esac
 done
@@ -42,17 +51,20 @@ python3 "$ROOT_DIR/scripts/corrupt_dataset.py" \
   --clean-out "$CLEAN_BIN" \
   --dirty-out "$DIRTY_BIN" \
   --meta-out "$META_JSON" \
+  --labels-out "$LABELS_BIN" \
   --points "$POINTS" \
   --dims "$DIMS" \
   --dirty-frac "$DIRTY_FRAC" \
-  --seed "$SEED"
+  --seed "$SEED" \
+  --clusters "$CLUSTERS" \
+  --distribution "$DISTRIBUTION"
 
 python3 - "$META_JSON" <<'PY'
 import json, sys
 m = json.load(open(sys.argv[1], 'r', encoding='utf-8'))
 print('[PASS] dirty dataset generated')
-print('points=%d dims=%d dirty_count=%d dirty_frac_actual=%.6f' % (
-    m['points'], m['dims'], m['dirty_count'], m['dirty_frac_actual']))
+print('points=%d dims=%d clusters=%d distribution=%s dirty_count=%d dirty_frac_actual=%.6f' % (
+    m['points'], m['dims'], m['clusters'], m['distribution_name'], m['dirty_count'], m['dirty_frac_actual']))
 print('distribution nan=%d null=%d outlier=%d' % (
     m['distribution']['nan'], m['distribution']['null'], m['distribution']['outlier']))
 PY

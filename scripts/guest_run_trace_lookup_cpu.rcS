@@ -1,0 +1,12 @@
+#!/bin/sh
+set -ex
+cd /home/pim_driver
+mknod /dev/pimbt c 70 0 || true
+insmod ./test-driver.ko || true
+chmod 666 /dev/pimbt || true
+cd /home/workloads/trace_lookup_cpu
+if [ ! -x ./trace_lookup_cpu ]; then
+  make || { echo "[GUEST][ERROR] build trace_lookup_cpu failed"; m5 exit; exit 1; }
+fi
+./trace_lookup_cpu --quick
+m5 exit

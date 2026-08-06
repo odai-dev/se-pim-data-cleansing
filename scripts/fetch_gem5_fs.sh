@@ -53,7 +53,7 @@ download_archive() {
   for url in "${URLS[@]}"; do
     echo "[INFO] Trying: $url"
     if command -v curl >/dev/null 2>&1; then
-      if curl -fL --retry 8 --retry-delay 2 --retry-all-errors \
+      if curl -fL --retry 8 --retry-delay 2 \
         --connect-timeout 20 --speed-time 120 --speed-limit 1024 \
         -C - -o "$ARCHIVE_PATH" "$url"; then
         downloaded=1
