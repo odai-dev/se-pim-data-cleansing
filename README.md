@@ -1,95 +1,146 @@
-# PIM-Cleanser IEEE reproduction artifact
+# PIM-Cleanser
 
-This repository is the public artifact for **PIM-Cleanser: In-Memory
-Acceleration of Data-Intensive Confidential Data Sanitization**.
+**Secure, fixed-schedule data cleansing for confidential
+Processing-in-Memory workloads.**
 
-## Submitted paper
+[![IEEE artifact](https://img.shields.io/badge/artifact-IEEE%20submission-blue)](https://github.com/wafaa2026/se-pim-data-cleansing/releases/tag/ieee-submission-2026-07-29)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-The IEEE conference submission was finalized on **29 July 2026**. The immutable
-submission pair is:
+PIM-Cleanser extends the SE-PIM architecture with an in-memory sanitization
+stage for data containing NaNs, missing-value sentinels, and outliers. Cleaning
+happens inside the protected memory path before the main PIM workload runs,
+avoiding a host-side pass over confidential records.
 
-- `se_pim_data_cleansing_paper.pdf` - seven-page IEEE PDF, SHA-256
-  `f4b09368636d1a68992754b011dd9101133292a7512dc089b3fd56c3741e254f`.
-- `output/doc/se_pim_data_cleansing_paper.docx` - Word manuscript, SHA-256
-  `22f5dc370c647595b23e72b20ae3ad958feb7b6e6a362d5ecdc7ae55fc244a59`.
+The key idea is simple: cleaning decisions may depend on secret data, but the
+externally visible schedule does not. Fixed-schedule modes scan every public
+record and feature and issue unconditional writes, so equal-public-shape inputs
+produce the same modeled host-PIM trace.
 
-`paper/SUBMISSION-MANIFEST.json` records the complete file metadata. The
-15 July surgical revision is an earlier draft and is not part of this release.
+## What this repository provides
 
-## Evidence boundary
+- A PIM cleaning kernel with zero and per-feature mean imputation.
+- Fixed-schedule PIM and hybrid cleaning modes, plus explicit leaky controls.
+- Host tests for cleaning correctness, security traces, k-means integration,
+  and fused zero-imputation semantics.
+- Reproducible quality, calibrated-performance, and native gem5 evidence.
+- The submitted IEEE paper, generated tables and figures, and a verified release
+  archive.
 
-The paper deliberately separates three evidence classes:
+## How it works
 
-| Evidence | What it supports | Status |
+```text
+Confidential dataset
+        |
+        v
+Host locks the protected memory range
+        |
+        v
+PIM-Cleanser scans, validates, and repairs records
+using a schedule determined only by public parameters
+        |
+        v
+The sanitized data feeds the PIM workload
+        |
+        v
+The host receives the result and unlocks memory
+```
+
+PIM-Cleanser supports six evaluated modes:
+
+| Mode | Behavior | Security role |
 |---|---|---|
-| Host-native quality matrix | Repair quality on synthetic data and UCI HAR | 270 canonical rows |
-| Functional calibrated matrix | The reported `0.048495%` zero and `0.117989%` mean estimated overheads | 18,144 analytical rows, not native gem5 ticks |
-| Native gem5 runs | Cleaning calibration and fixed public transcript checks | Exact candidate input plus a separately promoted strict bundle |
+| `off` | No repair | Workload baseline |
+| `host-conditional` | Writes only dirty records | Leakage control |
+| `host-branchless` | Reads and writes all records | Fixed candidate |
+| `pim-oblivious` | Fixed PIM scan and write schedule | Fixed candidate |
+| `hybrid-sparse` | Transfers dirty-dependent blocks | Leakage control |
+| `hybrid-oblivious` | Transfers all padded public blocks | Fixed candidate |
 
-The paper makes **no direct native end-to-end overhead claim**. The exact
-36-row native CSV used while generating paper assets retains its original
-`candidate` label. The independently promoted native bundle is published
-separately with its regression and assembly evidence. See
-`results/EVIDENCE-MANIFEST.json` for the complete mapping and checksums.
+## Results at a glance
 
-## Verify the release
+The evaluation covers balanced and heavy-tailed synthetic mixtures, UCI Human
+Activity Recognition data, k-means, and feature-wise aggregation.
 
-Required for the packaged verification path: Bash, Python 3, a C compiler,
-`latexmk`, an IEEEtran-capable TeX installation, Poppler, and standard archive
-tools.
+- Across 1,008 equal-public-shape groups, fixed candidates produced identical
+  modeled observable traces; the leakage controls showed the expected
+  corruption-dependent behavior.
+- At 10% UCI HAR corruption, mean imputation reduced aggregation error from
+  `0.0671` with zero repair to `0.0017`.
+- For the selected 4 MiB, 32-feature, fixed-20-iteration k-means configuration,
+  the calibrated model estimates `0.048495%` incremental overhead for zero
+  imputation and `0.117989%` for mean imputation.
+
+The overhead values are calibrated estimates anchored by isolated native gem5
+cleaning measurements. Direct native runs and the separately promoted strict
+native bundle are included as supporting evidence; the paper does not claim a
+direct native end-to-end overhead measurement. The complete evidence mapping is
+in [`results/EVIDENCE-MANIFEST.json`](results/EVIDENCE-MANIFEST.json).
+
+## Quick start
+
+The easiest way to reproduce the published artifact is to download the
+[`ieee-submission-2026-07-29` release](https://github.com/wafaa2026/se-pim-data-cleansing/releases/tag/ieee-submission-2026-07-29).
+
+From a clone or extracted release:
 
 ```bash
 python3 -m pip install -r requirements-reproduction.txt
 scripts/check_impica_bundle.sh
+scripts/bootstrap_repo.sh
+make -C IMPICA/workloads/kmeans_sepim_fs host-test
 python3 -m unittest discover -s scripts/tests -p 'test_*.py'
 python3 -m unittest discover -s tests -p 'test_*.py'
+```
+
+To build and verify the complete publication archive from a clean extraction:
+
+```bash
 scripts/build_release_artifact.sh
 scripts/verify_release_artifact.sh
 ```
 
-The verifier works from a fresh extraction, reconstructs the exact source-only
-IMPICA bundle, runs host tests, verifies all evidence hashes, regenerates paper
-assets byte-for-byte, compiles and renders the paper, and writes
-`output/artifact/clean-reproduction.json`.
+The verifier checks file hashes and provenance, reconstructs the source-only
+IMPICA tree, runs the tests, reproduces the promoted native bundle and generated
+paper assets, compiles the seven-page PDF, rebuilds the eight-page DOCX, and
+writes `output/artifact/clean-reproduction.json`.
 
-Use `scripts/build_release_artifact.sh --no-native` only for a smaller
-calibrated-only derivative. It is not the full IEEE release.
+See [`docs/reproducibility.md`](docs/reproducibility.md) for the full workflow
+and native-runtime requirements.
 
-## Source provenance
+## Paper
 
-The source-only IMPICA bundle is exported from nested repository commit
-`f8a18cd2677256b4b0e4ecd5cf547d033b268953`. Its manifest binds the key cleaner,
-workload, and gem5 device files used by the July 29 evidence. Build products,
-checkpoints, disk images, raw generated datasets, and repository history are not
-redistributed.
+**PIM-Cleanser: In-Memory Acceleration of Data-Intensive Confidential Data
+Sanitization**
 
-The full native rerun additionally needs the pinned ARM full-system image,
-kernel, rebuilt gem5 binary, and provenance-bound checkpoints described in the
-recorded manifests. The release verifies those immutable records but does not
-pretend that omitted multi-gigabyte dependencies are present.
+Wafaa M. AL-Madhaji, Odai M. Gubran, and Ibrahim Ahmed Al-Baltah.
+
+- [Submitted IEEE PDF](se_pim_data_cleansing_paper.pdf)
+- [Submission manifest](paper/SUBMISSION-MANIFEST.json)
+- [Citation metadata](CITATION.cff)
+
+The paper and Word manuscript were finalized on 29 July 2026. Their exact
+SHA-256 values are recorded in the submission manifest.
 
 ## Repository layout
 
 ```text
-impica-parts/                 exact source-only IMPICA bundle and manifest
-paper/generated/              generated tables, macros, and plot data
-paper/docx_assets/            submitted Word manuscript figure assets
-results/csv/                  canonical paper and promoted-evidence rows
-results/raw/                  compact run manifests and validations
-results/promoted/             strict promoted native bundle
-scripts/                      experiment, generation, promotion, and verification tools
-tests/                        promotion and provenance tests
+impica-parts/       source-only IMPICA bundle and integrity manifest
+paper/              submission metadata and generated paper inputs
+results/csv/        canonical evaluation rows
+results/raw/        run manifests, validations, provenance, and assembly audit
+results/promoted/   independently promoted strict native evidence
+scripts/            experiment, generation, and verification tools
+tests/              promotion and provenance tests
 ```
 
 ## Security scope
 
 The evaluated property concerns a passive observer of the host-PIM interface
-and external memory traffic under the stated SE-PIM assumptions. It does not
-cover PIM-core power, electromagnetic leakage, internal caches/branches,
-physical attacks, compromised measured code, or production hardware.
+and external memory traffic under the stated SE-PIM assumptions. PIM-core power
+or electromagnetic leakage, internal microarchitectural behavior, physical
+attacks, and compromised measured code are outside the evaluated scope.
 
-## Citation and license
+## License
 
-Citation metadata is provided in `CITATION.cff`. Code and artifact glue are
-released under the repository's MIT license; upstream components retain their
-own licenses.
+Repository code and artifact tooling are available under the [MIT License](LICENSE).
+Bundled or referenced upstream components retain their own licenses.
