@@ -29,7 +29,7 @@ fi
   echo "[INFO] Runtime: ${RUNTIME[*]}"
   echo "[INFO] Image: $IMAGE_NAME"
   echo "[INFO] Building from $ROOT_DIR/tools/docker/Dockerfile"
-  "${RUNTIME[@]}" build -t "$IMAGE_NAME" -f "$ROOT_DIR/tools/docker/Dockerfile" "$ROOT_DIR"
+  "${RUNTIME[@]}" build --network host -t "$IMAGE_NAME" -f "$ROOT_DIR/tools/docker/Dockerfile" "$ROOT_DIR"
 
   IMAGE_ID=$("${RUNTIME[@]}" image inspect "$IMAGE_NAME" --format '{{.Id}}')
   REPO_DIGEST=$("${RUNTIME[@]}" image inspect "$IMAGE_NAME" --format '{{index .RepoDigests 0}}' || true)
