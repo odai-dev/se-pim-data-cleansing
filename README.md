@@ -84,7 +84,6 @@ The easiest way to reproduce the published artifact is to download the
 From a clone or extracted release:
 
 ```bash
-python3 -m pip install -r requirements-reproduction.txt
 scripts/check_impica_bundle.sh
 scripts/bootstrap_repo.sh
 make -C IMPICA/workloads/kmeans_sepim_fs host-test
@@ -101,11 +100,7 @@ scripts/verify_release_artifact.sh
 
 The verifier checks file hashes and provenance, reconstructs the source-only
 IMPICA tree, runs the tests, reproduces the promoted native bundle and generated
-paper assets, compiles the seven-page PDF, rebuilds the eight-page DOCX, and
-writes `output/artifact/clean-reproduction.json`.
-
-See [`docs/reproducibility.md`](docs/reproducibility.md) for the full workflow
-and native-runtime requirements.
+publication assets, and writes `output/artifact/clean-reproduction.json`.
 
 ## Paper
 
@@ -114,12 +109,13 @@ Sanitization**
 
 Wafaa M. AL-Madhaji, Odai M. Gubran, and Ibrahim Ahmed Al-Baltah.
 
-- [Submitted IEEE PDF](se_pim_data_cleansing_paper.pdf)
+- [Submitted IEEE PDF](paper/se_pim_data_cleansing_paper.pdf)
+- [Submitted Word Manuscript](paper/se_pim_data_cleansing_paper.docx)
 - [Submission manifest](paper/SUBMISSION-MANIFEST.json)
 - [Citation metadata](CITATION.cff)
 
-The paper and Word manuscript were finalized on 29 July 2026. Their exact
-SHA-256 values are recorded in the submission manifest.
+The camera-ready manuscript is maintained directly as verified DOCX and PDF
+artifacts in `paper/`. Their SHA-256 values are recorded in the submission manifest.
 
 ## Repository layout
 

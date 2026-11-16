@@ -15,7 +15,7 @@ PERFORMANCE_CSV=""
 NATIVE_CSV=""
 CHECKPOINT_DIR=""
 NATIVE_DATASET_ID=""
-BUILD_PAPER=1
+BUILD_PAPER=0
 UCI_ARCHIVE="$ROOT_DIR/datasets/source/uci_har_official_c00b8030.zip"
 UCI_SHA256="c00b803081a5c797cd5e4b83700a9810b38d53d9d84e01917e090e1fdbc81031"
 IMAGE_NAME=${IMAGE_NAME:-sepim-impica@sha256:b4935cb7b1343fcaef5dcf19bb7644a7cfc3843522b81b0fbf04c741ad11c296}
@@ -158,32 +158,7 @@ asset_args=(
 if [[ -n "$NATIVE_CSV" ]]; then asset_args+=(--native "$NATIVE_CSV"); fi
 python3 "${asset_args[@]}"
 
-if [[ "$BUILD_PAPER" == 1 ]]; then
-  if ! command -v latexmk >/dev/null 2>&1; then
-    echo "[ERROR] latexmk is required unless --skip-paper is used"
-    exit 1
-  fi
-  mkdir -p "$ROOT_DIR/output/pdf"
-  latexmk -pdf -interaction=nonstopmode -halt-on-error \
-    -outdir="$ROOT_DIR/output/pdf" se_pim_data_cleansing_paper.tex
-  PAPER_PDF="$ROOT_DIR/output/pdf/se_pim_data_cleansing_paper.pdf"
-  PAPER_LOG="$ROOT_DIR/output/pdf/se_pim_data_cleansing_paper.log"
-  if [[ ! -s "$PAPER_PDF" ]]; then
-    echo "[ERROR] Paper PDF was not produced: $PAPER_PDF"
-    exit 1
-  fi
-  if rg -n 'Overfull|undefined references|multiply defined' "$PAPER_LOG"; then
-    echo "[ERROR] Paper log contains unresolved or overfull content"
-    exit 1
-  fi
-  if command -v pdfinfo >/dev/null 2>&1; then
-    pages=$(pdfinfo "$PAPER_PDF" | awk '/^Pages:/ {print $2}')
-    if (( pages < 6 || pages > 8 )); then
-      echo "[ERROR] Expected a 6--8 page conference PDF, found $pages"
-      exit 1
-    fi
-  fi
-fi
+# Paper manuscripts are maintained directly as static DOCX and PDF artifacts.
 
 python3 - "$RAW_DIR/manifest.json" "$RUN_ID" "$MODE" "$QUALITY_CSV" \
   "$PERFORMANCE_CSV" "$NATIVE_CSV" "$AUDIT" "$BUILD_PAPER" \
@@ -220,7 +195,7 @@ def display_path(path):
         return str(path)
 
 source_paths = set()
-for directory in (root / "scripts", root / "docs"):
+for directory in (root / "scripts",):
     source_paths.update(path for path in directory.rglob("*") if path.is_file())
 for directory in (
     root / "IMPICA" / "gem5" / "src" / "dev" / "arm",
@@ -233,7 +208,8 @@ for directory in (
     )
 for path in (
     root / ".gitignore", root / "README.md", root / "README_CLEANING.md",
-    root / "se_pim_data_cleansing_paper.tex",
+    root / "paper" / "se_pim_data_cleansing_paper.pdf",
+    root / "paper" / "se_pim_data_cleansing_paper.docx",
     root / "IMPICA" / "gem5" / "src" / "mem" / "abstract_mem.cc",
     root / "IMPICA" / "gem5" / "configs" / "common" / "FSConfig.py",
     root / "IMPICA" / "workloads" / "kmeans_sepim_fs" / "Makefile",

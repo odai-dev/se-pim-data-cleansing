@@ -31,10 +31,7 @@ trap 'rm -rf "$STAGE"' EXIT
 
 core_paths=(
   README.md README_CLEANING.md LICENSE CITATION.cff CONTRIBUTING.md
-  requirements-reproduction.txt
-  se_pim_data_cleansing_paper.tex se_pim_data_cleansing_paper.pdf
-  output/doc/se_pim_data_cleansing_paper.docx
-  scripts docs tests tools datasets/source/.gitkeep
+  scripts tests tools datasets/source/.gitkeep
   paper impica-parts results/EVIDENCE-MANIFEST.json
   "$QUALITY_CSV" "$PERFORMANCE_CSV" "$CALIBRATION_CSV"
   results/raw/publication_20260728T203351Z_quality
